@@ -24,25 +24,22 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Load Routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+
         // Load Configs
         $this->loadConfig();
 
         // Load Translations
         $this->loadTranslationsFrom(__DIR__.'/../publishable/lang', 'voyager-extension');
 
-        // Bind Views
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager-extension');
-
-        // Insert blade injections into the master voyager blade template
-        app(Dispatcher::class)->listen('composing: voyager::master', function () {
-            view('voyager-extension::master.js')->render();
-        });
+        // Load Views
+        $this->loadViews();
 
         // Add new fields
         $this->registerFields();
 
-        // Load Routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+        //dd(voyager_extension_asset('css/app.css'));
 
     }
 
@@ -53,6 +50,8 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        $this->loadHelpers();
 
         if ($this->app->runningInConsole()) {
             $this->registerPublishableResources();
@@ -66,17 +65,19 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
     }
 
+
     /**
      * Register the publishable files.
      */
     private function registerPublishableResources()
     {
         // Publish Assets
-        $this->publishes([dirname(__DIR__).'/publishable/assets' => public_path('vendor/voyager-extension/assets')],
-            'public');
+        //$this->publishes([dirname(__DIR__).'/publishable/assets' => public_path('vendor/voyager-extension/assets')], 'public');
+
         // Publish Config
         $this->publishes([dirname(__DIR__).'/publishable/config/voyager-extension.php' => config_path('voyager-extension.php')]);
     }
+
 
     /**
      * Register configs.
@@ -89,17 +90,36 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         }
 
         // Add CSS and JS to the Voyager's config
+
         Config::set('voyager.additional_css', [
-            'vendor/voyager-extension/assets/js/zebra-dialog/css/flat/zebra_dialog.min.css',
-            'vendor/voyager-extension/assets/css/styles.css',
+            voyager_extension_asset('css/app.css'),
         ]);
 
         Config::set('voyager.additional_js', [
-            'vendor/voyager-extension/assets/js/zebra-dialog/zebra_dialog.min.js',
-            'vendor/voyager-extension/assets/js/sortable.min.js',
-            'vendor/voyager-extension/assets/js/scripts.js',
+            voyager_extension_asset('js/vendor.js'),
+            voyager_extension_asset('js/app.js'),
         ]);
     }
+
+
+    /**
+     * Register Views
+     */
+    private function loadViews()
+    {
+        // Bind Views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager-extension');
+
+        // Listen to when the BREAD edit-add is loading and set the view listener
+        // to inject a script to handle Voyager Extension functional
+        Voyager::onLoadingView('voyager::bread.edit-add', function () {
+            app(Dispatcher::class)->listen('composing: voyager::master', function () {
+                view('voyager-extension::master.js')->render();
+            });
+        });
+
+    }
+
 
     /**
      * Register new fields.
@@ -109,6 +129,16 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvImageFormField::class);
         Voyager::addFormField(AdvImagesGalleryFormField::class);
         Voyager::addFormField(KeyValueJsonFormField::class);
+    }
+
+    /**
+     * Load helpers.
+     */
+    protected function loadHelpers()
+    {
+        foreach (glob(__DIR__.'/Helpers/*.php') as $filename) {
+            require_once $filename;
+        }
     }
 
 }

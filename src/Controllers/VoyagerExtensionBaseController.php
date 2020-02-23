@@ -95,77 +95,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         return $result;
     }
 
-
-
-
-
-    /*
-     * Load AJAX Content using Request params
-     */
-    public function load_content(Request $request)
-    {
-        $slug = $request->get('slug');
-        $field = $request->get('field');
-        $id = $request->get('id');
-        $image_id = $request->get('image_id');
-
-        // Load related BREAD Data
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-        $dataRow = $dataType->editRows->filter(function($item) use ($field) {
-            return $item->field == $field;
-        })->first();
-
-        // Load Related Media
-        $model = app($dataType->model_name);
-        $data = $model->findOrFail($id);
-        $image = $data->getMedia($field)->where('id', $image_id)->first();
-
-        return view('voyager-extension::forms.form-ajax', [
-            'dataRow'      => $dataRow,
-            'data'         => $data,
-            'image'        => $image,
-            'model'        => [
-                'model'     => $dataType->model_name,
-                'id'       => $id,
-                'field'    => $field,
-                'image_id' => $image_id,
-            ]
-        ]);
-    }
-
-
-    /*
-     *  Remove media files
-     */
-    public function update_media(Request $request)
-    {
-        $model_class = $request->get('model');
-        $id = $request->get('id');
-        $field = $request->get('field');
-        $image_id = $request->get('image_id');
-
-        try {
-            // Load the related Record associated with a medialibrary image
-            $model = app($model_class);
-            $data = $model->find($id);
-            $image = $data->getMedia($field)->where('id', $image_id)->first();
-
-            $customFields = $request->except(['model', 'id', 'field', 'image_id']);
-            foreach ($customFields as $key => $field) {
-                $image->setCustomProperty($key, $field);
-            }
-            $image->save();
-
-        } catch (Exception $error) {
-
-            return $this->jsonResponseWithError(500, $error);
-        }
-
-        return $this->jsonResponseWithSuccess(200, __('voyager-extension::bread.images_updated'));
-    }
-
-
-
     /*
      *  Remove media files
      */
@@ -191,64 +120,11 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             }
 
         } catch (Exception $error) {
-            return $this->jsonResponseWithError(500, $error);
+            return json_response_with_error(500, $error);
         }
 
-        return $this->jsonResponseWithSuccess(200, __('voyager::media.file_removed'));
+        return json_response_with_success(200, __('voyager::media.file_removed'));
     }
 
-    /*
-     * Sort Media files
-     */
-    public function sort_media(Request $request)
-    {
-        $images_ids_order = $request->get('images_ids_order');
-        try {
-            Media::setNewOrder($images_ids_order);
-            return $this->jsonResponseWithSuccess(200, __('voyager-extension::bread.images_sorted'));
-        } catch (Exception $error) {
-            return $this->jsonResponseWithError(500, $error);
-        }
-    }
-
-
-    /*
-     *  Return JSON response with Success Code
-     */
-    private function jsonResponseWithSuccess($status, $message)
-    {
-        return response()->json([
-            'data' => [
-                'status' => $status,
-                'message' => $message,
-            ],
-        ]);
-    }
-
-
-    /*
-     *  Return JSON response with Error Code
-     */
-    private function jsonResponseWithError($status, Exception $error)
-    {
-        $code = $status;
-
-        $message = __('voyager::generic.internal_error');
-
-        if ($error->getCode()) {
-            $code = $error->getCode();
-        }
-
-        if ($error->getMessage()) {
-            $message = $error->getMessage();
-        }
-
-        return response()->json([
-            'data' => [
-                'status' => $code,
-                'message' => $message,
-            ],
-        ], $code);
-    }
 
 }

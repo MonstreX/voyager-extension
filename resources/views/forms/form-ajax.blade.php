@@ -35,6 +35,12 @@
                     <textarea class="w-modal-form-control" name="{{ $key }}" rows="5">{{ $image->getCustomProperty($key) }}</textarea>
                 </div>
             @endif
+            @if($field->type === 'codemirror')
+                <div class="w-modal-form-group @if(isset($field->class)) {{ $field->class }} @endif">
+                    <label class="w-modal-label" for="acebox-{{ $key }}">{{ $field->title }}</label>
+                    <textarea id="codemirror-{{ $key }}" name="{{ $key }}" data-theme="neat" data-mode="text/html" class="codemirror_editor">{{ $image->getCustomProperty($key) }}</textarea>
+                </div>
+            @endif
         @endforeach
     @endif
 

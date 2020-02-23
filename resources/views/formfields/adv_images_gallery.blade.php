@@ -12,7 +12,7 @@
          data-id="{{ $dataTypeContent->id }}"
          data-token="{{ csrf_token() }}"
          data-sort-route="{{ route('voyager.'.$dataType->slug.'.media.sort') }}"
-         data-content-route="{{ route('voyager.'.$dataType->slug.'.content.load') }}"
+         data-form-route="{{ route('voyager.'.$dataType->slug.'.media.form.load') }}"
          data-update-route="{{ route('voyager.'.$dataType->slug.'.media.update') }}" >
 
         @foreach($adv_images_gallery as $key => $adv_image)
@@ -53,4 +53,3 @@
 </div>
 @endif
 <input @if($row->required == 1) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
-
