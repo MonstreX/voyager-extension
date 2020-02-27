@@ -1,4 +1,2 @@
 /node_modules
-.env
-.env.backup
-.phpunit.result.cache
+/publishable/assets
