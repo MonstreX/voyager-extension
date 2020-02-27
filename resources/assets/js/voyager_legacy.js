@@ -1,27 +1,16 @@
 $('document').ready(function () {
+    vext_page_content.on('click', '.remove-single-image, .remove-multi-image', function () {
 
-    vext_page_content.on('click', '.single-adv-image-remove', function (evt) {
+        params = vext.getMediaParams($(this).parent().find('img'));
+        // Voyager has another structure of these attributes in DOM so we need to correct them
+        params.slug = vext_page_slug;
+        params.field = $(this).parent().data('field-name');
+        params.multi = $(this).hasClass('remove-multi-image');
 
-        var image = $(this).parent();
-
-        if($(this).parent().data('file-name')) {
-            console.log('.single-adv-image-remove');
-        } else if ($(this).parent().parent().data('file-name')) {
-            console.log('.adv-images-gallery-remove');
-        }
-
-        console.log(image);
-
-        vext.createDialogYesNo( evt,{
-            'title': vext.trans('bread.dialog_remove_title'),
-            'message': vext.trans('bread.dialog_remove_message'),
-            'callback': function () {
-
-                console.log('press YES');
-
-            }
+        vext.dialogMediaRemove({
+            'route': vext_routes.voyager_media_remove,
+            'params': params,
+            'remove_element': $(this).parent()
         });
-
     });
-
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MonstreX\VoyagerExtension\FormFields\AdvImagesGalleryFormField;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use TCG\Voyager\Facades\Voyager;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -15,6 +16,28 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvImagesGalleryContentType;
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
+
+    public function edit(Request $request, $id)
+    {
+        $slug = $this->getSlug($request);
+        View::share(['page_slug' => $slug, 'page_id' => $id]);
+        return parent::edit($request, $id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $slug = $this->getSlug($request);
+        View::share(['page_slug' => $slug, 'page_id' => $id]);
+        return parent::update($request, $id);
+    }
+
+    public function create(Request $request)
+    {
+        $slug = $this->getSlug($request);
+        View::share('page_slug', $slug);
+        return parent::create($request);
+    }
+
 
     public function getContentBasedOnType(Request $request, $slug, $row, $options = null)
     {
@@ -94,37 +117,5 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
         return $result;
     }
-
-    /*
-     *  Remove media files
-     */
-    public function remove_media(Request $request)
-    {
-
-        $type = $request->get('type');
-        $model = $request->get('model');
-        $id = $request->get('id');
-        $image_id = $request->get('image_id');
-
-        try {
-            // Imagelibrary types
-            if ($type === 'adv_image' || $type === 'adv_images_gallery') {
-
-                // Load the related Record associated with a medialibrary image
-                $model = app($model);
-                $data = $model::find([$id])->first();
-                $data->deleteMedia($image_id);
-
-            } else {
-                return VoyagerBaseController::remove_media($request);
-            }
-
-        } catch (Exception $error) {
-            return json_response_with_error(500, $error);
-        }
-
-        return json_response_with_success(200, __('voyager::media.file_removed'));
-    }
-
 
 }

@@ -4,16 +4,13 @@
 @if($adv_images_gallery = $dataTypeContent->getMedia($row->field))
 <div class="adv-images-gallery-holder">
     <div id="{{ $row->field }}" class="adv-images-gallery-list sortable-images-field-{{ $row->field }}"
+         data-bunch-remove-button="bunch-remove-{{ $row->field }}"
          data-extra-fields="{{ isset($row->details->extra_fields)? "true" : "false" }}"
          data-type="{{ $row->type }}"
          data-model="{{ $dataType->model_name }}"
          data-slug="{{ $dataType->slug }}"
          data-field-name="{{ $row->field }}"
-         data-id="{{ $dataTypeContent->id }}"
-         data-token="{{ csrf_token() }}"
-         data-sort-route="{{ route('voyager.'.$dataType->slug.'.media.sort') }}"
-         data-form-route="{{ route('voyager.'.$dataType->slug.'.media.form.load') }}"
-         data-update-route="{{ route('voyager.'.$dataType->slug.'.media.update') }}" >
+         data-id="{{ $dataTypeContent->id }}">
 
         @foreach($adv_images_gallery as $key => $adv_image)
         <div class="adv-images-gallery-item">
@@ -24,17 +21,23 @@
                  data-field-name="{{ $row->field }}"
                  data-file-name="{{ $adv_image->file_name }}"
                  data-id="{{ $dataTypeContent->id }}"
-                 data-image-id="{{ $adv_image->id }}"
-                 data-token="{{ csrf_token() }}">
+                 data-image-id="{{ $adv_image->id }}">
+
                 <div class="adv-images-gallery-order">
                     {{ $key + 1 }}
                 </div>
+
+                <div class="adv-images-gallery-bunch">
+                    <span class="adv-images-gallery-mark icon voyager-check" title="Mark image"></span>
+                </div>
+
                 <div class="adv-images-gallery-actions">
-                    <span class="adv-images-gallery-edit icon voyager-edit" title="Редактировать"></span>
-                    <span class="adv-images-gallery-remove icon voyager-x" title="Удалить"></span>
+                    <span class="adv-images-gallery-change icon voyager-refresh" title="Change image"></span>
+                    <span class="adv-images-gallery-edit icon voyager-edit" title="Edit image meta fields"></span>
+                    <span class="adv-images-gallery-remove icon voyager-x" title="Delete image"></span>
                 </div>
                 <div class="adv-images-gallery-image">
-                    <img src="{{ $adv_image->getFullUrl() }}" data-file-id="{{ $adv_image->id }}" data-id="{{ $dataTypeContent->id }}">
+                    <img src="{{ $adv_image->getFullUrl() }}">
                 </div>
             </div>
             <div class="adv-images-gallery-data">
@@ -52,4 +55,13 @@
     </div>
 </div>
 @endif
-<input @if($row->required == 1) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
+<div class="adv-images-gallery-file-upload">
+    <input @if($row->required == 1) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
+    <a id="bunch-remove-{{ $row->field }}"
+       href="javascript:;"
+       data-images-gallery-list="{{ $row->field }}"
+       title="@lang('voyager-extension::bread.adv_images_gallery.remove_selected')"
+       class="btn btn-sm btn-danger bunch-adv-images-gallery-remove hidden">
+        <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_images_gallery.remove_selected')</span>
+    </a>
+</div>

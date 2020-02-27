@@ -4,12 +4,13 @@
  *  Return JSON response with Success Code
  */
 if (!function_exists('json_response_with_success')) {
-    function json_response_with_success($status, $message)
+    function json_response_with_success($status, $message, $data = null)
     {
         return response()->json([
             'data' => [
                 'status' => $status,
                 'message' => $message,
+                'data' => $data,
             ],
         ]);
     }

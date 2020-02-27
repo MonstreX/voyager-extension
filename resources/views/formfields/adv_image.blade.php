@@ -11,8 +11,7 @@
          data-field-name="{{ $row->field }}"
          data-file-name="{{ $adv_image->file_name }}"
          data-id="{{ $dataTypeContent->id }}"
-         data-image-id="{{ $adv_image->id }}"
-         data-token="{{ csrf_token() }}">
+         data-image-id="{{ $adv_image->id }}">
 
         <img class="" src="{{ $adv_image->getFullUrl() }}">
         <div class="adv-image-fields">

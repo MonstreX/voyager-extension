@@ -2,11 +2,15 @@
 
 namespace MonstreX\VoyagerExtension;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Cache;
 use Config;
+use Lang;
 
-use Illuminate\Support\Str;
+
 use MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator;
 use TCG\Voyager\Facades\Voyager;
 
@@ -22,24 +26,23 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
-        // Load Routes
+
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
-        // Load Configs
         $this->loadConfig();
 
-        // Load Translations
         $this->loadTranslationsFrom(__DIR__.'/../publishable/lang', 'voyager-extension');
 
-        // Load Views
+        $this->loadTranslationsJS();
+
         $this->loadViews();
 
-        // Add new fields
         $this->registerFields();
 
-        //dd(voyager_extension_asset('css/app.css'));
+        //View::share('page_slug', request()->segment(2));
+        //dd(request()->path());
 
     }
 
@@ -62,6 +65,8 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             'TCG\Voyager\Http\Controllers\VoyagerBaseController',
             'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController'
         );
+
+        $path = resource_path(__DIR__.'/../publishable/lang/en');
 
     }
 
@@ -96,7 +101,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         ]);
 
         Config::set('voyager.additional_js', [
-            voyager_extension_asset('js/vendor.js'),
+            //voyager_extension_asset('js/vendor.js'),
             voyager_extension_asset('js/app.js'),
         ]);
     }
@@ -114,9 +119,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         // to inject a script to handle Voyager Extension functional
         Voyager::onLoadingView('voyager::bread.edit-add', function () {
             app(Dispatcher::class)->listen('composing: voyager::master', function () {
+                view('voyager-extension::master.templates')->render();
                 view('voyager-extension::master.js')->render();
             });
         });
+
 
     }
 
@@ -140,5 +147,18 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             require_once $filename;
         }
     }
+
+    /**
+     * Prepare translations for frontend JS
+     */
+    protected function loadTranslationsJS()
+    {
+        Cache::rememberForever('translations', function () {
+            return [
+                'bread' => Lang::get('voyager-extension::bread'),
+            ];
+        });
+    }
+
 
 }
