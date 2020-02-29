@@ -4,7 +4,7 @@
     <input type="hidden" name="field" value="{{ $model['field'] }}">
     <input type="hidden" name="image_id" value="{{ $model['image_id'] }}">
 
-    @if($dataRow->type === 'adv_images_gallery')
+    @if($dataRow->type === 'adv_media_files')
         <div class="w-modal-form-group">
             <label class="w-modal-label" for="title">@lang('voyager-extension::bread.adv_image.title')</label>
             <input type="text" class="w-modal-form-control" name="title"

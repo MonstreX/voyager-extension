@@ -11,7 +11,7 @@
             <img src="" alt="">
         </div>
         <div class="file-change-input">
-            <input id="change_image_input" type="file" name="adv_images_gallery_field" accept="image/*"/>
+            <input id="change_image_input" type="file" name="adv_media_files_field" accept="image/*"/>
         </div>
     </form>
 </template>
@@ -24,7 +24,7 @@
                 <h4 class="modal-title"><i class="voyager-warning"></i> {{ __('voyager::generic.are_you_sure') }}</h4>
             </div>
             <div class="modal-body">
-                <h4>{{ __('voyager::generic.are_you_sure_delete') }} <span class="adv_confirm_delete_name"></span> @lang('voyager-extension::bread.adv_images_gallery.dialog_remove_images')</h4>
+                <h4>{{ __('voyager::generic.are_you_sure_delete') }} <span class="adv_confirm_delete_name"></span> @lang('voyager-extension::bread.adv_media_files.dialog_remove_images')</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>

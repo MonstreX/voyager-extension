@@ -15,7 +15,7 @@ return [
                               <b>$imageTitle</b> = $image-><strong>getCustomProperty(<i>\'title\'</i>)</strong>;<br/>
                               <b>$imageAlt</b> = $image-><strong>getCustomProperty(<i>\'alt\'</i>)</strong>;<br/>',
     ],
-    'adv_images_gallery' => [
+    'adv_media_files' => [
         'remove_selected'      => 'Delete selected images',
         'unmark_selected'      => 'Unmark selected images',
         'select_all'           => 'Select all images',

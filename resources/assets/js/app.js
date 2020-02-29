@@ -19,7 +19,7 @@ window.vext = require('./common.js');
 
 // Fields Specific
 require('./adv_image.js');
-require('./adv_images_gallery.js');
+require('./adv_media_files.js');
 require('./voyager_legacy.js');
 
 

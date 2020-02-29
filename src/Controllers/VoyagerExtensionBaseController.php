@@ -3,7 +3,7 @@
 namespace MonstreX\VoyagerExtension\Controllers;
 
 use Illuminate\Http\Request;
-use MonstreX\VoyagerExtension\FormFields\AdvImagesGalleryFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 use MonstreX\VoyagerExtension\ContentTypes\KeyValueJsonContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvImageContentType;
-use MonstreX\VoyagerExtension\ContentTypes\AdvImagesGalleryContentType;
+use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
@@ -44,8 +44,8 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         switch ($row->type) {
             case 'adv_image':
                 return (new AdvImageContentType($request, $slug, $row, $options))->handle();
-            case 'adv_images_gallery':
-                return (new AdvImagesGalleryContentType($request, $slug, $row, $options))->handle();
+            case 'adv_media_files':
+                return (new AdvMediaFilesContentType($request, $slug, $row, $options))->handle();
             case 'key_value_json':
                 return (new KeyValueJsonContentType($request, $slug, $row, $options))->handle();
             default:
@@ -84,7 +84,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                     $mediaItem->save();
                 }
 
-            } elseif ($row->type == 'adv_images_gallery' && $request->hasFile($row->field)) {
+            } elseif ($row->type == 'adv_media_files' && $request->hasFile($row->field)) {
 
                 // Bind Multiple Images to $data record
                 $files = $request->file($row->field);
@@ -106,7 +106,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                         ->withCustomProperties($fields)
                         ->toMediaCollection($row->field);
                 }
-            } elseif ($row->type == 'adv_images_gallery') {
+            } elseif ($row->type == 'adv_media_files') {
                 //
 
 

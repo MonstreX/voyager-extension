@@ -95,13 +95,15 @@ var dialogMediaRemove = function (args) {
 
           // Remove DOM elements holders
           var count_media_files = 0;
+          var first_element = args.remove_elements[0];
+          var is_media_files = $(first_element).hasClass('adv-media-files-item');
 
           args.remove_elements.each(function(index, elem) {
             $(elem).fadeOut(300, function() {
 
               // If we have many items we need to remove also the container of all media items
-              if($(this).hasClass('adv-images-gallery-item')) {
-                count_media_files = $(this).parent().find('.adv-images-gallery-item').length;
+              if(is_media_files) {
+                count_media_files = $(this).parent().find('.adv-media-files-item').length;
                 if (count_media_files === 1) {
                   $(this).parent().parent().remove();
                 }
@@ -112,6 +114,11 @@ var dialogMediaRemove = function (args) {
 
             });
           });
+
+          // Remove Bunch holder if present
+          if(is_media_files) {
+            $(first_element).parent().parent().find('.bunch-adv-remove-holder').addClass('hidden');
+          }
 
         } else {
           toastr.error(vext.trans('bread.error_removing_media'));

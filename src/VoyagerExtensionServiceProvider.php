@@ -16,7 +16,7 @@ use TCG\Voyager\Facades\Voyager;
 
 use MonstreX\VoyagerExtension\FormFields\KeyValueJsonFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
-use MonstreX\VoyagerExtension\FormFields\AdvImagesGalleryFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 
 class VoyagerExtensionServiceProvider extends ServiceProvider
 {
@@ -134,7 +134,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
     private function registerFields()
     {
         Voyager::addFormField(AdvImageFormField::class);
-        Voyager::addFormField(AdvImagesGalleryFormField::class);
+        Voyager::addFormField(AdvMediaFilesFormField::class);
         Voyager::addFormField(KeyValueJsonFormField::class);
     }
 

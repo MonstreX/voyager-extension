@@ -2,6 +2,7 @@
 
 namespace MonstreX\VoyagerExtension\Controllers;
 
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Cache;
 
 
-class VoyagerExtensionController extends VoyagerBaseController
+class VoyagerExtensionController extends BaseController
 {
 
 
@@ -173,7 +174,7 @@ class VoyagerExtensionController extends VoyagerBaseController
     /*
      *  Remove media file
      */
-    public function vext_remove_media(Request $request)
+    public function remove_media(Request $request)
     {
         $media_ids = $request->get('media_ids');
 

@@ -5,15 +5,15 @@ function initSortableAdvImagesGallery(imagesId) {
             sort: true,
             scroll: true,
             onSort: function (evt) {
-                var images_items = $(evt.item).parent().find('.adv-images-gallery-item');
+                var images_items = $(evt.item).parent().find('.adv-media-files-item');
                 var images_new_order = [];
                 images_items.each(function(index, elem) {
-                    var image = $(elem).find('.adv-images-gallery-item-holder');
+                    var image = $(elem).find('.adv-media-files-item-holder');
                     images_new_order.push(image.data('image-id'));
-                    $(elem).find('.adv-images-gallery-order').text(index + 1);
+                    $(elem).find('.adv-media-files-order').text(index + 1);
                 });
 
-                var parent = images_items.closest('.adv-images-gallery-list');
+                var parent = images_items.closest('.adv-media-files-list');
                 var params = vext.getMediaParams(parent);
                 params.multi = false;
                 params.images_ids_order = images_new_order;
@@ -39,7 +39,7 @@ $('document').ready(function () {
     // ------------------------------
     //Init Sortable Images Sections
     // ------------------------------
-    var sortable_images = $('.adv-images-gallery-list');
+    var sortable_images = $('.adv-media-files-list');
     sortable_images.each(function(index, elem) {
         initSortableAdvImagesGallery(document.getElementById($(elem).attr('id')));
     });
@@ -47,13 +47,13 @@ $('document').ready(function () {
     // ------------------------------
     // Change Selected Image
     // ------------------------------
-    vext_page_content.on("click", ".adv-images-gallery-change", function(evt){
+    vext_page_content.on("click", ".adv-media-files-change", function(evt){
         evt.preventDefault();
 
         console.log('12345');
 
-        var image_owner = $(this).closest('.adv-images-gallery-list');
-        var parent = $(this).closest('.adv-images-gallery-item-holder');
+        var image_owner = $(this).closest('.adv-media-files-list');
+        var parent = $(this).closest('.adv-media-files-item-holder');
 
         var pos = vext.getDialogPosition(evt, true);
 
@@ -61,7 +61,7 @@ $('document').ready(function () {
             vext_change_image_form = $($('#change-image-template').prop('content')).find('#change-image-form');
         }
 
-        vext_change_image_form.find('img').attr('src', parent.find('.adv-images-gallery-image img').attr('src'));
+        vext_change_image_form.find('img').attr('src', parent.find('.adv-media-files-image img').attr('src'));
         vext_change_image_form.find('[name="_token"]').val(parent.data('token'));
         vext_change_image_form.find('[name="model"]').val(parent.data('model'));
         vext_change_image_form.find('[name="slug"]').val(parent.data('slug'));
@@ -105,7 +105,7 @@ $('document').ready(function () {
                                     parent.data('file-name', response.data.data.file_name);
                                     parent.data('image-id', response.data.data.file_id);
                                     parent.find('img').attr('src', response.data.data.file_url);
-                                    parent.parent().find('.adv-images-gallery-filename').html(response.data.data.file_name_size);
+                                    parent.parent().find('.adv-media-files-filename').html(response.data.data.file_name_size);
 
                                 } else {
                                     toastr.error("Error saving media.");
@@ -134,12 +134,12 @@ $('document').ready(function () {
     // ------------------------------
     // Edit Sortable ML Image Content
     // ------------------------------
-    vext_page_content.on("click", ".adv-images-gallery-edit", function(evt){
+    vext_page_content.on("click", ".adv-media-files-edit", function(evt){
         evt.preventDefault();
 
-        var image_owner = $(this).closest('.adv-images-gallery-list');
-        var parent = $(this).closest('.adv-images-gallery-item-holder');
-        var title_holder = $(this).closest('.adv-images-gallery-item').find('.adv-images-gallery-title');
+        var image_owner = $(this).closest('.adv-media-files-list');
+        var parent = $(this).closest('.adv-media-files-item-holder');
+        var title_holder = $(this).closest('.adv-media-files-item').find('.adv-media-files-title');
 
         var pos = vext.getDialogPosition(evt, image_owner.data('extra-fields'));
 
@@ -214,7 +214,7 @@ $('document').ready(function () {
     // ------------------------------
     // Remove Image
     // ------------------------------
-    vext_page_content.on('click', '.adv-images-gallery-remove', function () {
+    vext_page_content.on('click', '.adv-media-files-remove', function () {
 
         var image = $(this).parent().parent();
 
@@ -229,11 +229,11 @@ $('document').ready(function () {
     // ------------------------------
     // Mark images for bunch remove
     // ------------------------------
-    vext_page_content.on("click", ".adv-images-gallery-mark", function(evt){
+    vext_page_content.on("click", ".adv-media-files-mark", function(evt){
 
-        $(this).closest('.adv-images-gallery-item-holder').toggleClass('remove');
+        $(this).closest('.adv-media-files-item-holder').toggleClass('remove');
 
-        var images_list = $(this).closest('.adv-images-gallery-list');
+        var images_list = $(this).closest('.adv-media-files-list');
         var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
         if (images_list.find('.remove').length > 0) {
             bunch_holder.removeClass('hidden');
@@ -246,12 +246,12 @@ $('document').ready(function () {
     // ------------------------------
     // Unmark selected files and Select All
     // ------------------------------
-    vext_page_content.on("click", ".bunch-adv-images-gallery-unmark, .bunch-adv-images-gallery-select-all", function(evt){
+    vext_page_content.on("click", ".bunch-adv-media-files-unmark, .bunch-adv-media-files-select-all", function(evt){
         var images_list = $('#' + $(this).parent().data('images-gallery-list'));
         var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
-        var images_items = images_list.find('.adv-images-gallery-item-holder');
+        var images_items = images_list.find('.adv-media-files-item-holder');
 
-        if ($(this).hasClass('bunch-adv-images-gallery-unmark')) {
+        if ($(this).hasClass('bunch-adv-media-files-unmark')) {
             images_items.each(function(index, elem) {
                 $(elem).removeClass('remove');
             });
@@ -268,7 +268,7 @@ $('document').ready(function () {
     // ------------------------------
     // Remove Bunch of selected files
     // ------------------------------
-    vext_page_content.on("click", ".bunch-adv-images-gallery-remove", function(evt){
+    vext_page_content.on("click", ".bunch-adv-media-files-remove", function(evt){
         var images_list = $('#' + $(this).parent().data('images-gallery-list'));
 
         if (images_list.find('.remove').length > 0) {
@@ -282,7 +282,7 @@ $('document').ready(function () {
                 'route': vext_routes.ext_media_remove,
                 'params': {
                     'media_ids': images_ids,
-                    'filename': images_ids.length + vext.trans('bread.adv_images_gallery.dialog_remove_files')
+                    'filename': images_ids.length + vext.trans('bread.adv_media_files.dialog_remove_files')
                     },
                 'remove_elements': images_list.find('.remove').parent()
             });

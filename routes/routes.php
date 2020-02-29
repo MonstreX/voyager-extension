@@ -11,7 +11,7 @@ Route::group(['as' => 'voyager.'], function () {
             Route::post($dataType->slug . '/sort/media', $extensionController . '@sort_media')->name($dataType->slug . '.ext-media.sort');
             Route::post($dataType->slug . '/update/media', $extensionController . '@update_media')->name($dataType->slug . '.ext-media.update');
             Route::post($dataType->slug . '/change/media', $extensionController . '@change_media')->name($dataType->slug . '.ext-media.change');
-            Route::post($dataType->slug . '/remove/media', $extensionController . '@vext_remove_media')->name($dataType->slug . '.ext-media.remove');
+            Route::post($dataType->slug . '/remove/media', $extensionController . '@remove_media')->name($dataType->slug . '.ext-media.remove');
             Route::post($dataType->slug . '/form/media', $extensionController . '@load_image_form')->name($dataType->slug . '.ext-media.form');
         }
     } catch (\InvalidArgumentException $e) {
