@@ -33,7 +33,7 @@ class VoyagerExtensionController extends BaseController
         $slug = $request->get('slug');
         $field = $request->get('field');
         $id = $request->get('id');
-        $image_id = $request->get('image_id');
+        $media_file_id = $request->get('media_file_id');
 
         // Load related BREAD Data
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
@@ -44,17 +44,17 @@ class VoyagerExtensionController extends BaseController
         // Load Related Media
         $model = app($dataType->model_name);
         $data = $model->findOrFail($id);
-        $image = $data->getMedia($field)->where('id', $image_id)->first();
+        $file = $data->getMedia($field)->where('id', $media_file_id)->first();
 
         return view('voyager-extension::forms.form-ajax', [
             'dataRow'      => $dataRow,
             'data'         => $data,
-            'image'        => $image,
+            'file'        => $file,
             'model'        => [
                 'model'     => $dataType->model_name,
                 'id'       => $id,
                 'field'    => $field,
-                'image_id' => $image_id,
+                'media_file_id' => $media_file_id,
             ]
         ]);
     }
@@ -68,19 +68,19 @@ class VoyagerExtensionController extends BaseController
         $model_class = $request->get('model');
         $id = $request->get('id');
         $field = $request->get('field');
-        $image_id = $request->get('image_id');
+        $media_file_id = $request->get('media_file_id');
 
         try {
-            // Load the related Record associated with a medialibrary image
+            // Load the related Record associated with a medialibrary file
             $model = app($model_class);
             $data = $model->find($id);
-            $image = $data->getMedia($field)->where('id', $image_id)->first();
+            $file = $data->getMedia($field)->where('id', $media_file_id)->first();
 
-            $customFields = $request->except(['model', 'id', 'field', 'image_id']);
+            $customFields = $request->except(['model', 'id', 'field', 'media_file_id']);
             foreach ($customFields as $key => $field) {
-                $image->setCustomProperty($key, $field);
+                $file->setCustomProperty($key, $field);
             }
-            $image->save();
+            $file->save();
 
         } catch (Exception $error) {
 
@@ -104,11 +104,11 @@ class VoyagerExtensionController extends BaseController
         $slug = $request->get('slug');
         $id = $request->get('id');
         $field = $request->get('field');
-        $image_id = $request->get('image_id');
+        $media_file_id = $request->get('media_file_id');
 
         try {
 
-            // Load the related Record associated with a medialibrary image
+            // Load the related Record associated with a medialibrary file
             $model = app($model_class);
             $data = $model->find($id);
 
@@ -119,27 +119,27 @@ class VoyagerExtensionController extends BaseController
             })->first();
 
             // Save OLD Properties
-            $old_image = $data->getMedia($field)->where('id', $image_id)->first();
+            $old_file = $data->getMedia($field)->where('id', $media_file_id)->first();
             $old_properties = [];
-            $old_properties['title'] = $old_image->getCustomProperty('title');
-            $old_properties['alt'] = $old_image->getCustomProperty('alt');
+            $old_properties['title'] = $old_file->getCustomProperty('title');
+            $old_properties['alt'] = $old_file->getCustomProperty('alt');
 
             if (isset($dataRow->details->extra_fields)) {
                 foreach ($dataRow->details->extra_fields as $key => $item) {
-                    $old_properties[$key] = $old_image->getCustomProperty($key);
+                    $old_properties[$key] = $old_file->getCustomProperty($key);
                 }
             }
 
             // Add New Image from Request
-            $new_image = $data->addMediaFromRequest($field)
+            $new_file = $data->addMediaFromRequest($field)
                 ->withCustomProperties($old_properties)
                 ->toMediaCollection($field);
 
-            $all_images = $data->getMedia($field);
+            $all_files = $data->getMedia($field);
             $new_order = [];
-            foreach ($all_images as $key => $item) {
-                if ($item->id === (int) $image_id) {
-                    $new_order[] = $new_image->id;
+            foreach ($all_files as $key => $item) {
+                if ($item->id === (int) $media_file_id) {
+                    $new_order[] = $new_file->id;
                 } else {
                     $new_order[] = $item->id;
                 }
@@ -147,12 +147,12 @@ class VoyagerExtensionController extends BaseController
 
             Media::setNewOrder($new_order);
 
-            $old_image->delete();
+            $old_file->delete();
 
-            $file_name_size = Str::limit($new_image->file_name, 20, ' (...)');
-            $file_name_size .= ' <i class="' . ($new_image->size > 100000? 'large' : '') . '">' . $new_image->human_readable_size . '</i>';
+            $file_name_size = Str::limit($new_file->file_name, 20, ' (...)');
+            $file_name_size .= ' <i class="' . ($new_file->size > 100000? 'large' : '') . '">' . $new_file->human_readable_size . '</i>';
 
-            //\Debugbar::info($all_images);
+            //\Debugbar::info($all_files);
 
         } catch (Exception $error) {
 
@@ -162,10 +162,10 @@ class VoyagerExtensionController extends BaseController
         return json_response_with_success(
             200,
             __('voyager-extension::bread.images_updated'), [
-            'file_url' => $new_image->getFullUrl(),
-            'file_name' => $new_image->file_name,
+            'file_url' => $new_file->getFullUrl(),
+            'file_name' => $new_file->file_name,
             'file_name_size' => $file_name_size,
-            'file_id' => $new_image->id,
+            'file_id' => $new_file->id,
         ]);
     }
 
@@ -200,9 +200,9 @@ class VoyagerExtensionController extends BaseController
     {
         \Debugbar::info($request);
 
-        $images_ids_order = $request->get('images_ids_order');
+        $files_ids_order = $request->get('files_ids_order');
         try {
-            Media::setNewOrder($images_ids_order);
+            Media::setNewOrder($files_ids_order);
             return json_response_with_success(200, __('voyager-extension::bread.images_sorted'));
         } catch (Exception $error) {
             return json_response_with_error(500, $error);

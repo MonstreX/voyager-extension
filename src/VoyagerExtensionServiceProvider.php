@@ -41,9 +41,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
         $this->registerFields();
 
-        //View::share('page_slug', request()->segment(2));
-        //dd(request()->path());
-
     }
 
     /**

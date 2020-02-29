@@ -26,7 +26,7 @@ var getMediaParams = function (el)
     slug:     el.data('slug'),
     id:       el.data('id'),
     field  :  el.data('field-name'),
-    image_id: el.data('image-id'),
+    media_file_id: el.data('file-id'),
     media_ids: [el.data('image-id')],
     filename: el.data('file-name'),
     _token:   csrf_token
@@ -138,10 +138,17 @@ var readURL = function (input)
 {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
+    var ext = input.files[0].name.split('.').pop().toLowerCase();
+    var image_path = '/admin/voyager-extension-assets?path=icons/files/' + ext + '.svg';
 
-    reader.onload = function (e) {
-      $('.change-image-holder img').attr('src', e.target.result);
+    if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg') {
+      reader.onload = function (e) {
+        $('.change-file-holder img').attr('src', e.target.result).data('file-type', 'image');;
+      };
+    } else {
+      $('.change-file-holder img').attr('src', image_path).data('file-type', 'file');
     }
+
     reader.readAsDataURL(input.files[0]);
   }
 }
@@ -163,7 +170,7 @@ $('document').ready(function () {
   // Init Vars
   window.csrf_token = $('meta[name="csrf-token"]').attr('content');
   window.vext_dialog = null;
-  window.vext_change_image_form = null;
+  window.vext_change_file_form = null;
   window.vext_page_content = $(".page-content");
 
   // Bread field helper binding

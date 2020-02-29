@@ -2,10 +2,10 @@
 <script>
 $('document').ready(function () {
 
-    // Remove Legacy Voyager DIALOG BOX, We'll use our own implementation.
+    // Remove Legacy Voyager DIALOG BOX, We'll use our own dialog box implementation.
     $('#confirm_delete_modal').remove();
 
-    // Generate Routes for Frontend
+    // Generate Routes for Frontend JS
     window.vext_page_slug = "{{$page_slug}}";
     window.vext_routes = {
         'voyager_media_remove': '{{ route("voyager." . $page_slug . ".media.remove") }}',

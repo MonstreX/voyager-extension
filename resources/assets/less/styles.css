@@ -132,13 +132,13 @@ textarea.w-modal-form-control {
 
 
 /* CHANGE IMAGE FORM */
-.change-image-holder {
+.change-file-holder {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 15px;
 }
-.change-image-holder img {
+.change-file-holder img {
     padding: 3px;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -146,7 +146,7 @@ textarea.w-modal-form-control {
     width: 100%;
     height: auto;
 }
-#change-image-form input[type=file] {
+#change-file-form input[type=file] {
     max-width: 200px;
 }
 
@@ -341,7 +341,7 @@ textarea.w-modal-form-control {
      color: #fefefe;
      font-size: 10px;
  }
-.adv-media-files-image img {
+.adv-media-files-file img {
     display: block;
     width: 100%;
     height:auto;
@@ -464,7 +464,7 @@ textarea.w-modal-form-control {
     color: #0f86c7;
 }
 
-.adv-media-files-image img.file-type {
+.adv-media-files-file img.file-type {
     max-width: 60px;
     height: auto;
     border: none;
