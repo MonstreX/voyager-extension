@@ -16,8 +16,11 @@ return [
                               <b>$imageAlt</b> = $image-><strong>getCustomProperty(<i>\'alt\'</i>)</strong>;<br/>',
     ],
     'adv_images_gallery' => [
-        'remove_selected' => 'Remove selected images',
+        'remove_selected'      => 'Delete selected images',
+        'unmark_selected'      => 'Unmark selected images',
+        'select_all'           => 'Select all images',
         'dialog_remove_images' => ' image(s)',
+        'dialog_remove_files' => ' media files(s)',
     ],
     'images_removed'          => 'Removed...',
     'images_sorted'           => 'Sorted...',

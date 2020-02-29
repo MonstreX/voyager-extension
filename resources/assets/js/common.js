@@ -27,6 +27,7 @@ var getMediaParams = function (el)
     id:       el.data('id'),
     field  :  el.data('field-name'),
     image_id: el.data('image-id'),
+    media_ids: [el.data('image-id')],
     filename: el.data('file-name'),
     _token:   csrf_token
   }
@@ -92,7 +93,25 @@ var dialogMediaRemove = function (args) {
 
           toastr.success(response.data.message);
 
-          args.remove_element.fadeOut(300, function() { $(this).remove()});
+          // Remove DOM elements holders
+          var count_media_files = 0;
+
+          args.remove_elements.each(function(index, elem) {
+            $(elem).fadeOut(300, function() {
+
+              // If we have many items we need to remove also the container of all media items
+              if($(this).hasClass('adv-images-gallery-item')) {
+                count_media_files = $(this).parent().find('.adv-images-gallery-item').length;
+                if (count_media_files === 1) {
+                  $(this).parent().parent().remove();
+                }
+              }
+
+              // Remove Item holder
+              $(this).remove();
+
+            });
+          });
 
         } else {
           toastr.error(vext.trans('bread.error_removing_media'));

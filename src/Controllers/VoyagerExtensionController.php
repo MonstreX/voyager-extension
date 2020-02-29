@@ -175,20 +175,13 @@ class VoyagerExtensionController extends VoyagerBaseController
      */
     public function vext_remove_media(Request $request)
     {
-        $type = $request->get('type');
-        $model = $request->get('model');
-        $id = $request->get('id');
-        $image_id = $request->get('image_id');
+        $media_ids = $request->get('media_ids');
+
+        \Debugbar::info($request);
 
         try {
-            // Imagelibrary types
-            if ($type === 'adv_image' || $type === 'adv_images_gallery') {
 
-                // Load the related Record associated with a medialibrary image
-                $model = app($model);
-                $data = $model::find([$id])->first();
-                $data->deleteMedia($image_id);
-            }
+            Media::destroy($media_ids);
 
         } catch (Exception $error) {
             return json_response_with_error(500, $error);

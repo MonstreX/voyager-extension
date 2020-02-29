@@ -15934,7 +15934,7 @@ $('document').ready(function () {
     vext.dialogMediaRemove({
       'route': vext_routes.ext_media_remove,
       'params': vext.getMediaParams(image),
-      'remove_element': image.parent()
+      'remove_elements': image.parent()
     });
   });
 });
@@ -16135,7 +16135,7 @@ $('document').ready(function () {
     vext.dialogMediaRemove({
       'route': vext_routes.ext_media_remove,
       'params': vext.getMediaParams(image),
-      'remove_element': image.parent()
+      'remove_elements': image.parent()
     });
   }); // ------------------------------
   // Mark images for bunch remove
@@ -16144,21 +16144,54 @@ $('document').ready(function () {
   vext_page_content.on("click", ".adv-images-gallery-mark", function (evt) {
     $(this).closest('.adv-images-gallery-item-holder').toggleClass('remove');
     var images_list = $(this).closest('.adv-images-gallery-list');
-    var bunch_button = $('#' + images_list.data('bunch-remove-button'));
+    var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
 
     if (images_list.find('.remove').length > 0) {
-      bunch_button.removeClass('hidden');
+      bunch_holder.removeClass('hidden');
     } else {
-      bunch_button.addClass('hidden');
+      bunch_holder.addClass('hidden');
+    }
+  }); // ------------------------------
+  // Unmark selected files and Select All
+  // ------------------------------
+
+  vext_page_content.on("click", ".bunch-adv-images-gallery-unmark, .bunch-adv-images-gallery-select-all", function (evt) {
+    var images_list = $('#' + $(this).parent().data('images-gallery-list'));
+    var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
+    var images_items = images_list.find('.adv-images-gallery-item-holder');
+
+    if ($(this).hasClass('bunch-adv-images-gallery-unmark')) {
+      images_items.each(function (index, elem) {
+        $(elem).removeClass('remove');
+      });
+      bunch_holder.addClass('hidden');
+    } else {
+      images_items.each(function (index, elem) {
+        $(elem).addClass('remove');
+      });
+      bunch_holder.removeClass('hidden');
     }
   }); // ------------------------------
   // Remove Bunch of selected files
   // ------------------------------
 
   vext_page_content.on("click", ".bunch-adv-images-gallery-remove", function (evt) {
-    var images_list = $('#' + $(this).data('images-gallery-list'));
-    $('.adv_confirm_delete_name').text(images_list.find('.remove').length);
-    $('#adv_confirm_delete_modal').modal('show');
+    var images_list = $('#' + $(this).parent().data('images-gallery-list'));
+
+    if (images_list.find('.remove').length > 0) {
+      var images_ids = [];
+      images_list.find('.remove').each(function (index, elem) {
+        images_ids.push($(elem).data('image-id'));
+      });
+      vext.dialogMediaRemove({
+        'route': vext_routes.ext_media_remove,
+        'params': {
+          'media_ids': images_ids,
+          'filename': images_ids.length + vext.trans('bread.adv_images_gallery.dialog_remove_files')
+        },
+        'remove_elements': images_list.find('.remove').parent()
+      });
+    }
   });
 });
 
@@ -16247,6 +16280,7 @@ var getMediaParams = function getMediaParams(el) {
     id: el.data('id'),
     field: el.data('field-name'),
     image_id: el.data('image-id'),
+    media_ids: [el.data('image-id')],
     filename: el.data('file-name'),
     _token: csrf_token
   };
@@ -16308,9 +16342,23 @@ var dialogMediaRemove = function dialogMediaRemove(args) {
     'callback': function callback() {
       $.post(args.route, args.params, function (response) {
         if (response && response.data.status == 200) {
-          toastr.success(response.data.message);
-          args.remove_element.fadeOut(300, function () {
-            $(this).remove();
+          toastr.success(response.data.message); // Remove DOM elements holders
+
+          var count_media_files = 0;
+          args.remove_elements.each(function (index, elem) {
+            $(elem).fadeOut(300, function () {
+              // If we have many items we need to remove also the container of all media items
+              if ($(this).hasClass('adv-images-gallery-item')) {
+                count_media_files = $(this).parent().find('.adv-images-gallery-item').length;
+
+                if (count_media_files === 1) {
+                  $(this).parent().parent().remove();
+                }
+              } // Remove Item holder
+
+
+              $(this).remove();
+            });
           });
         } else {
           toastr.error(vext.trans('bread.error_removing_media'));
@@ -16415,7 +16463,7 @@ $('document').ready(function () {
     vext.dialogMediaRemove({
       'route': vext_routes.voyager_media_remove,
       'params': params,
-      'remove_element': $(this).parent()
+      'remove_elements': $(this).parent()
     });
   });
 });

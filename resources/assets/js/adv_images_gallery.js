@@ -215,36 +215,79 @@ $('document').ready(function () {
     // Remove Image
     // ------------------------------
     vext_page_content.on('click', '.adv-images-gallery-remove', function () {
+
         var image = $(this).parent().parent();
+
         vext.dialogMediaRemove({
             'route': vext_routes.ext_media_remove,
             'params': vext.getMediaParams(image),
-            'remove_element': image.parent()
+            'remove_elements': image.parent()
         });
+
     });
 
     // ------------------------------
     // Mark images for bunch remove
     // ------------------------------
     vext_page_content.on("click", ".adv-images-gallery-mark", function(evt){
+
         $(this).closest('.adv-images-gallery-item-holder').toggleClass('remove');
 
         var images_list = $(this).closest('.adv-images-gallery-list');
-        var bunch_button = $('#' + images_list.data('bunch-remove-button'));
+        var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
         if (images_list.find('.remove').length > 0) {
-            bunch_button.removeClass('hidden');
+            bunch_holder.removeClass('hidden');
         } else {
-            bunch_button.addClass('hidden');
+            bunch_holder.addClass('hidden');
         }
     });
+
+
+    // ------------------------------
+    // Unmark selected files and Select All
+    // ------------------------------
+    vext_page_content.on("click", ".bunch-adv-images-gallery-unmark, .bunch-adv-images-gallery-select-all", function(evt){
+        var images_list = $('#' + $(this).parent().data('images-gallery-list'));
+        var bunch_holder = $('#' + images_list.data('bunch-adv-remove-holder'));
+        var images_items = images_list.find('.adv-images-gallery-item-holder');
+
+        if ($(this).hasClass('bunch-adv-images-gallery-unmark')) {
+            images_items.each(function(index, elem) {
+                $(elem).removeClass('remove');
+            });
+            bunch_holder.addClass('hidden');
+        } else {
+            images_items.each(function(index, elem) {
+                $(elem).addClass('remove');
+            });
+            bunch_holder.removeClass('hidden');
+        }
+    });
+
 
     // ------------------------------
     // Remove Bunch of selected files
     // ------------------------------
     vext_page_content.on("click", ".bunch-adv-images-gallery-remove", function(evt){
-        var images_list = $('#' + $(this).data('images-gallery-list'));
-        $('.adv_confirm_delete_name').text(images_list.find('.remove').length);
-        $('#adv_confirm_delete_modal').modal('show');
+        var images_list = $('#' + $(this).parent().data('images-gallery-list'));
+
+        if (images_list.find('.remove').length > 0) {
+
+            var images_ids = [];
+            images_list.find('.remove').each(function(index, elem) {
+                images_ids.push($(elem).data('image-id'));
+            });
+
+            vext.dialogMediaRemove({
+                'route': vext_routes.ext_media_remove,
+                'params': {
+                    'media_ids': images_ids,
+                    'filename': images_ids.length + vext.trans('bread.adv_images_gallery.dialog_remove_files')
+                    },
+                'remove_elements': images_list.find('.remove').parent()
+            });
+
+        }
     });
 
 });

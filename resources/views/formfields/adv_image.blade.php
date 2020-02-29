@@ -3,6 +3,7 @@
 </div>
 
 @if($adv_image = $dataTypeContent->getFirstMedia($row->field))
+
 <div class="adv-image-wrapper">
     <div class="adv-image"
          data-type="{{ $row->type }}"

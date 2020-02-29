@@ -1,10 +1,13 @@
 <div class="field-helper">
     @lang('voyager-extension::bread.adv_images_gallery.help', ['gallery' => $row->field])
 </div>
-@if($adv_images_gallery = $dataTypeContent->getMedia($row->field))
+@php
+    $adv_images_gallery = $dataTypeContent->getMedia($row->field)
+@endphp
+@if(count($adv_images_gallery) > 0)
 <div class="adv-images-gallery-holder">
     <div id="{{ $row->field }}" class="adv-images-gallery-list sortable-images-field-{{ $row->field }}"
-         data-bunch-remove-button="bunch-remove-{{ $row->field }}"
+         data-bunch-adv-remove-holder="bunch-adv-remove-{{ $row->field }}"
          data-extra-fields="{{ isset($row->details->extra_fields)? "true" : "false" }}"
          data-type="{{ $row->type }}"
          data-model="{{ $dataType->model_name }}"
@@ -53,15 +56,30 @@
         </div>
         @endforeach
     </div>
+
+    <div class="bunch-adv-select-all" data-images-gallery-list="{{ $row->field }}">
+        <a href="javascript:;"
+           title="@lang('voyager-extension::bread.adv_images_gallery.select_all')"
+           class="bunch-adv-images-gallery-select-all">
+            <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_images_gallery.select_all')</span>
+        </a>
+    </div>
+
+    <div id="bunch-adv-remove-{{ $row->field }}" class="bunch-adv-remove-holder hidden" data-images-gallery-list="{{ $row->field }}">
+        <a href="javascript:;"
+           title="@lang('voyager-extension::bread.adv_images_gallery.remove_selected')"
+           class="btn btn-sm btn-danger bunch-adv-images-gallery-remove">
+            <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_images_gallery.remove_selected')</span>
+        </a>
+        <a href="javascript:;"
+           title="@lang('voyager-extension::bread.adv_images_gallery.unmark_selected')"
+           class="bunch-adv-images-gallery-unmark">
+            <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_images_gallery.unmark_selected')</span>
+        </a>
+    </div>
+
 </div>
 @endif
 <div class="adv-images-gallery-file-upload">
     <input @if($row->required == 1) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
-    <a id="bunch-remove-{{ $row->field }}"
-       href="javascript:;"
-       data-images-gallery-list="{{ $row->field }}"
-       title="@lang('voyager-extension::bread.adv_images_gallery.remove_selected')"
-       class="btn btn-sm btn-danger bunch-adv-images-gallery-remove hidden">
-        <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_images_gallery.remove_selected')</span>
-    </a>
 </div>

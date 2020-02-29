@@ -1,8 +1,7 @@
 @push('javascript')
-
-
 <script>
 $('document').ready(function () {
+
     // Remove Legacy Voyager DIALOG BOX, We'll use our own implementation.
     $('#confirm_delete_modal').remove();
 

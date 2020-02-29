@@ -16,7 +16,7 @@ $('document').ready(function () {
         vext.dialogMediaRemove({
             'route': vext_routes.voyager_media_remove,
             'params': params,
-            'remove_element': $(this).parent()
+            'remove_elements': $(this).parent()
         });
     });
 });

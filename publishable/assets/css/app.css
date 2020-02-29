@@ -838,8 +838,26 @@ textarea.w-modal-form-control {
     margin-bottom: 0;
 }
 
-.bunch-adv-images-gallery-remove {
-    margin-left: 5px;
+
+.bunch-adv-remove-holder {
+    margin-bottom: 20px;
+    transition: all .4s ease;
+}
+
+.bunch-adv-select-all {
+    font-size: 1.0em;
+    font-weight: 500;
+    text-decoration: underline;
+    color: #0f86c7;
+    margin-bottom: 15px;
+}
+
+.bunch-adv-images-gallery-unmark {
+    margin-left: 10px;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: underline;
+    color: #0f86c7;
 }
 
 
