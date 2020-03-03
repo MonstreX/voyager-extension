@@ -4,6 +4,7 @@ namespace MonstreX\VoyagerExtension\Controllers;
 
 use Illuminate\Http\Request;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
+use mysql_xdevapi\Collection;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -71,7 +72,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         foreach ($rows as $row) {
 
             // Bind Single Image to $data record
-            if ($row->type == 'adv_image' && $request->hasFile($row->field)){
+            if ($row->type == 'adv_image' && $request->hasFile($row->field)) {
 
                 $data->addMediaFromRequest($row->field)
                     ->withCustomProperties(['title' => null, 'alt' => null])
@@ -132,42 +133,52 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         $slug = $this->getSlug($request);
 
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+        $rows = $dataType->rows()->get();
+        $row = $this->getRowByField($rows, 'images')->type;
 
-        \Debugbar::info(auth()->user());
+
+        //dd($row);
 
         // Check permission
         $this->authorize('add', app($dataType->model_name));
-
-
 
         $source = $data = app($dataType->model_name);
         $source = $source->where('id', $id)->first();
         $cloned = $source->replicate();
 
-        if(isset($cloned->slug)) {
-            $cloned->slug = $cloned->slug . ' (clone)';
-        }
-        if(isset($cloned->title)) {
-            $cloned->title = $cloned->title . ' (clone)';
-        }
-        if(isset($cloned->name)) {
-            $cloned->name = $cloned->name . ' (clone)';
+        $reset_types = config('voyager-extension.clone_record.reset_types');
+        $suffix_fields = config('voyager-extension.clone_record.suffix_fields');
+
+        foreach ($cloned->getAttributes() as $key => $value) {
+            if (in_array($this->getRowByField($rows, $key)->type, $reset_types)) {
+                $cloned->{$key} = null;
+            }
+            if (in_array($key, $suffix_fields)) {
+                $cloned->{$key} = $cloned->{$key} . ' (clone)';
+            }
         }
 
         $res = $cloned->save();
 
         $data = $res
             ? [
-                'message'    => __('voyager::generic.successfully_cloned')." {$dataType->display_name_singular}",
+                'message' => __('voyager::generic.successfully_cloned') . " {$dataType->display_name_singular}",
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => __('voyager::generic.error_cloning')." {$dataType->display_name_singular}",
+                'message' => __('voyager::generic.error_cloning') . " {$dataType->display_name_singular}",
                 'alert-type' => 'error',
             ];
 
         return redirect()->route("voyager.{$dataType->slug}.index")->with($data);
     }
 
+
+    private function getRowByField($rows, string $field)
+    {
+        return $rows->filter(function ($value, $key) use ($field) {
+            return $value->field === $field;
+        })->first();
+    }
 
 }

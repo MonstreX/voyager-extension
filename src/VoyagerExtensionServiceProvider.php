@@ -142,7 +142,9 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     private function registerActions()
     {
-        Voyager::addAction(CloneAction::class);
+        if(config('voyager-extension.clone_record.enabled')) {
+            Voyager::addAction(CloneAction::class);
+        }
     }
 
     /**
