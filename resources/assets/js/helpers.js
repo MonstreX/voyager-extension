@@ -5,7 +5,7 @@
 --------------------*/
 
 var setTestValue = function(ell){
-  console.log(el);
+  console.log('hello, helper!', ell);
 }
 
 exports.setTestValue = setTestValue;

@@ -16,6 +16,9 @@ $('document').ready(function () {
         'ext_media_form': '{{ route("voyager." . $page_slug . ".ext-media.form") }}',
     };
 
+
+    //console.log(window.vext_routes);
+
 });
 </script>
 @endpush

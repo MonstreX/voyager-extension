@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Cache;
 class VoyagerExtensionController extends BaseController
 {
 
-
     /*
      * Load Translations
      */
@@ -87,12 +86,8 @@ class VoyagerExtensionController extends BaseController
             return json_response_with_error(500, $error);
         }
 
-        return json_response_with_success(200, __('voyager-extension::bread.images_updated'));
+        return json_response_with_success(200, __('voyager-extension::bread.media_updated'));
     }
-
-
-
-
 
 
     /*
@@ -152,8 +147,6 @@ class VoyagerExtensionController extends BaseController
             $file_name_size = Str::limit($new_file->file_name, 20, ' (...)');
             $file_name_size .= ' <i class="' . ($new_file->size > 100000? 'large' : '') . '">' . $new_file->human_readable_size . '</i>';
 
-            //\Debugbar::info($all_files);
-
         } catch (Exception $error) {
 
             return json_response_with_error(500, $error);
@@ -161,7 +154,7 @@ class VoyagerExtensionController extends BaseController
 
         return json_response_with_success(
             200,
-            __('voyager-extension::bread.images_updated'), [
+            __('voyager-extension::bread.media_updated'), [
             'file_url' => $new_file->getFullUrl(),
             'file_name' => $new_file->file_name,
             'file_name_size' => $file_name_size,
@@ -170,15 +163,13 @@ class VoyagerExtensionController extends BaseController
     }
 
 
-
     /*
      *  Remove media file
      */
     public function remove_media(Request $request)
     {
-        $media_ids = $request->get('media_ids');
 
-        \Debugbar::info($request);
+        $media_ids = $request->get('media_ids');
 
         try {
 
@@ -188,9 +179,8 @@ class VoyagerExtensionController extends BaseController
             return json_response_with_error(500, $error);
         }
 
-        return json_response_with_success(200, __('voyager-extension::bread.images_removed'));
+        return json_response_with_success(200, __('voyager-extension::bread.media_removed'));
     }
-
 
 
     /*
@@ -198,12 +188,12 @@ class VoyagerExtensionController extends BaseController
      */
     public function sort_media(Request $request)
     {
-        \Debugbar::info($request);
 
         $files_ids_order = $request->get('files_ids_order');
+
         try {
             Media::setNewOrder($files_ids_order);
-            return json_response_with_success(200, __('voyager-extension::bread.images_sorted'));
+            return json_response_with_success(200, __('voyager-extension::bread.media_sorted'));
         } catch (Exception $error) {
             return json_response_with_error(500, $error);
         }

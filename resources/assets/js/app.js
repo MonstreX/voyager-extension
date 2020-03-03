@@ -24,7 +24,6 @@ require('./voyager_legacy.js');
 
 
 $('document').ready(function () {
-
-    window.vext_page_content = $(".page-content");
-
+    // Init Vars
+    //window.vext_page_content = $(".page-content");
 });

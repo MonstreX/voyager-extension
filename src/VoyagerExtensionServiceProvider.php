@@ -3,8 +3,9 @@
 namespace MonstreX\VoyagerExtension;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Config;
@@ -14,9 +15,10 @@ use Lang;
 use MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator;
 use TCG\Voyager\Facades\Voyager;
 
-use MonstreX\VoyagerExtension\FormFields\KeyValueJsonFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
+use MonstreX\VoyagerExtension\Actions\CloneAction;
+use TCG\Voyager\Http\Middleware\VoyagerAdminMiddleware;
 
 class VoyagerExtensionServiceProvider extends ServiceProvider
 {
@@ -26,10 +28,15 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Request $request)
+    public function boot()
     {
-
+        // Create Common Routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+
+        // Create Voyager Routes
+        app(Dispatcher::class)->listen('voyager.admin.routing', function ($router) {
+            $this->addRoutes($router);
+        });
 
         $this->loadConfig();
 
@@ -38,6 +45,8 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         $this->loadTranslationsJS();
 
         $this->loadViews();
+
+        $this->registerActions();
 
         $this->registerFields();
 
@@ -121,18 +130,29 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             });
         });
 
+        // Override Legacy Views
+        View::composer('voyager::bread.browse', function ($view) {
+            view('voyager-extension::bread.browse')->with($view->gatherData())->render();
+        });
 
     }
 
+    /**
+     * Register new actions.
+     */
+    private function registerActions()
+    {
+        Voyager::addAction(CloneAction::class);
+    }
 
     /**
      * Register new fields.
      */
     private function registerFields()
     {
+
         Voyager::addFormField(AdvImageFormField::class);
         Voyager::addFormField(AdvMediaFilesFormField::class);
-        Voyager::addFormField(KeyValueJsonFormField::class);
     }
 
     /**
@@ -155,6 +175,33 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
                 'bread' => Lang::get('voyager-extension::bread'),
             ];
         });
+    }
+
+    /*
+     *  Add Routes
+     */
+    public function addRoutes($router){
+
+        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionController';
+        $extensionVoyagerController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController';
+
+        try {
+            foreach (Voyager::model('DataType')::all() as $dataType) {
+                $router->post($dataType->slug . '/sort/media', $extensionController . '@sort_media')->name($dataType->slug . '.ext-media.sort');
+                $router->post($dataType->slug . '/update/media', $extensionController . '@update_media')->name($dataType->slug . '.ext-media.update');
+                $router->post($dataType->slug . '/change/media', $extensionController . '@change_media')->name($dataType->slug . '.ext-media.change');
+                $router->post($dataType->slug . '/remove/media', $extensionController . '@remove_media')->name($dataType->slug . '.ext-media.remove');
+                $router->post($dataType->slug . '/form/media', $extensionController . '@load_image_form')->name($dataType->slug . '.ext-media.form');
+
+                $router->post($dataType->slug . '/{id}/clone', $extensionVoyagerController . '@clone')->name($dataType->slug . '.clone');
+
+            }
+        } catch (\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException("Custom routes hasn't been configured because: " . $e->getMessage(), 1);
+        } catch (\Exception $e) {
+            // do nothing, might just be because table not yet migrated.
+        }
+
     }
 
 

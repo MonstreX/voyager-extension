@@ -15966,11 +15966,12 @@ function initSortableAdvMediaFiles(filesId) {
         var params = vext.getMediaParams(parent);
         params.multi = false;
         params.files_ids_order = files_new_order;
+        console.log('sort:', vext_routes.ext_media_sort, params);
         $.post(vext_routes.ext_media_sort, params, function (response) {
           if (response && response.data && response.data.status && response.data.status == 200) {
             toastr.success(response.data.message);
           } else {
-            toastr.error("Error sorting media.");
+            toastr.error(vext.trans('bread.error_sorting_media'));
           }
         });
       }
@@ -16018,7 +16019,7 @@ $('document').ready(function () {
       'modal': false,
       'position': [pos.x, pos.y],
       'buttons': [{
-        caption: 'Change',
+        caption: vext.trans('bread.dialog_button_change'),
         callback: function callback() {
           var form = $('#change-file-form')[0];
           var data = new FormData(form);
@@ -16048,13 +16049,13 @@ $('document').ready(function () {
 
                 parent.parent().find('.adv-media-files-filename').html(response.data.data.file_name_size);
               } else {
-                toastr.error("Error saving media.");
+                toastr.error(vext.trans('bread.error_saving_media'));
               }
             }
           });
         }
       }, {
-        caption: 'Cancel',
+        caption: vext.trans('bread.dialog_button_cancel'),
         callback: function callback() {}
       }],
       source: {
@@ -16087,7 +16088,7 @@ $('document').ready(function () {
       'max_width': '90%',
       'position': [pos.x, pos.y],
       'buttons': [{
-        caption: 'Save',
+        caption: vext.trans('bread.dialog_button_save'),
         callback: function callback() {
           var codemirror_editors = $('.codemirror_editor');
           codemirror_editors.each(function (index, elem) {
@@ -16106,12 +16107,12 @@ $('document').ready(function () {
                 title_holder.html('<i>...</i>');
               }
             } else {
-              toastr.error("Error saving media.");
+              toastr.error(vext.trans('bread.error_saving_media'));
             }
           });
         }
       }, {
-        caption: 'Cancel',
+        caption: vext.trans('bread.dialog_button_cancel'),
         callback: function callback() {}
       }],
       source: {
@@ -16243,8 +16244,8 @@ __webpack_require__(/*! ./adv_media_files.js */ "./resources/assets/js/adv_media
 
 __webpack_require__(/*! ./voyager_legacy.js */ "./resources/assets/js/voyager_legacy.js");
 
-$('document').ready(function () {
-  window.vext_page_content = $(".page-content");
+$('document').ready(function () {// Init Vars
+  //window.vext_page_content = $(".page-content");
 });
 
 /***/ }),
@@ -16321,7 +16322,7 @@ var createDialogYesNo = function createDialogYesNo(params) {
 
   vext_dialog = new $.Zebra_Dialog(params.message, {
     'title': params.title,
-    'custom_class': 'vext-dialog-warning',
+    'custom_class': params["class"],
     'type': false,
     'modal': true,
     'position': ['center', 'middle - 100'],
@@ -16346,10 +16347,11 @@ var dialogMediaRemove = function dialogMediaRemove(args) {
   vext.createDialogYesNo({
     'title': vext.trans('bread.dialog_remove_title'),
     'message': vext.trans('bread.dialog_remove_message') + '"<span class="dialog-file-name">' + args.params.filename + '</span>"',
+    'class': 'vext-dialog-warning',
     'yes': vext.trans('bread.dialog_button_remove'),
     'callback': function callback() {
       $.post(args.route, args.params, function (response) {
-        if (response && response.data.status == 200) {
+        if (response && response.data && response.data.status == 200) {
           toastr.success(response.data.message); // Remove DOM elements holders
 
           var count_media_files = 0;
@@ -16378,6 +16380,24 @@ var dialogMediaRemove = function dialogMediaRemove(args) {
           toastr.error(vext.trans('bread.error_removing_media'));
         }
       });
+    }
+  });
+};
+/*
+
+ Request Certain Action
+
+ */
+
+
+var dialogActionRequest = function dialogActionRequest(args) {
+  vext.createDialogYesNo({
+    'title': vext.trans('bread.dialog_remove_title'),
+    'message': '<form action="' + args.url + '" id="action_form" method="' + args.method + '">' + args.method_field + args.csrf_field + '</form>' + args.message,
+    'class': args["class"],
+    'yes': vext.trans('bread.dialog_button_remove'),
+    'callback': function callback() {
+      $('#action_form').submit();
     }
   });
 };
@@ -16412,11 +16432,11 @@ $.get('/admin/voyager-extension-translations', null, function (data) {
   if (data) {
     window.translations = data;
   } else {
-    toastr.error("Error translation loading.");
+    toastr.error(vext.trans('bread.error_translation_loading'));
   }
 });
 $('document').ready(function () {
-  // Init Vars
+  window.vext_page_content = $(".page-content");
   window.csrf_token = $('meta[name="csrf-token"]').attr('content');
   window.vext_dialog = null;
   window.vext_change_file_form = null;
@@ -16438,6 +16458,7 @@ exports.getDialogPosition = getDialogPosition;
 exports.readURL = readURL;
 exports.createDialogYesNo = createDialogYesNo;
 exports.dialogMediaRemove = dialogMediaRemove;
+exports.dialogActionRequest = dialogActionRequest;
 
 /***/ }),
 
@@ -16454,7 +16475,7 @@ exports.dialogMediaRemove = dialogMediaRemove;
 |
 --------------------*/
 var setTestValue = function setTestValue(ell) {
-  console.log(el);
+  console.log('hello, helper!', ell);
 };
 
 exports.setTestValue = setTestValue;

@@ -19,6 +19,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
     public function edit(Request $request, $id)
     {
+
         $slug = $this->getSlug($request);
         View::share(['page_slug' => $slug, 'page_id' => $id]);
         return parent::edit($request, $id);
@@ -41,6 +42,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
     public function getContentBasedOnType(Request $request, $slug, $row, $options = null)
     {
+
         switch ($row->type) {
             case 'adv_image':
                 return (new AdvImageContentType($request, $slug, $row, $options))->handle();
@@ -61,6 +63,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
      */
     public function insertUpdateData($request, $slug, $rows, $data)
     {
+
         // we need to create a record (in an usual way) before associate image to the actual model record
         $result = VoyagerBaseController::insertUpdateData($request, $slug, $rows, $data);
 
@@ -117,5 +120,54 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
         return $result;
     }
+
+    //***************************************
+    //
+    //         Clone an item BREA(D)
+    //
+    //****************************************
+
+    public function clone(Request $request, $id)
+    {
+        $slug = $this->getSlug($request);
+
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        \Debugbar::info(auth()->user());
+
+        // Check permission
+        $this->authorize('add', app($dataType->model_name));
+
+
+
+        $source = $data = app($dataType->model_name);
+        $source = $source->where('id', $id)->first();
+        $cloned = $source->replicate();
+
+        if(isset($cloned->slug)) {
+            $cloned->slug = $cloned->slug . ' (clone)';
+        }
+        if(isset($cloned->title)) {
+            $cloned->title = $cloned->title . ' (clone)';
+        }
+        if(isset($cloned->name)) {
+            $cloned->name = $cloned->name . ' (clone)';
+        }
+
+        $res = $cloned->save();
+
+        $data = $res
+            ? [
+                'message'    => __('voyager::generic.successfully_cloned')." {$dataType->display_name_singular}",
+                'alert-type' => 'success',
+            ]
+            : [
+                'message'    => __('voyager::generic.error_cloning')." {$dataType->display_name_singular}",
+                'alert-type' => 'error',
+            ];
+
+        return redirect()->route("voyager.{$dataType->slug}.index")->with($data);
+    }
+
 
 }

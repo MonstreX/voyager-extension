@@ -18,6 +18,8 @@ function initSortableAdvMediaFiles(filesId) {
                 params.multi = false;
                 params.files_ids_order = files_new_order;
 
+                console.log('sort:', vext_routes.ext_media_sort, params);
+
                 $.post(vext_routes.ext_media_sort, params, function (response) {
                     if ( response
                         && response.data
@@ -27,7 +29,7 @@ function initSortableAdvMediaFiles(filesId) {
                         toastr.success(response.data.message);
 
                     } else {
-                        toastr.error("Error sorting media.");
+                        toastr.error(vext.trans('bread.error_sorting_media'));
                     }
                 });
             }
@@ -80,7 +82,7 @@ $('document').ready(function () {
             'position': [pos.x, pos.y],
             'buttons':  [
                 {
-                    caption: 'Change', callback: function() {
+                    caption: vext.trans('bread.dialog_button_change'), callback: function() {
 
                         var form = $('#change-file-form')[0];
                         var data = new FormData(form);
@@ -116,14 +118,14 @@ $('document').ready(function () {
                                     parent.parent().find('.adv-media-files-filename').html(response.data.data.file_name_size);
 
                                 } else {
-                                    toastr.error("Error saving media.");
+                                    toastr.error(vext.trans('bread.error_saving_media'));
                                 }
                             }
                         });
                     }
                 },
                 {
-                    caption: 'Cancel', callback: function() {}
+                    caption: vext.trans('bread.dialog_button_cancel'), callback: function() {}
                 }
             ],
             source: {inline: vext_change_file_form}
@@ -163,7 +165,7 @@ $('document').ready(function () {
             'position': [pos.x, pos.y],
             'buttons':  [
                 {
-                    caption: 'Save', callback: function() {
+                    caption: vext.trans('bread.dialog_button_save'), callback: function() {
 
                         var codemirror_editors = $('.codemirror_editor');
                         codemirror_editors.each(function(index, elem) {
@@ -187,13 +189,13 @@ $('document').ready(function () {
                                     title_holder.html('<i>...</i>');
                                 }
                             } else {
-                                toastr.error("Error saving media.");
+                                toastr.error(vext.trans('bread.error_saving_media'));
                             }
                         });
                     }
                 },
                 {
-                    caption: 'Cancel', callback: function() {}
+                    caption: vext.trans('bread.dialog_button_cancel'), callback: function() {}
                 }
             ],
             source: {
@@ -298,4 +300,3 @@ $('document').ready(function () {
     });
 
 });
-

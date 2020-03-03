@@ -1,6 +1,8 @@
+@if(config('voyager.show_dev_tips'))
 <div class="field-helper">
-    @lang('voyager-extension::bread.adv_media_files.help', ['gallery' => $row->field])
+    @includeIf('voyager-extension::formfields.tips.adv_media_files', ['gallery' => $row->field])
 </div>
+@endif
 @php
     $adv_media_files = $dataTypeContent->getMedia($row->field)
 @endphp

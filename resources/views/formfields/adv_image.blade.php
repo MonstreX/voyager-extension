@@ -1,9 +1,10 @@
+@if(config('voyager.show_dev_tips'))
 <div class="field-helper">
-    @lang('voyager-extension::bread.adv_image.help', ['gallery' => $row->field])
+    @includeIf('voyager-extension::formfields.tips.adv_image', ['gallery' => $row->field])
 </div>
+@endif
 
 @if($adv_image = $dataTypeContent->getFirstMedia($row->field))
-
 <div class="adv-image-wrapper">
     <div class="adv-image"
          data-type="{{ $row->type }}"
