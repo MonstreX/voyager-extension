@@ -16074,8 +16074,8 @@ $('document').ready(function () {
     evt.preventDefault();
     var file_owner = $(this).closest('.adv-media-files-list');
     var parent = $(this).closest('.adv-media-files-item-holder');
-    var title_holder = $(this).closest('.adv-media-files-item').find('.adv-media-files-title');
-    var pos = vext.getDialogPosition(evt, file_owner.data('extra-fields'));
+    var title_holder = $(this).closest('.adv-media-files-item').find('.adv-media-files-title'); //var pos = vext.getDialogPosition(evt, file_owner.data('extra-fields'));
+
     var params = vext.getMediaParams(parent);
 
     if (vext_dialog) {
@@ -16086,7 +16086,8 @@ $('document').ready(function () {
       'type': false,
       'modal': false,
       'max_width': '90%',
-      'position': [pos.x, pos.y],
+      //'position': [pos.x, pos.y],
+      'position': ['center', 'middle'],
       'buttons': [{
         caption: vext.trans('bread.dialog_button_save'),
         callback: function callback() {
@@ -16235,7 +16236,7 @@ __webpack_require__(/*! codemirror/mode/htmlmixed/htmlmixed */ "./node_modules/c
 
 window.Sortable = sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"]; // Local JS code
 
-window.helpers = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
+window.vext_helpers = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
 window.vext = __webpack_require__(/*! ./common.js */ "./resources/assets/js/common.js"); // Fields Specific
 
 __webpack_require__(/*! ./adv_image.js */ "./resources/assets/js/adv_image.js");
@@ -16244,6 +16245,7 @@ __webpack_require__(/*! ./adv_media_files.js */ "./resources/assets/js/adv_media
 
 __webpack_require__(/*! ./voyager_legacy.js */ "./resources/assets/js/voyager_legacy.js");
 
+console.log('app.js');
 $('document').ready(function () {// Init Vars
   //window.vext_page_content = $(".page-content");
 });

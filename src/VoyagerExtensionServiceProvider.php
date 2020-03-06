@@ -68,6 +68,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         }
 
         $this->app->bind(
+            'TCG\Voyager\Http\Controllers\VoyagerController',
+            'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionRootController'
+        );
+
+        $this->app->bind(
             'TCG\Voyager\Http\Controllers\VoyagerBaseController',
             'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController'
         );

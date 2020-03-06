@@ -19,7 +19,8 @@ class VoyagerExtensionController extends BaseController
     /*
      * Load Translations
      */
-    public function load_translations(Request $request) {
+    public function load_translations(Request $request)
+    {
         return response()->json(Cache::get('translations'));
     }
 
@@ -36,7 +37,7 @@ class VoyagerExtensionController extends BaseController
 
         // Load related BREAD Data
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-        $dataRow = $dataType->editRows->filter(function($item) use ($field) {
+        $dataRow = $dataType->editRows->filter(function ($item) use ($field) {
             return $item->field == $field;
         })->first();
 
@@ -46,13 +47,13 @@ class VoyagerExtensionController extends BaseController
         $file = $data->getMedia($field)->where('id', $media_file_id)->first();
 
         return view('voyager-extension::forms.form-ajax', [
-            'dataRow'      => $dataRow,
-            'data'         => $data,
-            'file'        => $file,
-            'model'        => [
-                'model'     => $dataType->model_name,
-                'id'       => $id,
-                'field'    => $field,
+            'dataRow' => $dataRow,
+            'data' => $data,
+            'file' => $file,
+            'model' => [
+                'model' => $dataType->model_name,
+                'id' => $id,
+                'field' => $field,
                 'media_file_id' => $media_file_id,
             ]
         ]);
@@ -109,7 +110,7 @@ class VoyagerExtensionController extends BaseController
 
             // Load related BREAD Data
             $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-            $dataRow = $dataType->editRows->filter(function($item) use ($field) {
+            $dataRow = $dataType->editRows->filter(function ($item) use ($field) {
                 return $item->field == $field;
             })->first();
 
@@ -133,7 +134,7 @@ class VoyagerExtensionController extends BaseController
             $all_files = $data->getMedia($field);
             $new_order = [];
             foreach ($all_files as $key => $item) {
-                if ($item->id === (int) $media_file_id) {
+                if ($item->id === (int)$media_file_id) {
                     $new_order[] = $new_file->id;
                 } else {
                     $new_order[] = $item->id;
@@ -145,7 +146,7 @@ class VoyagerExtensionController extends BaseController
             $old_file->delete();
 
             $file_name_size = Str::limit($new_file->file_name, 20, ' (...)');
-            $file_name_size .= ' <i class="' . ($new_file->size > 100000? 'large' : '') . '">' . $new_file->human_readable_size . '</i>';
+            $file_name_size .= ' <i class="' . ($new_file->size > 100000 ? 'large' : '') . '">' . $new_file->human_readable_size . '</i>';
 
         } catch (Exception $error) {
 
@@ -203,16 +204,39 @@ class VoyagerExtensionController extends BaseController
      * Return content of the requested asset file (js, css and etc)
      *
      * This function used as is from the original Voyager 1.3.1
+     * input: 'http://site.com/admin/voyager-assets?path=js%2Fapp.js'
      */
     public function assets(Request $request)
     {
 
         try {
-            $path = dirname(__DIR__, 3).'/voyager-extension/publishable/assets/'.Util::normalizeRelativePath(urldecode($request->path));
+            $path = dirname(__DIR__, 3) . '/voyager-extension/publishable/assets/' . Util::normalizeRelativePath(urldecode($request->path));
         } catch (\LogicException $e) {
             abort(404);
         }
 
+        return $this->assets_file($path);
+    }
+
+    /*
+     * Return content of the requested asset file (js, css and etc)
+     *
+     * input: 'http://site.com/admin/voyager-extension/path/to/assets/file.*'
+     */
+    public function assets_regular(Request $request)
+    {
+
+        try {
+            $path = dirname(__DIR__, 3) . '/voyager-extension/publishable/assets/' . str_replace('/admin/voyager-extension/','',urldecode($request->getPathInfo()));
+        } catch (\LogicException $e) {
+            abort(404);
+        }
+
+        return $this->assets_file($path);
+    }
+
+    private function assets_file($path)
+    {
         if (File::exists($path)) {
             $mime = '';
             if (Str::endsWith($path, '.js')) {
@@ -229,8 +253,8 @@ class VoyagerExtensionController extends BaseController
 
             return $response;
         }
-
-        return response('', 404);
+        abort(404);
     }
+
 
 }

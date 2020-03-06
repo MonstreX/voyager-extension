@@ -150,7 +150,7 @@ $('document').ready(function () {
         var parent = $(this).closest('.adv-media-files-item-holder');
         var title_holder = $(this).closest('.adv-media-files-item').find('.adv-media-files-title');
 
-        var pos = vext.getDialogPosition(evt, file_owner.data('extra-fields'));
+        //var pos = vext.getDialogPosition(evt, file_owner.data('extra-fields'));
 
         var params = vext.getMediaParams(parent);
 
@@ -162,7 +162,8 @@ $('document').ready(function () {
             'type': false,
             'modal': false,
             'max_width': '90%',
-            'position': [pos.x, pos.y],
+            //'position': [pos.x, pos.y],
+            'position': ['center', 'middle'],
             'buttons':  [
                 {
                     caption: vext.trans('bread.dialog_button_save'), callback: function() {

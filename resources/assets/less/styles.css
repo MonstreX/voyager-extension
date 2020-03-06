@@ -8,8 +8,8 @@
 }
 .CodeMirror, .CodeMirror-scroll {
     min-height: 100px;
+    max-height: 400px;
 }
-
 
 /* W-MODAL */
 .ZebraDialog_Spinner {

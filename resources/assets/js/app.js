@@ -13,7 +13,7 @@ import Sortable from 'sortablejs';
 window.Sortable = Sortable;
 
 // Local JS code
-window.helpers = require('./helpers.js');
+window.vext_helpers = require('./helpers.js');
 
 window.vext = require('./common.js');
 
@@ -22,8 +22,13 @@ require('./adv_image.js');
 require('./adv_media_files.js');
 require('./voyager_legacy.js');
 
+console.log('app.js');
 
 $('document').ready(function () {
     // Init Vars
     //window.vext_page_content = $(".page-content");
+
+
+
+
 });
