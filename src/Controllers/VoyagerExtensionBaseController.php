@@ -99,7 +99,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                     if (!$file->isValid()) {
                         continue;
                     }
-
                     // Add default fields Title and Alt and Extra Fields if present
                     $fields = ['title' => null, 'alt' => null];
                     if ($row->details && isset($row->details->extra_fields)) {
@@ -107,7 +106,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                             $fields[$key] = null;
                         }
                     }
-
                     // Add Image
                     $data->addMedia($file)
                         ->withCustomProperties($fields)
@@ -138,9 +136,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
         $rows = $dataType->rows()->get();
         $row = $this->getRowByField($rows, 'images')->type;
-
-
-        //dd($row);
 
         // Check permission
         $this->authorize('add', app($dataType->model_name));
@@ -176,12 +171,66 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         return redirect()->route("voyager.{$dataType->slug}.index")->with($data);
     }
 
-
+    /*
+     * Used by Clone Method
+     */
     private function getRowByField($rows, string $field)
     {
         return $rows->filter(function ($value, $key) use ($field) {
             return $value->field === $field;
         })->first();
     }
+
+
+    /*
+     *  Update Record Field
+     */
+    public function recordUpdate(Request $request)
+    {
+        try {
+
+            $slug = $request->get('slug');
+            $id = $request->get('id');
+            $field = $request->get('field');
+            $value = $request->get('value');
+            $json = $request->get('json');
+            $menu = $request->get('menu');
+
+            // GET THE DataType based on the slug
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+            if ($menu) {
+                $model = app('\TCG\Voyager\Models\MenuItem');
+                $data = $model::find([$id])->first();
+            } else {
+                // Load model and find record
+                $model = app($dataType->model_name);
+                $data = $model::find([$id])->first();
+            }
+
+            // Check permission
+            $this->authorize('edit', $data);
+
+            // Check if field exists
+            if (!isset($data->{$field}) && $data->{$field} !== null) {
+                throw new Exception(__('voyager::generic.field_does_not_exist'), 400);
+            }
+
+            if(isset($json) && $json) {
+                $data->{$field} = json_encode(array_values($value));
+            } else {
+                $data->{$field} = $value;
+            }
+
+            $data->save();
+
+            return json_response_with_success(200, __('voyager-extension::bread.record_updated'));
+
+        } catch (Exception $e) {
+            return json_response_with_error(500, $e);
+        }
+    }
+
+
 
 }

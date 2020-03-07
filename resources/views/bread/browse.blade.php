@@ -36,6 +36,12 @@
     </div>
 @stop
 
+@php
+    $dataType->browseRows = $dataType->browseRows->sortBy(function ($row, $key) {
+        return isset($row->details->browse_order)? $row->details->browse_order : 0;
+    });
+@endphp
+
 @section('content')
     <div class="page-content browse container-fluid">
         @include('voyager::alerts')
@@ -113,7 +119,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($dataTypeContent as $data)
-                                    <tr>
+                                    <tr data-record-id="{{$data->getKey()}}" data-slug="{{$dataType->slug}}" @if(isset($data->status) && $data->status === 0) class="unpublished-record" @endif>
                                         @if($showCheckboxColumn)
                                             <td>
                                                 <input type="checkbox" name="row_id" id="checkbox_{{ $data->getKey() }}" value="{{ $data->getKey() }}">
@@ -193,11 +199,17 @@
                                                     @endif
                                                 @elseif($row->type == 'checkbox')
                                                     @if(property_exists($row->details, 'on') && property_exists($row->details, 'off'))
-                                                        @if($data->{$row->field})
-                                                            <span class="label label-info">{{ $row->details->on }}</span>
+
+                                                        @if(property_exists($row->details, 'browse_inline_checkbox'))
+                                                            <input type="checkbox" data-id="{{ $data->id }}" name="{{ $row->field }}" @if($data->{$row->field}) checked @endif class="tiny-toggle" data-tt-type="dot" data-tt-size="tiny">
                                                         @else
-                                                            <span class="label label-primary">{{ $row->details->off }}</span>
+                                                            @if($data->{$row->field})
+                                                                <span class="label label-info">{{ $row->details->on }}</span>
+                                                            @else
+                                                                <span class="label label-primary">{{ $row->details->off }}</span>
+                                                            @endif
                                                         @endif
+
                                                     @else
                                                     {{ $data->{$row->field} }}
                                                     @endif
@@ -340,12 +352,14 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="{{ voyager_extension_asset('js/tinytoggle/css/tinytoggle.min.css') }}">
 @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
     <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 @endif
 @stop
 
 @section('javascript')
+    <script src="{{ voyager_extension_asset('js/tinytoggle/jquery.tinytoggle.min.js') }}"></script>
     <!-- DataTables -->
     @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
         <script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
@@ -433,6 +447,39 @@
             });
         });
 
+        // Toggle CHECKBOXES
+        $(".tiny-toggle").tinyToggle({
+            onChange: function() {
+
+                var parent = $(this).parent().parent().parent();
+                var value = $(this).attr("checked") ? 1 : 0;
+                params = {
+                    slug: parent.data("slug"),
+                    id: parent.data("record-id"),
+                    field: $(this).attr("name"),
+                    value: value,
+                    json: null,
+                    _token: '{{ csrf_token() }}'
+                }
+
+                $.post('{{ route('voyager.'.$dataType->slug.'.ext-record-update', '__id') }}'.replace('__id', $(this).data('id')), params, function (response) {
+                    if (response
+                        && response.data
+                        && response.data.status
+                        && response.data.status == 200) {
+                        toastr.success(response.data.message);
+
+                        if (params.field === 'status') {
+                            parent.toggleClass('unpublished-record');
+                        }
+
+                    } else {
+                        toastr.error("Error setting new value for the field.");
+                    }
+                });
+
+            },
+        });
 
     </script>
 @stop

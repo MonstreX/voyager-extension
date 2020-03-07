@@ -108,11 +108,12 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         // Add CSS and JS to the Voyager's config
 
         Config::set('voyager.additional_css', [
+            //voyager_extension_asset('js/tinytoggle/css/tinytoggle.min.css'),
             voyager_extension_asset('css/app.css'),
         ]);
 
         Config::set('voyager.additional_js', [
-            //voyager_extension_asset('js/vendor.js'),
+            //voyager_extension_asset('js/tinytoggle/jquery.tinytoggle.min.js'),
             voyager_extension_asset('js/app.js'),
         ]);
     }
@@ -201,7 +202,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
                 $router->post($dataType->slug . '/form/media', $extensionController . '@load_image_form')->name($dataType->slug . '.ext-media.form');
 
                 $router->post($dataType->slug . '/{id}/clone', $extensionVoyagerController . '@clone')->name($dataType->slug . '.clone');
-
+                $router->post($dataType->slug . '/{id}/record/update', $extensionVoyagerController . '@recordUpdate')->name($dataType->slug . '.ext-record-update');
             }
         } catch (\InvalidArgumentException $e) {
             throw new \InvalidArgumentException("Custom routes hasn't been configured because: " . $e->getMessage(), 1);
