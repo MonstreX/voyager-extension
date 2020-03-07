@@ -16397,7 +16397,7 @@ var dialogActionRequest = function dialogActionRequest(args) {
     'title': vext.trans('bread.dialog_remove_title'),
     'message': '<form action="' + args.url + '" id="action_form" method="' + args.method + '">' + args.method_field + args.csrf_field + '</form>' + args.message,
     'class': args["class"],
-    'yes': vext.trans('bread.dialog_button_remove'),
+    'yes': args.yes,
     'callback': function callback() {
       $('#action_form').submit();
     }

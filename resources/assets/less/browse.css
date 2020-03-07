@@ -82,3 +82,11 @@ table.dataTable .btn.clone {
 .voyager .table>tbody>tr>td.right {
     text-align: right;
 }
+
+
+.voyager .table>tbody>tr {
+    transition: all .4s ease;
+}
+.voyager .table>tbody>tr.unpublished-record {
+    opacity: 0.5;
+}

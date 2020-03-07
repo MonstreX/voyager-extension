@@ -149,7 +149,7 @@ var dialogActionRequest = function (args) {
         args.csrf_field +
         '</form>' + args.message,
     'class': args.class,
-    'yes': vext.trans('bread.dialog_button_remove'),
+    'yes': args.yes,
     'callback': function () {
       $('#action_form').submit();
     }

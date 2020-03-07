@@ -28,6 +28,8 @@ return [
     'dialog_button_remove'    => 'Yes, Delete it!',
     'dialog_button_cancel'    => 'Cancel',
     'dialog_button_change'    => 'Change',
+    'dialog_clone_message'    => 'You are going to clone selected record.',
+    'dialog_clone_yes_button' => 'Yes, clone it!',
 
     'error_removing_media'    => 'Error removing media file...',
     'error_sorting_media'     => 'Error sorting media file...',
@@ -35,4 +37,5 @@ return [
     'error_translation_loading' => 'Error translation loading',
 
     'clone_action' => 'Clone',
+    'record_updated'          => 'Updated...',
 ];

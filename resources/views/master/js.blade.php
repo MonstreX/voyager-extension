@@ -2,7 +2,7 @@
 <script>
 function tinymce_init_callback(editor)
 {
-    console.log('init tinyMCE...');
+    //console.log('init tinyMCE...');
 }
 
 function tinymce_setup_callback(editor)
@@ -21,26 +21,6 @@ function tinymce_setup_callback(editor)
     editor.settings.min_height = 200;
 }
 
-// var ace_editor_element = document.getElementsByClassName("ace_editor");
-//
-// // For each ace editor element on the page
-// for(var i = 0; i < ace_editor_element.length; i++)
-// {
-//     // Create an ace editor instance
-//     var ace_editor = ace.edit(ace_editor_element[i].id);
-//     if(ace_editor_element[i].getAttribute('data-ace-theme')){
-//         ace_editor.setTheme("ace/theme/" + ace_editor_element[i].getAttribute('data-ace-theme'));
-//     }
-//     if(ace_editor_element[i].getAttribute('data-ace-mode')){
-//         ace_editor.getSession().setMode("ace/mode/" + ace_editor_element[i].getAttribute('data-ace-mode'));
-//     }
-//     // Set auto height of window
-//     ace_editor.setOptions({
-//         maxLines: Infinity
-//     });
-// }
-
-
 $('document').ready(function () {
 
     // Remove Legacy Voyager DIALOG BOX, We'll use our own dialog box implementation.
@@ -56,9 +36,6 @@ $('document').ready(function () {
         'ext_media_change': '{{ route("voyager." . $page_slug . ".ext-media.change") }}',
         'ext_media_form': '{{ route("voyager." . $page_slug . ".ext-media.form") }}',
     };
-
-
-    //console.log(window.vext_routes);
 
 });
 </script>

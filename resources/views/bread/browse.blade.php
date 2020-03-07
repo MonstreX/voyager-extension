@@ -119,7 +119,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach($dataTypeContent as $data)
-                                    <tr data-record-id="{{$data->getKey()}}" data-slug="{{$dataType->slug}}" @if(isset($data->status) && $data->status === 0) class="unpublished-record" @endif>
+                                    <tr data-record-id="{{$data->getKey()}}"
+                                        data-slug="{{$dataType->slug}}"
+                                        class="{{ isset($data->status) && (int)$data->status === 0? 'unpublished-record' : '' }} @if($dataType->server_side){{ $loop->index % 2 === 0? 'odd' : 'even' }}@endif">
                                         @if($showCheckboxColumn)
                                             <td>
                                                 <input type="checkbox" name="row_id" id="checkbox_{{ $data->getKey() }}" value="{{ $data->getKey() }}">
@@ -394,12 +396,6 @@
         });
 
 
-        var deleteFormAction;
-        $('td').on('click', '.delete', function (e) {
-            $('#delete_form')[0].action = '{{ route('voyager.'.$dataType->slug.'.destroy', '__id') }}'.replace('__id', $(this).data('id'));
-            $('#delete_modal').modal('show');
-        });
-
         @if($usesSoftDeletes)
             @php
                 $params = [
@@ -433,12 +429,26 @@
         });
 
 
+        // Delete ONE RECORD
+        $('td').on('click', '.delete', function (e) {
+            vext.dialogActionRequest({
+                'title': '<i class="voyager-trash"></i> {{ __("voyager::generic.delete_question") }}',
+                'message': '{{ __("voyager::generic.delete_question") }} <br/>"<span class="dialog-file-name">{{ strtolower($dataType->getTranslatedAttribute('display_name_singular')) }}' + '</span>"',
+                'class': 'vext-dialog-warning',
+                'yes': '{{ __('voyager-extension::bread.dialog_button_remove') }}',
+                'url': '{{ route('voyager.'.$dataType->slug.'.destroy', '__id') }}'.replace('__id', $(this).data('id')),
+                'method': 'POST',
+                'method_field': '{{ method_field("DELETE") }}',
+                'csrf_field': '{{ csrf_field() }}'
+            });
+        });
 
         // Clone RECORD
         $('#dataTable').on('click', '.btn.clone', function () {
-
             vext.dialogActionRequest({
-                'message': vext.trans('bread.dialog_remove_message'),
+                'message': '{{ __('voyager-extension::bread.dialog_clone_message') }}',
+                'class': 'vext-dialog-request',
+                'yes': '{{ __('voyager-extension::bread.dialog_clone_yes_button') }}',
                 'url': '{{ route('voyager.'.$dataType->slug.'.clone', '__id') }}'.replace('__id', $(this).data('id')),
                 'method': 'POST',
                 //'method_field': '{{ method_field("POST") }}',

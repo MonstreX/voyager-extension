@@ -476,7 +476,16 @@ table.dataTable .btn.clone {
 }
 .voyager .table>tbody>tr>td.right {
     text-align: right;
-}/* GENERAL */
+}
+
+
+.voyager .table>tbody>tr {
+    transition: all .4s ease;
+}
+.voyager .table>tbody>tr.unpublished-record {
+    opacity: 0.5;
+}
+/* GENERAL */
 .control-label {
     cursor: help;
 }
@@ -906,7 +915,7 @@ table.dataTable .btn.clone {
     border: none;
     color: #fefefe;
 }
-.ZebraDialog_Close {
+.ZebraDialog.vext-dialog-warning .ZebraDialog_Close {
     color: #f3f2f2;
 }
 .ZebraDialog.vext-dialog-warning .ZebraDialog_Title {
@@ -936,6 +945,47 @@ table.dataTable .btn.clone {
 .ZebraDialog.vext-dialog-warning .dialog-file-name {
     color: #ddd;
 }
+
+
+/* Z-Dialog REQUEST */
+.ZebraDialog.vext-dialog-request {
+    min-width: 330px;
+    background: #e08702;
+    border: none;
+    color: #fefefe;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Close {
+    color: #f3f2f2;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Title {
+    border-bottom: none;
+    color: #f9f9f9;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Body {
+    display: flex;
+    color: #eee;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 10px 30px;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Buttons a {
+    padding: 7px 15px;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Buttons {
+    background: #e6e6e6;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Button_0 {
+    background: #e08702;
+}
+.ZebraDialog.vext-dialog-request .ZebraDialog_Button_1 {
+    background: #d2d2d2;
+    color: #333;
+}
+.ZebraDialog.vext-dialog-request .dialog-file-name {
+    color: #ddd;
+}
+
+
 
 
 /* MODAL FORM */
