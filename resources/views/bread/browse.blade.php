@@ -37,7 +37,6 @@
 @stop
 
 @section('content')
-    1111111111111111111111111111111
     <div class="page-content browse container-fluid">
         @include('voyager::alerts')
         <div class="row">
@@ -85,11 +84,18 @@
                                             </th>
                                         @endif
                                         @foreach($dataType->browseRows as $row)
-                                        <th>
+                                        <th class="@if(isset($row->details->browse_align)){{ $row->details->browse_align }}@endif"
+                                            @if(isset($row->details->browse_width)) style="width:{{ $row->details->browse_width }}"@endif>
                                             @if ($isServerSide)
                                                 <a href="{{ $row->sortByUrl($orderBy, $sortOrder) }}">
                                             @endif
-                                            {{ $row->getTranslatedAttribute('display_name') }}
+
+                                            @if(isset($row->details->browse_title))
+                                                {{ $row->details->browse_title }}
+                                            @else
+                                                {{ $row->getTranslatedAttribute('display_name') }}
+                                            @endif
+
                                             @if ($isServerSide)
                                                 @if ($row->isCurrentSortField($orderBy))
                                                     @if ($sortOrder == 'asc')
@@ -119,11 +125,30 @@
                                                 $data->{$row->field} = $data->{$row->field.'_browse'};
                                             }
                                             @endphp
-                                            <td>
+                                            <td class="@if(isset($row->details->browse_align)){{ $row->details->browse_align }}@endif"
+                                                @if(isset($row->details->browse_font_size)) style="font-size:{{ $row->details->browse_font_size }}"@endif>
+
                                                 @if (isset($row->details->view))
                                                     @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $data->{$row->field}, 'action' => 'browse', 'view' => 'browse', 'options' => $row->details])
                                                 @elseif($row->type == 'image')
-                                                    <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
+
+                                                    <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="height: 50px; width:auto">
+
+                                                @elseif($row->type == 'adv_image')
+                                                    @if($adv_image = $data->getFirstMedia($row->field))
+                                                        <img src="{{ $adv_image->getFullUrl() }}" style="height: {{ $row->details->browse_image_max_height?? '50px' }}; width:auto">
+                                                    @endif
+
+                                                @elseif($row->type == 'adv_media_files')
+                                                    @if($adv_media_files = $data->getMedia($row->field)->take(3))
+                                                        @foreach($adv_media_files as $key => $adv_file)
+                                                            @if(explode('/', $adv_file->mime_type)[0] === 'image')
+                                                                <img src="{{ $adv_file->getFullUrl() }}" style="height: {{ $row->details->browse_image_max_height?? '50px' }}; width:auto" >
+                                                            @else
+                                                                <img class="file-type" src="{{ voyager_extension_asset('icons/files/'.explode('/', $adv_file->mime_type)[1].'.svg') }}" style="height: {{ $row->details->browse_image_max_height?? '20px' }}; width:auto">
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 @elseif($row->type == 'relationship')
                                                     @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
                                                 @elseif($row->type == 'select_multiple')
@@ -180,7 +205,11 @@
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
                                                 @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
-                                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+
+                                                    @if(isset($row->details->url)) <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}"> @endif
+                                                        <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                                    @if(isset($row->details->url)) </a> @endif
+
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>

@@ -1,0 +1,84 @@
+/* VOYAGER RESETS */
+
+table.dataTable tbody td, table.dataTable tbody th {
+  padding: 0;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+   padding: 0;
+   line-height: normal;
+   vertical-align: middle;
+   border-top: none;
+}
+table.dataTable thead>tr>th {
+     padding-left: 10px;
+     padding-right: 20px;
+}
+.table>thead>tr>th {
+    padding: 7px 20px 7px 10px;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.voyager .table>tbody>tr>td {
+    padding: 0 20px 0 10px;
+}
+
+.table>thead>tr>th.sorting,
+.table>thead>tr>th.actions {
+    background: #efefef;
+}
+
+.voyager table.dataTable thead th.sorting:after,
+.voyager table.dataTable thead th.sorting_desc:after,
+.voyager table.dataTable thead th.sorting_asc:after {
+  text-transform: none;
+}
+
+.table>tbody tr.even {
+  background: #eef3f9;
+}
+.table>tbody tr[role='row'] {
+  color: #4a4a4a;
+}
+
+#bread-actions {
+    padding: 0 10px 0 10px;
+}
+#bread-actions a span {
+    display: none;
+}
+
+#bread-actions a.btn-sm {
+    background: none;
+}
+
+#bread-actions a.btn-sm i:before {
+    font-size: 14px;
+    color: #a8aab3;
+    transition: all .4s ease;
+}
+#bread-actions a.btn-sm.btn-danger:hover i:before {
+    color: #FF1100;
+}
+#bread-actions a.btn-sm.btn-primary:hover i:before {
+    color: #419eff;
+}
+#bread-actions a.btn-sm.btn-warning:hover i:before {
+    color: #dbae3a;
+}
+#bread-actions a.btn-sm.btn-success:hover i:before {
+    color: #28b066;
+}
+
+
+/* FIXES */
+table.dataTable .btn.clone {
+    margin-right: 7px;
+}
+
+.voyager table.dataTable thead th.right {
+    text-align: right;
+}
+.voyager .table>tbody>tr>td.right {
+    text-align: right;
+}
