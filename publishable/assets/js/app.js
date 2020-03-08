@@ -16395,7 +16395,7 @@ var dialogMediaRemove = function dialogMediaRemove(args) {
 var dialogActionRequest = function dialogActionRequest(args) {
   vext.createDialogYesNo({
     'title': vext.trans('bread.dialog_remove_title'),
-    'message': '<form action="' + args.url + '" id="action_form" method="' + args.method + '">' + args.method_field + args.csrf_field + '</form>' + args.message,
+    'message': '<form action="' + args.url + '" id="action_form" method="' + args.method + '">' + args.method_field + args.csrf_field + args.fields + '</form>' + args.message,
     'class': args["class"],
     'yes': args.yes,
     'callback': function callback() {

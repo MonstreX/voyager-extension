@@ -65,6 +65,23 @@
                                     <img class="img-responsive"
                                          src="{{ filter_var($dataTypeContent->{$row->field}, FILTER_VALIDATE_URL) ? $dataTypeContent->{$row->field} : Voyager::image($dataTypeContent->{$row->field}) }}">
                                 @endif
+
+                            @elseif($row->type == 'adv_image')
+                                @if($adv_image = $dataTypeContent->getFirstMedia($row->field))
+                                    <img src="{{ $adv_image->getFullUrl() }}">
+                                @endif
+                            @elseif($row->type == 'adv_media_files')
+                                @if($adv_media_files = $dataTypeContent->getMedia($row->field))
+                                    @foreach($adv_media_files as $key => $adv_file)
+                                        @if(explode('/', $adv_file->mime_type)[0] === 'image')
+                                            <img src="{{ $adv_file->getFullUrl() }}">
+                                        @else
+                                            <a href="{{ $adv_file->getFullUrl() }}">
+                                                <img class="file-type" src="{{ voyager_extension_asset('icons/files/'.explode('/', $adv_file->mime_type)[1].'.svg') }}" style="height: 100px">
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endif
                             @elseif($row->type == 'relationship')
                                  @include('voyager::formfields.relationship', ['view' => 'read', 'options' => $row->details])
                             @elseif($row->type == 'select_dropdown' && property_exists($row->details, 'options') &&

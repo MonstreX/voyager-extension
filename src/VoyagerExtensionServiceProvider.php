@@ -141,6 +141,10 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             view('voyager-extension::bread.browse')->with($view->gatherData())->render();
         });
 
+        View::composer('voyager::bread.read', function ($view) {
+            view('voyager-extension::bread.read')->with($view->gatherData())->render();
+        });
+
     }
 
     /**

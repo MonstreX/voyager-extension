@@ -37,9 +37,12 @@
 @stop
 
 @php
+    // Set specified columns order
     $dataType->browseRows = $dataType->browseRows->sortBy(function ($row, $key) {
         return isset($row->details->browse_order)? $row->details->browse_order : 0;
     });
+    // Correct Index Column for sorting in the table
+    $orderColumn[0][0] = $dataType->browseRows->pluck('field')->search($orderBy) + ($showCheckboxColumn ? 1 : 0);
 @endphp
 
 @section('content')
@@ -153,7 +156,9 @@
                                                             @if(explode('/', $adv_file->mime_type)[0] === 'image')
                                                                 <img src="{{ $adv_file->getFullUrl() }}" style="height: {{ $row->details->browse_image_max_height?? '50px' }}; width:auto" >
                                                             @else
-                                                                <img class="file-type" src="{{ voyager_extension_asset('icons/files/'.explode('/', $adv_file->mime_type)[1].'.svg') }}" style="height: {{ $row->details->browse_image_max_height?? '20px' }}; width:auto">
+                                                                <a href="{{ $adv_file->getFullUrl() }}">
+                                                                    <img class="file-type" src="{{ voyager_extension_asset('icons/files/'.explode('/', $adv_file->mime_type)[1].'.svg') }}" style="height: {{ $row->details->browse_image_max_height?? '20px' }}; width:auto">
+                                                                </a>
                                                             @endif
                                                         @endforeach
                                                     @endif
@@ -332,25 +337,6 @@
         </div>
     </div>
 
-    {{-- Single delete modal --}}
-    <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="voyager-trash"></i> {{ __('voyager::generic.delete_question') }} {{ strtolower($dataType->getTranslatedAttribute('display_name_singular')) }}?</h4>
-                </div>
-                <div class="modal-footer">
-                    <form action="#" id="delete_form" method="POST">
-                        {{ method_field('DELETE') }}
-                        {{ csrf_field() }}
-                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="{{ __('voyager::generic.delete_confirm') }}">
-                    </form>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @stop
 
 @section('css')
@@ -366,8 +352,13 @@
     @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
         <script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
     @endif
+
     <script>
         $(document).ready(function () {
+
+            // Add some new functionality (hidden when we have not selected records) and change ID for using with our own handler
+            $('#bulk_delete_btn').addClass('hidden').prop('id','vext_bulk_delete_btn');
+
             @if (!$dataType->server_side)
                 var table = $('#dataTable').DataTable({!! json_encode(
                     array_merge([
@@ -418,6 +409,7 @@
                 })
             })
         @endif
+
         $('input[name="row_id"]').on('change', function () {
             var ids = [];
             $('input[name="row_id"]').each(function() {
@@ -425,9 +417,15 @@
                     ids.push($(this).val());
                 }
             });
+
+            if(ids.length > 0) {
+                $('#vext_bulk_delete_btn').removeClass('hidden');
+            } else {
+                $('#vext_bulk_delete_btn').addClass('hidden');
+            }
+
             $('.selected_ids').val(ids);
         });
-
 
         // Delete ONE RECORD
         $('td').on('click', '.delete', function (e) {
@@ -438,10 +436,43 @@
                 'yes': '{{ __('voyager-extension::bread.dialog_button_remove') }}',
                 'url': '{{ route('voyager.'.$dataType->slug.'.destroy', '__id') }}'.replace('__id', $(this).data('id')),
                 'method': 'POST',
+                'fields': '',
                 'method_field': '{{ method_field("DELETE") }}',
                 'csrf_field': '{{ csrf_field() }}'
             });
         });
+
+        // Delete MULTI RECORDS - BULK
+        $('.side-body').on('click', '#vext_bulk_delete_btn', function (e) {
+
+            var ids = [];
+            var $checkedBoxes = $('#dataTable input[name=row_id]:checked').not('.select_all');
+            var count = $checkedBoxes.length;
+
+            // Deletion info
+            var displayName = count > 1 ? '{{ $dataType->getTranslatedAttribute('display_name_plural') }}' : '{{ $dataType->getTranslatedAttribute('display_name_singular') }}';
+            displayName = displayName.toLowerCase();
+
+            // Gather IDs
+            $.each($checkedBoxes, function () {
+                var value = $(this).val();
+                ids.push(value);
+            })
+
+            vext.dialogActionRequest({
+                'title': '<i class="voyager-trash"></i> {{ __("voyager::generic.delete_question") }}',
+                'message': '{{ __("voyager::generic.delete_question") }} <br/>"<span class="dialog-file-name">' + displayName + ' (' + count + ')</span>"',
+                'fields': '<input type="hidden" name="ids" id="bulk_delete_input" value="'+ ids + '">',
+                'class': 'vext-dialog-warning',
+                'yes': '{{ __('voyager-extension::bread.dialog_button_remove') }}',
+                'url': '{{ route('voyager.'.$dataType->slug.'.index') }}/0',
+                'method': 'POST',
+                'method_field': '{{ method_field("DELETE") }}',
+                'csrf_field': '{{ csrf_field() }}'
+            });
+
+        });
+
 
         // Clone RECORD
         $('#dataTable').on('click', '.btn.clone', function () {
@@ -451,8 +482,8 @@
                 'yes': '{{ __('voyager-extension::bread.dialog_clone_yes_button') }}',
                 'url': '{{ route('voyager.'.$dataType->slug.'.clone', '__id') }}'.replace('__id', $(this).data('id')),
                 'method': 'POST',
-                //'method_field': '{{ method_field("POST") }}',
                 'method_field': '',
+                'fields': '',
                 'csrf_field': '{{ csrf_field() }}'
             });
         });

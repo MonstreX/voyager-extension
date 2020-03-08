@@ -147,6 +147,7 @@ var dialogActionRequest = function (args) {
     'message': '<form action="' + args.url + '" id="action_form" method="' + args.method + '">'+
         args.method_field +
         args.csrf_field +
+        args.fields +
         '</form>' + args.message,
     'class': args.class,
     'yes': args.yes,
