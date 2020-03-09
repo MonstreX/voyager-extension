@@ -1,92 +1,268 @@
 /* VOYAGER RESETS */
+.tt {
+    display: inline-block;
+    margin: 0 5px;
+}
 
-table.dataTable tbody td, table.dataTable tbody th {
+.vext-browse table.dataTable tbody td, table.dataTable tbody th {
   padding: 0;
 }
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+.vext-browse .table>tbody>tr>td,
+.vext-browse .table>tbody>tr>th,
+.vext-browse .table>tfoot>tr>td,
+.vext-browse .table>tfoot>tr>th,
+.vext-browse .table>thead>tr>td,
+.vext-browse .table>thead>tr>th {
    padding: 0;
    line-height: normal;
    vertical-align: middle;
    border-top: none;
 }
-table.dataTable thead>tr>th {
+.vext-browse table.dataTable thead>tr>th {
      padding-left: 10px;
      padding-right: 20px;
 }
-.table>thead>tr>th {
+.vext-browse .table>thead>tr>th {
     padding: 7px 20px 7px 10px;
     font-size: 0.7em;
     text-transform: uppercase;
     font-weight: 600;
 }
-.voyager .table>tbody>tr>td {
+.vext-browse .table>tbody>tr>td {
     padding: 0 20px 0 10px;
 }
 
-.table>thead>tr>th.sorting,
-.table>thead>tr>th.actions {
+.vext-browse .table>thead>tr>th.sorting,
+.vext-browse .table>thead>tr>th.actions {
     background: #efefef;
 }
 
-.voyager table.dataTable thead th.sorting:after,
-.voyager table.dataTable thead th.sorting_desc:after,
-.voyager table.dataTable thead th.sorting_asc:after {
+.vext-browse  table.dataTable thead th.sorting:after,
+.vext-browse  table.dataTable thead th.sorting_desc:after,
+.vext-browse  table.dataTable thead th.sorting_asc:after {
   text-transform: none;
 }
 
-.table>tbody tr.even {
+.vext-browse .table>tbody tr.even {
   background: #eef3f9;
 }
-.table>tbody tr[role='row'] {
+.vext-browse .table>tbody tr[role='row'] {
   color: #4a4a4a;
 }
 
-#bread-actions {
+.vext-browse #bread-actions {
     padding: 0 10px 0 10px;
 }
-#bread-actions a span {
+.vext-browse #bread-actions a span {
     display: none;
 }
 
-#bread-actions a.btn-sm {
+.vext-browse #bread-actions a.btn-sm {
     background: none;
 }
 
-#bread-actions a.btn-sm i:before {
+.vext-browse #bread-actions a.btn-sm i:before {
     font-size: 14px;
-    color: #a8aab3;
     transition: all .4s ease;
 }
-#bread-actions a.btn-sm.btn-danger:hover i:before {
+
+.vext-browse #dataTable #bread-actions a,
+.vext-browse .actions a.btn,
+.vext-browse .tree-items-list #bread-actions a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    border-radius: 20px;
+    transition: all .4s ease;
+}
+
+.vext-browse #bread-actions a.btn-sm.btn-danger {
     color: #FF1100;
+    border: 2px solid rgba(255, 17, 0, 0.3);
 }
-#bread-actions a.btn-sm.btn-primary:hover i:before {
+.vext-browse #bread-actions a.btn-sm.btn-primary {
     color: #419eff;
+    border: 2px solid rgba(65, 158, 255, 0.3);
 }
-#bread-actions a.btn-sm.btn-warning:hover i:before {
+.vext-browse #bread-actions a.btn-sm.btn-warning {
     color: #dbae3a;
+    border: 2px solid rgba(219, 174, 58, 0.3);
 }
-#bread-actions a.btn-sm.btn-success:hover i:before {
+.vext-browse #bread-actions a.btn-sm.btn-success {
     color: #28b066;
+    border: 2px solid rgba(40, 176, 102, 0.3);
+}
+
+.vext-browse .tree-items-list #bread-actions a {
+    border: none;
+    border-radius: 3px;
+}
+
+.vext-browse #bread-actions a.btn-sm.btn-danger:hover {
+    border: 2px solid #FF1100;
+}
+.vext-browse #bread-actions a.btn-sm.btn-primary:hover {
+    border: 2px solid #419eff;
+}
+.vext-browse #bread-actions a.btn-sm.btn-warning:hover {
+    border: 2px solid #dbae3a;
+}
+.vext-browse #bread-actions a.btn-sm.btn-success:hover {
+    border: 2px solid #28b066;
+}
+
+.vext-browse .btn-group-sm>.btn i,
+.vext-browse .btn-sm i {
+    position: relative;
+    top: 2px;
+    font-size: 12px;
+}
+
+.vext-browse .btn-group-sm>.btn i,
+.vext-browse .btn-sm i {
+    top: 2px;
+}
+.vext-browse .btn-sm .voyager-edit {
+    top: 3px;
 }
 
 
 /* FIXES */
-table.dataTable .btn.clone {
+.vext-browse table.dataTable .btn.clone {
     margin-right: 7px;
 }
 
-.voyager table.dataTable thead th.right {
+.vext-browse  table.dataTable thead th.right {
     text-align: right;
 }
-.voyager .table>tbody>tr>td.right {
+.vext-browse  .table>tbody>tr>td.right {
     text-align: right;
 }
 
 
-.voyager .table>tbody>tr {
+.vext-browse  .table>tbody>tr {
     transition: all .4s ease;
 }
-.voyager .table>tbody>tr.unpublished-record {
+.vext-browse  .table>tbody>tr.unpublished-record {
+    opacity: 0.5;
+}
+
+
+/* TREE */
+.vext-browse .tree-items-list .dd-collapsed .dd-collapse {
+    display: none;
+}
+.vext-browse .tree-items-list .dd-expand {
+    display: none !important;
+}
+.vext-browse .tree-items-list .dd-collapsed .dd-expand {
+    display: block !important;
+}
+.vext-browse .tree-items-list .dd-handle {
+    display: block;
+    height: 42px;
+    margin: 2px 0;
+    padding: 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid #dcdcdc;
+    background: #fbfbfb;
+    border-radius: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.vext-browse .tree-items-list .dd-tree-handle {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    top: 0;
+    height: 42px;
+    cursor: move;
+    width: 26px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 1px solid #d8d8d8;
+    background: #ddd;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.vext-browse .tree-items-list .dd-tree-move {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #efefef;
+    transition: all .4s ease;
+}
+.vext-browse .tree-items-list .dd-tree-move:hover {
+    background: #ddd;
+}
+.vext-browse .tree-items-list .dd-tree-move span {
+    background: #929292;
+    width: 10px;
+    height: 1px;
+    margin: 2px 0;
+}
+
+.vext-browse .tree-items-list #bread-actions a.btn-sm.clone {
+    margin-right: 5px;
+}
+
+
+.vext-browse .tree-items-list .dd-handle {
+    padding-left: 50px;
+}
+.vext-browse .tree-items-list .dd-item>button {
+    margin-left: 30px;
+}
+.vext-browse .tree-items-list .dd-item>button {
+    height: 30px;
+    width: 20px;
+}
+
+
+.vext-browse .tree-items-list .dd-content-holder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+
+.vext-browse .tree-items-list .dd-tree-placeholder {
+    border: 1px dotted #aaa;
+    border-radius: 3px;
+    background: transparent;
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 42px;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.vext-browse .dd-list.dd-dragel .dd-content-actions {
+    display: none;
+}
+
+.vext-browse .tree-id {
+    display: inline-block;
+    min-width: 30px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.vext-browse .tree-items-list .unpublished-record {
     opacity: 0.5;
 }

@@ -3,6 +3,7 @@
 namespace MonstreX\VoyagerExtension\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
@@ -52,8 +53,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                 return (new AdvImageContentType($request, $slug, $row, $options))->handle();
             case 'adv_media_files':
                 return (new AdvMediaFilesContentType($request, $slug, $row, $options))->handle();
-            case 'key_value_json':
-                return (new KeyValueJsonContentType($request, $slug, $row, $options))->handle();
             default:
                 return Controller::getContentBasedOnType($request, $slug, $row, $options);
         }
@@ -111,12 +110,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                         ->withCustomProperties($fields)
                         ->toMediaCollection($row->field);
                 }
-            } elseif ($row->type == 'adv_media_files') {
-                //
-
-
             }
-
 
         }
 
@@ -135,7 +129,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
         $rows = $dataType->rows()->get();
-        $row = $this->getRowByField($rows, 'images')->type;
 
         // Check permission
         $this->authorize('add', app($dataType->model_name));
@@ -231,6 +224,50 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         }
     }
 
+
+    /*
+     * Reorder Records according to the given TREE
+     */
+    public function recordsOrder(Request $request)
+    {
+
+        try {
+
+            $slug = $request->get('slug');
+            $itemsOrder = json_decode($request->get('order'));
+
+            // GET THE DataType based on the slug
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+            // Load model and load All Records to be ordered
+            $model = app($dataType->model_name);
+
+            // Check permission
+            $this->authorize('edit', $model);
+
+            $this->orderTree($itemsOrder, null, $model);
+
+            return json_response_with_success(200, __('voyager-extension::bread.record_updated'));
+
+        } catch (Exception $e) {
+            return json_response_with_error(500, $e);
+        }
+
+    }
+
+    private function orderTree(array $children, $parentId, $model)
+    {
+        foreach ($children as $index => $child) {
+            $item = $model->findOrFail($child->id);
+            $item->order = $index + 1;
+            $item->parent_id = $parentId;
+            $item->save();
+
+            if (isset($child->children)) {
+                $this->orderTree($child->children, $item->id, $model);
+            }
+        }
+    }
 
 
 }

@@ -13,6 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-bordered">
+
                 <div class="panel-heading">
                     <p class="panel-title" style="color:#777">{{ __('voyager::generic.drag_drop_info') }}</p>
                 </div>
@@ -38,6 +39,7 @@
                         </ol>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

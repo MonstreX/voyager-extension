@@ -28,8 +28,11 @@ return [
     'dialog_button_remove'    => 'Yes, Delete it!',
     'dialog_button_cancel'    => 'Cancel',
     'dialog_button_change'    => 'Change',
+    'dialog_button_ok'        => 'OK',
     'dialog_clone_message'    => 'You are going to clone selected record.',
     'dialog_clone_yes_button' => 'Yes, clone it!',
+    'dialog_cant_delete_with_children_title' => 'The element consists elements',
+    'dialog_cant_delete_with_children' => 'You can\'t remove this element, it has other elements',
 
     'error_removing_media'    => 'Error removing media file...',
     'error_sorting_media'     => 'Error sorting media file...',

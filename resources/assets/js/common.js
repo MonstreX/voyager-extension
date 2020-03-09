@@ -52,6 +52,29 @@ var getDialogPosition = function (evt, extra, offs = 0)
   return pos;
 }
 
+var createDialogOk = function (params)
+{
+
+  if (vext_dialog) {
+    vext_dialog.close();
+  }
+
+  vext_dialog = new $.Zebra_Dialog(params.message, {
+    'title': params.title,
+    'custom_class': params.class,
+    'type': false,
+    'modal': true,
+    'position': ['center', 'middle - 100'],
+    'backdrop_opacity': 0.6,
+    'buttons':  [
+      {
+        caption: vext.trans('bread.dialog_button_ok'), callback: function() {}
+      }
+    ]
+  });
+
+}
+
 var createDialogYesNo = function (params)
 {
 
@@ -217,6 +240,7 @@ exports.trans = trans;
 exports.getMediaParams = getMediaParams;
 exports.getDialogPosition = getDialogPosition;
 exports.readURL = readURL;
+exports.createDialogOk = createDialogOk;
 exports.createDialogYesNo = createDialogYesNo;
 exports.dialogMediaRemove = dialogMediaRemove;
 exports.dialogActionRequest = dialogActionRequest;
