@@ -88,6 +88,10 @@
                                     !empty($row->details->options->{$dataTypeContent->{$row->field}})
                             )
                                 <?php echo $row->details->options->{$dataTypeContent->{$row->field}};?>
+                            @elseif(($row->type == 'adv_select_dropdown_tree'))
+                                @if(!empty($dataTypeContent->{$row->field}))
+                                   {{ $dataTypeContent->{$row->details->relationship->field}[$row->details->relationship->label] }}
+                                @endif
                             @elseif($row->type == 'select_multiple')
                                 @if(property_exists($row->details, 'relationship'))
 

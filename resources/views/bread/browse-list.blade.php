@@ -198,6 +198,14 @@
 
                                                     {!! $row->details->options->{$data->{$row->field}} ?? '' !!}
 
+                                                @elseif(($row->type == 'adv_select_dropdown_tree'))
+                                                    @if(!empty($data->{$row->field}))
+                                                    <span class="browse-dropdown-title">
+                                                        <span class="label label-info">
+                                                        {{ $data->{$row->details->relationship->field}[$row->details->relationship->label] }}
+                                                        </span>
+                                                    </span>
+                                                    @endif
                                                 @elseif($row->type == 'date' || $row->type == 'timestamp')
                                                     @if ( property_exists($row->details, 'format') && !is_null($data->{$row->field}) )
                                                         {{ \Carbon\Carbon::parse($data->{$row->field})->formatLocalized($row->details->format) }}
