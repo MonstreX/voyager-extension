@@ -8,6 +8,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Foundation\AliasLoader;
 use Config;
 use Lang;
 
@@ -19,7 +20,10 @@ use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\Actions\CloneAction;
-use TCG\Voyager\Http\Middleware\VoyagerAdminMiddleware;
+use MonstreX\VoyagerExtension\Contracts;
+
+use MonstreX\VoyagerExtension\Facades;
+
 
 class VoyagerExtensionServiceProvider extends ServiceProvider
 {
@@ -61,6 +65,14 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
     public function register()
     {
 
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Vext', Facades\VoyagerExtension::class);
+
+        $this->app->singleton('vext', function () {
+            return new VoyagerExtension();
+        });
+
+
         $this->loadHelpers();
 
         if ($this->app->runningInConsole()) {
@@ -79,6 +91,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         );
 
         $path = resource_path(__DIR__.'/../publishable/lang/en');
+
 
     }
 

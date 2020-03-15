@@ -21,6 +21,23 @@ function tinymce_setup_callback(editor)
     editor.settings.min_height = 200;
 }
 
+var ace_editor_element = document.getElementsByClassName("ace_editor");
+
+// For each ace editor element on the page
+for(var i = 0; i < ace_editor_element.length; i++)
+{
+    // Create an ace editor instance
+    var ace_editor = ace.edit(ace_editor_element[i].id);
+
+    // Set auto height of window
+    ace_editor.setOptions({
+        maxLines: Infinity
+    });
+}
+
+//Fix to avoid "Uncaught TypeError: ace.require is not a function" error
+window.ace.require = window.ace.acequire;
+
 $('document').ready(function () {
 
     // Remove Legacy Voyager DIALOG BOX, We'll use our own dialog box implementation.
