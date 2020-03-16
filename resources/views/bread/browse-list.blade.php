@@ -233,9 +233,19 @@
                                                 @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
 
-                                                    @if(isset($row->details->url)) <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}"> @endif
+                                                    @if(isset($row->details->url))
+                                                    <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
+                                                    @endif
+
+                                                    @if(isset($row->details->route) && isset($row->details->route->name) && isset($row->details->route->param_field))
+                                                    <a href="{{ route($row->details->route->name, $data->{$row->details->route->param_field}) }}">
+                                                    @endif
+
                                                         <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-                                                    @if(isset($row->details->url)) </a> @endif
+
+                                                    @if(isset($row->details->url))
+                                                    </a>
+                                                    @endif
 
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')

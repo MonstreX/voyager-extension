@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['as' => 'voyager.'], function () {
-        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionController';
+        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerSiteController';
 
         //Load translations
         Route::get('voyager-extension-translations', $extensionController . '@load_translations')->name('voyager_extension_translations');

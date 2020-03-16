@@ -35,6 +35,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         // Create Common Routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
@@ -209,7 +210,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function addRoutes($router){
 
-        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionController';
+        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerSiteController';
         $extensionVoyagerController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController';
 
         try {
