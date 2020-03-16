@@ -65,7 +65,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $loader = AliasLoader::getInstance();
         $loader->alias('Vext', Facades\VoyagerExtension::class);
 

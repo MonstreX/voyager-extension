@@ -55,27 +55,28 @@ if (!function_exists('voyager_extension_asset')) {
 
 
 // Makes Multi Level TREE (array) from FLAT array (adds Children elements)
-if (!function_exists('flatToTree'))
+// Makes Multi Level TREE (array) from FLAT array (adds Children elements)
+if (!function_exists('flat_to_tree'))
 {
-    function flatToTree($flat_array)
+    function flat_to_tree($flat_array)
     {
         $result = $flat_array;
-        $result = buildTree($result);
+        $result = build_tree($result);
         return $result;
     }
 }
 
 // For flatToTree($flat_array)
-if (!function_exists('buildTree'))
+if (!function_exists('build_tree'))
 {
-    function buildTree(array $elements, $parentId = null, $sort = true)
+    function build_tree(array $elements, $parentId = null, $sort = true)
     {
         $branch = array();
 
         foreach ($elements as $element)
         {
             if ($element['parent_id'] == $parentId) {
-                $children = buildTree($elements, $element['id']);
+                $children = build_tree($elements, $element['id']);
                 if ($children) {
                     $element['children'] = $children;
                 }
@@ -94,21 +95,21 @@ if (!function_exists('buildTree'))
 }
 
 // Makes FLAT Sorted Array from Multi level Sorted array TREE (excludes children elements)
-if (!function_exists('buildFlatFromTree')) {
-    function buildFlatFromTree($tree)
+if (!function_exists('build_flat_from_tree')) {
+    function build_flat_from_tree($tree)
     {
         $result = [];
         $level = 0;
 
-        buildFlatChildren($tree, $result, $level);
+        build_flat_children($tree, $result, $level);
 
         return $result;
     }
 }
 
 // buildFlatFromTree($tree)
-if (!function_exists('buildFlatChildren')) {
-    function buildFlatChildren($children, &$result, &$level)
+if (!function_exists('build_flat_children')) {
+    function build_flat_children($children, &$result, &$level)
     {
         foreach ($children as $child) {
             $elements = [];
@@ -121,7 +122,7 @@ if (!function_exists('buildFlatChildren')) {
             $result[] = $elements;
             if (isset($child['children'])) {
                 $level++;
-                buildFlatChildren($child['children'], $result, $level);
+                build_flat_children($child['children'], $result, $level);
                 $level--;
             }
         }

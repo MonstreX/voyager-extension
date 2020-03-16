@@ -192,5 +192,134 @@ textarea.w-modal-form-control {
 }
 
 
+/* SETTINGS */
+.voyager .page-title.code-editor strong {
+    color: #e21d1d;
+}
+
+.voyager .code h3 {
+    display: flex;
+    line-height: 20px;
+    background: #62a8ea;
+    color: #fefefe;
+    padding: 10px 20px;
+    margin: 30px 15px;
+}
+.voyager .code h3 i {
+    display: inline-block;
+    font-size: 20px;
+}
+.voyager .code h3 span {
+    display: inline-block;
+    font-size: 20px;
+    margin-left:10px;
+}
+
+.voyager .code .files-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.voyager .code .files-list ul li {
+    margin: 2px 0;
+    padding: 10px 10px 10px 15px;
+    background: #f7f7f7;
+    font-size: 18px;
+}
+
+.voyager .code .files-list ul li.even {
+    background: #fefefe !important;
+}
+
+.voyager .code .files-list ul li span {
+    color: #0c8fbf;
+}
+.voyager .code .files-list ul li:hover {
+    background: #f0f0f0 !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.voyager .code .files-list ul li.even {
+    background: #f7f7f7;
+}
+
+.voyager .code .files-list .btn-sm {
+    padding: 0 !important;
+    border: 2px solid #00acee !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: -3px 5px 0!important;
+    background: transparent !important;
+    color: #00acee !important;
+    border-color: #00acee !important;
+}
+
+.voyager .code .nav-tabs{
+    background:none;
+    border-bottom:0px;
+}
+
+.voyager .code .nav-tabs > li{
+    margin-bottom:-1px !important;
+    /*min-height: 80px;*/
+}
+
+.voyager .code .nav-tabs a{
+    text-align: center;
+    font-size: 10px;
+    font-weight: normal;
+    background: #f8f8f8;
+    border: 1px solid #f1f1f1;
+    position: relative;
+    top: -1px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    /*min-height: 80px*/
+}
+
+.voyager .code .nav-tabs a i{
+    display: block;
+    font-size: 22px;
+}
+
+.page-title{
+    height:85px;
+    z-index:2;
+    position:relative;
+}
+
+.page-content{
+    z-index:2;
+    position:relative;
+}
+
+.page-title p{
+    height: 20px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    position: relative;
+    top: -10px;
+}
+
+.page-title span{
+    font-size: 10px;
+    font-weight: normal;
+    top: -12px;
+    position: relative;
+}
+
+span.config-help {
+    color: #2a8dea;
+    font-size: 12px;
+}
+span.config-help i {
+    font-style: normal;
+    color: #e01313;
+}
 
 

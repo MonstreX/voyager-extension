@@ -16245,10 +16245,7 @@ __webpack_require__(/*! ./adv_media_files.js */ "./resources/assets/js/adv_media
 
 __webpack_require__(/*! ./voyager_legacy.js */ "./resources/assets/js/voyager_legacy.js");
 
-console.log('app.js');
-$('document').ready(function () {// Init Vars
-  //window.vext_page_content = $(".page-content");
-});
+$('document').ready(function () {});
 
 /***/ }),
 
