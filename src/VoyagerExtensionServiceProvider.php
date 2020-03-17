@@ -20,43 +20,12 @@ use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\Actions\CloneAction;
-use MonstreX\VoyagerExtension\Contracts;
 
 use MonstreX\VoyagerExtension\Facades;
 
 
 class VoyagerExtensionServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-
-        // Create Common Routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
-
-        // Create Voyager Routes
-        app(Dispatcher::class)->listen('voyager.admin.routing', function ($router) {
-            $this->addRoutes($router);
-        });
-
-        $this->loadConfig();
-
-        $this->loadTranslationsFrom(__DIR__.'/../publishable/lang', 'voyager-extension');
-
-        $this->loadTranslationsJS();
-
-        $this->loadViews();
-
-        $this->registerActions();
-
-        $this->registerFields();
-
-    }
 
     /**
      * Register any package services.
@@ -92,8 +61,38 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
         $path = resource_path(__DIR__.'/../publishable/lang/en');
 
+    }
+
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+
+        // Create Common Routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+
+        // Create Voyager Routes
+        app(Dispatcher::class)->listen('voyager.admin.routing', function ($router) {
+            $this->addRoutes($router);
+        });
+
+        $this->loadConfig();
+
+        $this->loadTranslationsFrom(__DIR__.'/../publishable/lang', 'voyager-extension');
+
+        $this->loadTranslationsJS();
+
+        $this->loadViews();
+
+        $this->registerActions();
+
+        $this->registerFields();
 
     }
+
 
 
     /**
@@ -209,7 +208,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function addRoutes($router){
 
-        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerSiteController';
+        $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionController';
         $extensionVoyagerController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController';
 
         try {

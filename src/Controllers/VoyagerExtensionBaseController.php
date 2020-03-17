@@ -7,7 +7,6 @@ use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use TCG\Voyager\Facades\Voyager;
-use Spatie\MediaLibrary\Models\Media;
 
 use MonstreX\VoyagerExtension\ContentTypes\KeyValueJsonContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvImageContentType;
