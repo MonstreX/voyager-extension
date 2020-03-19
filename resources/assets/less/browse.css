@@ -98,7 +98,7 @@
 
 .vext-browse .tree-items-list #bread-actions a {
     border: none;
-    border-radius: 3px;
+    padding: 6px 12px;
 }
 
 .vext-browse #bread-actions a.btn-sm.btn-danger:hover {
