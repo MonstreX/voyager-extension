@@ -4,17 +4,17 @@ namespace MonstreX\VoyagerExtension\FormFields;
 
 use TCG\Voyager\FormFields\AbstractHandler;
 
-class AdvMediaFilesFormField extends AbstractHandler
+class AdvFieldsGroupFormField extends AbstractHandler
 {
-    protected $name = 'VE Media Files';
-    protected $codename = 'adv_media_files';
+    protected $name = 'VE Fields Group';
+    protected $codename = 'adv_fields_group';
 
     /*
      *  $dataTypeContent - Current model record
      */
     public function createContent($row, $dataType, $dataTypeContent, $options)
     {
-        return view('voyager-extension::formfields.adv_media_files', [
+        return view('voyager-extension::formfields.adv_fields_group', [
             'row'             => $row,
             'options'         => $options,
             'dataType'        => $dataType,

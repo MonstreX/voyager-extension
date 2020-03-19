@@ -251,8 +251,21 @@
     line-height: 20px;
 }
 
-.vext-browse .dd-list.dd-dragel .dd-content-actions {
+.dd-dragel .dd-content-actions {
     display: none;
+}
+.vext-browse .dd-content-main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(100% - 200px);
+}
+
+.vext-browse .dd-content-main .tree-extra-fields {
+    margin: 0 10px;
+}
+.vext-browse .dd-content-main .tree-extra-fields.right-auto {
+    margin-right: auto;
 }
 
 .vext-browse .tree-id {
@@ -262,6 +275,22 @@
     font-size: 12px;
     font-weight: 300;
 }
+
+.dd-content-main .tree-title {
+    color: #616161;
+}
+.dd-content-main .tree-slug {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: #3152b5;
+}
+.dd-content-main .tree-created_at {
+    font-size: 0.8em;
+    color: #7b7b7b;
+}
+
+
+
 
 .vext-browse .tree-items-list .unpublished-record {
     opacity: 0.5;

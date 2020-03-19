@@ -360,4 +360,13 @@
     }
 }
 
+.adv-fields-group-wrapper {
+    background: #fafafa;
+    padding: 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
 
+.adv-fields-group-wrapper label {
+    font-size: 0.9em;
+}

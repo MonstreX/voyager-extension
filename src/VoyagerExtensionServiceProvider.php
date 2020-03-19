@@ -19,6 +19,7 @@ use TCG\Voyager\Facades\Voyager;
 use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvFieldsGroupFormField;
 use MonstreX\VoyagerExtension\Actions\CloneAction;
 
 use MonstreX\VoyagerExtension\Facades;
@@ -179,6 +180,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvImageFormField::class);
         Voyager::addFormField(AdvMediaFilesFormField::class);
         Voyager::addFormField(AdvSelectDropdownTreeFormField::class);
+        Voyager::addFormField(AdvFieldsGroupFormField::class);
     }
 
     /**

@@ -6,7 +6,7 @@ use TCG\Voyager\FormFields\AbstractHandler;
 
 class AdvImageFormField extends AbstractHandler
 {
-    protected $name = 'Advanced Image';
+    protected $name = 'VE Image';
     protected $codename = 'adv_image';
 
     /*

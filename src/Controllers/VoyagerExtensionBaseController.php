@@ -8,7 +8,7 @@ use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use TCG\Voyager\Facades\Voyager;
 
-use MonstreX\VoyagerExtension\ContentTypes\KeyValueJsonContentType;
+use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvImageContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
 
@@ -46,6 +46,8 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                 return (new AdvImageContentType($request, $slug, $row, $options))->handle();
             case 'adv_media_files':
                 return (new AdvMediaFilesContentType($request, $slug, $row, $options))->handle();
+            case 'adv_fields_group':
+                return (new AdvFieldsGroupContentType($request, $slug, $row, $options))->handle();
             default:
                 return Controller::getContentBasedOnType($request, $slug, $row, $options);
         }
