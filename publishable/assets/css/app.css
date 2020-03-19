@@ -1295,3 +1295,23 @@ span.config-help i {
     background-image: none;
     border: 1px solid #dadcde;
 }
+
+a.btn-setting-route {
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-setting-route i {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.send-test-mail-success {
+    color: #19a243;
+    font-weight: 400;
+}
+.send-test-mail-error {
+    color: #ff3324;
+    font-weight: 400;
+}
