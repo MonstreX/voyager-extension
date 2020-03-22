@@ -1,10 +1,14 @@
+
+// ------------------------------
+// Updates hidden INPUT field
+// with array of sections data
+// ------------------------------
 function makeLayoutData() {
     $('.adv-page-layout-wrapper').each(function(index, elem) {
         var layout_input = $(elem).find('input');
         var layout_elems = $(elem).find('.layout-sections-list .layout-section');
         var layout_data = [];
         layout_elems.each(function(index, elem) {
-
             layout_data.push({
                 "type": $(elem).find('.layout-section-title-type').text(),
                 "title": $(elem).find('.layout-section-title-name').text(),
@@ -19,6 +23,8 @@ function makeLayoutData() {
 }
 
 $('document').ready(function () {
+
+    makeLayoutData();
 
     // ------------------------------
     // Sorting sections

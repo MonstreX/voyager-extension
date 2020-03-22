@@ -405,12 +405,13 @@
 }
 
 .adv-page-layout-wrapper .layout-section-holder {
-    background: #eaeaea;
+    background: #fff;
     display: flex;
     align-items: center;
     border-radius: 4px;
     padding: 10px 15px;
     margin: 4px 0 4px;
+    border: 1px solid #eaeaea;
 }
 .adv-page-layout-wrapper .layout-section-title {
     margin-right: auto;

@@ -16214,6 +16214,10 @@ $('document').ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+// ------------------------------
+// Updates hidden INPUT field
+// with array of sections data
+// ------------------------------
 function makeLayoutData() {
   $('.adv-page-layout-wrapper').each(function (index, elem) {
     var layout_input = $(elem).find('input');
@@ -16232,9 +16236,10 @@ function makeLayoutData() {
 }
 
 $('document').ready(function () {
-  // ------------------------------
+  makeLayoutData(); // ------------------------------
   // Sorting sections
   // ------------------------------
+
   $('.layout-sections-list').each(function (index, elem) {
     Sortable.create(document.getElementById($(elem).attr('id')), {
       animation: 200,

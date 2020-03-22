@@ -117,6 +117,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     private function loadConfig()
     {
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/publishable/config/voyager-extension.php', 'voyager-extension'
+        );
+
         // Add custom Path generator for medialibrary files if enabled
         if (config('voyager-extension.use_media_path_generator')) {
             Config::set('medialibrary.path_generator', MediaLibraryPathGenerator::class);
@@ -162,6 +167,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             view('voyager-extension::bread.read')->with($view->gatherData())->render();
         });
 
+        if (!config('voyager-extension.legacy_edit_add_bread')) {
+            View::composer('voyager::bread.edit-add', function ($view) {
+                view('voyager-extension::bread.edit-add')->with($view->gatherData())->render();
+            });
+        }
     }
 
     /**
