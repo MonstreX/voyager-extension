@@ -210,5 +210,10 @@
             });
             $('[data-toggle="tooltip"]').tooltip();
         });
+
+
+
+
+
     </script>
 @stop

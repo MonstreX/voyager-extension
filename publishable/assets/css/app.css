@@ -1061,7 +1061,95 @@ span.CodeMirror-selectedtext { background: none; }
 .adv-fields-group-wrapper label {
     font-size: 0.9em;
 }
-/* JS PLUGINS FIXES */
+
+.adv-page-layout-wrapper {
+    background: #fafafa;
+    padding: 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+.adv-page-layout-wrapper .select-holder {
+    display: flex;
+    align-items: center;
+}
+.adv-page-layout-wrapper .btn {
+    margin: 0 0 0 3px;
+}
+
+.adv-page-layout-wrapper .row>[class*=col-] {
+    margin-bottom: 0;
+}
+.adv-page-layout-wrapper .btn {
+    padding: 0 5px;
+}
+
+.adv-page-layout-wrapper .voyager-plus {
+    font-size: 1.4em;
+}
+.adv-page-layout-wrapper .btn-success i.voyager-plus {
+    top: 3px;
+}
+
+.adv-page-layout-wrapper .select-label {
+    margin-right: 5px;
+}
+
+.adv-page-layout-wrapper .layout-section-holder {
+    background: #eaeaea;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 4px 0 4px;
+}
+.adv-page-layout-wrapper .layout-section-title {
+    margin-right: auto;
+    padding-left: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.adv-page-layout-wrapper .layout-sections-list {
+    margin-bottom: 20px;
+}
+
+.adv-page-layout-wrapper .layout-section-icon {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    align-items: center;
+    font-size: 1.5em;
+    background: #0ec3cc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.adv-page-layout-wrapper .layout-Field .layout-section-icon {
+    background: #22aade;
+}
+.adv-page-layout-wrapper .layout-Block .layout-section-icon {
+    background: #f79c2b;
+}
+
+.adv-page-layout-wrapper .layout-Form .layout-section-title-type {
+    color: #0ec3cc;
+}
+.adv-page-layout-wrapper .layout-Field .layout-section-title-type {
+    color: #22aade;
+}
+.adv-page-layout-wrapper .layout-Block .layout-section-title-type {
+    color: #f79c2b;
+}
+
+
+
+
+.adv-page-layout-wrapper .layout-section-icon i {
+    display: flex;
+    align-items: center;
+}/* JS PLUGINS FIXES */
 .app-container .content-container .side-menu {
     top: 0;
 }

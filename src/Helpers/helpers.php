@@ -3,6 +3,9 @@
 /*
  *  Return JSON response with Success Code
  */
+
+use Illuminate\Filesystem\Filesystem;
+
 if (!function_exists('json_response_with_success')) {
     function json_response_with_success($status, $message, $data = null)
     {
@@ -126,5 +129,25 @@ if (!function_exists('build_flat_children')) {
                 $level--;
             }
         }
+    }
+}
+
+if (!function_exists('find_package')) {
+    function find_package($package_name)
+    {
+        $filesystem = app(Filesystem::class);
+        $version = null;
+        if ($filesystem->exists(base_path('composer.lock'))) {
+            // Get the composer.lock file
+            $file = json_decode($filesystem->get(base_path('composer.lock')));
+            // Loop through all the packages and get the version of voyager
+            foreach ($file->packages as $package) {
+                if ($package->name == $package_name) {
+                    $version = $package->version;
+                    break;
+                }
+            }
+        }
+        return $version;
     }
 }

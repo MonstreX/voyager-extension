@@ -8,9 +8,10 @@ use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use TCG\Voyager\Facades\Voyager;
 
-use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvImageContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
+use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
+use MonstreX\VoyagerExtension\ContentTypes\AdvPageLayoutContentType;
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
@@ -48,6 +49,8 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                 return (new AdvMediaFilesContentType($request, $slug, $row, $options))->handle();
             case 'adv_fields_group':
                 return (new AdvFieldsGroupContentType($request, $slug, $row, $options))->handle();
+            case 'adv_page_layout':
+                return (new AdvPageLayoutContentType($request, $slug, $row, $options))->handle();
             default:
                 return Controller::getContentBasedOnType($request, $slug, $row, $options);
         }
@@ -188,7 +191,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
 
             if ($menu) {
-                $model = app('\TCG\Voyager\Models\MenuItem');
+                $model = app(Voyager::modelClass('MenuItem'));
                 $data = $model::find([$id])->first();
             } else {
                 // Load model and find record

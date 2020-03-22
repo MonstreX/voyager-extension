@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Filesystem\Filesystem;
 use Config;
 use Lang;
 
@@ -20,6 +21,8 @@ use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvFieldsGroupFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvPageLayoutFormField;
+
 use MonstreX\VoyagerExtension\Actions\CloneAction;
 
 use MonstreX\VoyagerExtension\Facades;
@@ -181,6 +184,12 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvMediaFilesFormField::class);
         Voyager::addFormField(AdvSelectDropdownTreeFormField::class);
         Voyager::addFormField(AdvFieldsGroupFormField::class);
+
+        // This field depends on voyager-site package
+        if (find_package('monstrex/voyager-site')) {
+            Voyager::addFormField(AdvPageLayoutFormField::class);
+        }
+
     }
 
     /**
@@ -232,6 +241,5 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         }
 
     }
-
 
 }
