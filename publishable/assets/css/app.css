@@ -1150,6 +1150,13 @@ span.CodeMirror-selectedtext { background: none; }
 .adv-page-layout-wrapper .layout-section-icon i {
     display: flex;
     align-items: center;
+}
+
+.voyager .nav-tabs.tab-extension-edit>li.active>a:hover {
+    background-color: #868686;
+}
+.tab-content.tab-extension-edit>div {
+    padding: 20px 0;
 }/* JS PLUGINS FIXES */
 .app-container .content-container .side-menu {
     top: 0;

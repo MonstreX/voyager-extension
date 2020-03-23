@@ -41,4 +41,7 @@ return [
 
     'clone_action' => 'Clone',
     'record_updated'          => 'Updated...',
+
+    'tab_main_title'          => 'Main',
+
 ];

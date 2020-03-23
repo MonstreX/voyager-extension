@@ -460,3 +460,10 @@
     display: flex;
     align-items: center;
 }
+
+.voyager .nav-tabs.tab-extension-edit>li.active>a:hover {
+    background-color: #868686;
+}
+.tab-content.tab-extension-edit>div {
+    padding: 20px 0;
+}

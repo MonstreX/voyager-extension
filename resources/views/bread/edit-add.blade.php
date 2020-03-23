@@ -1,6 +1,15 @@
 @php
     $edit = !is_null($dataTypeContent->getKey());
     $add  = is_null($dataTypeContent->getKey());
+
+    $dataTypeRows = $dataType->{(isset($dataTypeContent->id) ? 'editRows' : 'addRows' )};
+    $tabs[] = __('voyager-extension::bread.tab_main_title');
+    foreach($dataTypeRows as $row) {
+        if(isset($row->details->tab_title) && !in_array($row->details->tab_title, $tabs)) {
+            $tabs[] = $row->details->tab_title;
+        }
+    }
+
 @endphp
 
 @extends('voyager::master')
@@ -12,7 +21,7 @@
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('page_header')
-    <h1 class="page-title">555
+    <h1 class="page-title">
         <i class="{{ $dataType->icon }}"></i>
         {{ __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
     </h1>
@@ -55,7 +64,28 @@
                                 $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
                             @endphp
 
+
+                            @if(count($tabs) > 1)
+                            <ul class="nav nav-tabs tab-extension-edit">
+                                @foreach($tabs as $key => $tab)
+                                    <li @if($key == 0)  class="active" @endif ><a data-toggle="tab" href="#{{ 'tab-id-'.Str::slug($tab) }}">{{$tab}}</a></li>
+                                @endforeach
+                            </ul>
+                            @endif
+
+                            @if(count($tabs) > 1) <div class="tab-content tab-extension-edit"> @endif
+
                             @foreach($dataTypeRows as $row)
+
+                                @if(count($tabs) > 1 && $loop->first)
+                                    <div id="{{ 'tab-id-'.Str::slug($tabs[0]) }}" class="tab-pane active"><div>
+                                    @php $cur_tab = $tabs[0] @endphp
+                                @elseif(count($tabs) > 1 && isset($row->details->tab_title) && $row->details->tab_title !== $cur_tab)
+                                    </div></div>
+                                    <div id="{{ 'tab-id-'.Str::slug($row->details->tab_title) }}" class="tab-pane"><div>
+                                    @php $cur_tab = $row->details->tab_title @endphp
+                                @endif
+
                                 <!-- GET THE DISPLAY OPTIONS -->
                                 @php
                                     $display_options = $row->details->display ?? NULL;
@@ -88,7 +118,16 @@
                                         @endforeach
                                     @endif
                                 </div>
+
+                                <!-- FIELD END -->
+
+                                @if(count($tabs) > 1 && $loop->last)
+                                    </div></div>
+                                @endif
+
                             @endforeach
+
+                            @if(count($tabs) > 1) </div> @endif
 
                         </div><!-- panel-body -->
 
