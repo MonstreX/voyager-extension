@@ -12,7 +12,9 @@ return [
     /*
     |
     | CLone Record parameters
-    |
+    | @params: enabled - if action is available
+    |          reset_types - A value of these bread type fields will be cleared
+    |          suffix_fields - The suffix '(clone)' will be added to these fields content
     */
     'clone_record' => [
         'enabled' => true,

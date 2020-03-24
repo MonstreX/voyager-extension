@@ -1,14 +1,7 @@
 @push('javascript')
 <script>
-function tinymce_init_callback(editor)
-{
-    //console.log('init tinyMCE...');
-}
-
 function tinymce_setup_callback(editor)
 {
-    console.log('setup tinyMCE...');
-
     editor.settings.external_plugins = {
         'ace': '{{ voyager_extension_asset('js/ace/plugin.js') }}'
     }

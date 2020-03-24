@@ -29,9 +29,6 @@
     color: #f5576c;
 }
 
-
-
-
 /* ADVANCE IMAGE */
 .adv-image {
     display: flex;
@@ -290,7 +287,6 @@
     margin-bottom: 0;
 }
 
-
 .bunch-adv-remove-holder {
     margin-bottom: 20px;
     transition: all .4s ease;
@@ -317,8 +313,6 @@
     height: auto;
     border: none;
 }
-
-
 
 @media (max-width: 1600px){
     .adv-media-files-item {

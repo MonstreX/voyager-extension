@@ -1,9 +1,5 @@
 <?php
 
-/*
- *  Return JSON response with Success Code
- */
-
 use Illuminate\Filesystem\Filesystem;
 
 if (!function_exists('json_response_with_success')) {
@@ -57,7 +53,6 @@ if (!function_exists('voyager_extension_asset')) {
 }
 
 
-// Makes Multi Level TREE (array) from FLAT array (adds Children elements)
 // Makes Multi Level TREE (array) from FLAT array (adds Children elements)
 if (!function_exists('flat_to_tree'))
 {

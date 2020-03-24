@@ -95,7 +95,6 @@
     color: #ddd;
 }
 
-
 /* Z-Dialog REQUEST */
 .ZebraDialog.vext-dialog-request {
     min-width: 330px;
@@ -133,9 +132,6 @@
 .ZebraDialog.vext-dialog-request .dialog-file-name {
     color: #ddd;
 }
-
-
-
 
 /* MODAL FORM */
 .w-modal-form {
@@ -260,7 +256,6 @@ span.config-help i {
     font-style: normal;
     color: #e01313;
 }
-
 
 .form-control,
 .panel-body .select2-selection {

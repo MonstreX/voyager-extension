@@ -44,6 +44,7 @@ class VoyagerExtensionRootController extends VoyagerController
             if ($ext !== 'gif') {
                 $image->orientate();
             }
+
             $image->encode($file->getClientOriginalExtension(), 75);
 
             // move uploaded file from temp to uploads directory
@@ -61,6 +62,4 @@ class VoyagerExtensionRootController extends VoyagerController
         //return "parent.helpers.setImageValue('".Voyager::image($fullFilename)."'); </script>";
         return "<script>parent.helpers.setImageValue('/storage/".$fullFilename."'); </script>";
     }
-
-
 }

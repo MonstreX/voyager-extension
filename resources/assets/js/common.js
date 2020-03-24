@@ -150,11 +150,8 @@ var dialogMediaRemove = function (args) {
           toastr.error(vext.trans('bread.error_removing_media'));
         }
       });
-
-
     }
   });
-
 };
 
 

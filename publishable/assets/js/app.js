@@ -16236,21 +16236,21 @@ function makeLayoutData() {
 }
 
 $('document').ready(function () {
-  makeLayoutData(); // ------------------------------
+  // ------------------------------
   // Sorting sections
   // ------------------------------
-
   $('.layout-sections-list').each(function (index, elem) {
     Sortable.create(document.getElementById($(elem).attr('id')), {
       animation: 200,
       sort: true,
       scroll: true,
+      // Sort sections EVENT
       onSort: function onSort(evt) {
         makeLayoutData();
       }
     });
   }); // ------------------------------
-  // Add section
+  // Add section EVENT
   // ------------------------------
 
   vext_page_content.on('click', '.add-layout-section', function () {
@@ -16269,7 +16269,7 @@ $('document').ready(function () {
     new_section.slideDown("slow");
     makeLayoutData();
   }); // ------------------------------
-  // Remove section
+  // Remove section EVENT
   // ------------------------------
 
   vext_page_content.on('click', '.remove-layout-section', function () {
@@ -16312,7 +16312,6 @@ __webpack_require__(/*! codemirror/mode/htmlmixed/htmlmixed */ "./node_modules/c
 
 window.Sortable = sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"]; // Local JS code
 
-window.vext_helpers = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
 window.vext = __webpack_require__(/*! ./common.js */ "./resources/assets/js/common.js"); // Fields Specific
 
 __webpack_require__(/*! ./adv_image.js */ "./resources/assets/js/adv_image.js");
@@ -16322,8 +16321,6 @@ __webpack_require__(/*! ./adv_media_files.js */ "./resources/assets/js/adv_media
 __webpack_require__(/*! ./adv_page_layout.js */ "./resources/assets/js/adv_page_layout.js");
 
 __webpack_require__(/*! ./voyager_legacy.js */ "./resources/assets/js/voyager_legacy.js");
-
-$('document').ready(function () {});
 
 /***/ }),
 
@@ -16556,26 +16553,6 @@ exports.createDialogOk = createDialogOk;
 exports.createDialogYesNo = createDialogYesNo;
 exports.dialogMediaRemove = dialogMediaRemove;
 exports.dialogActionRequest = dialogActionRequest;
-
-/***/ }),
-
-/***/ "./resources/assets/js/helpers.js":
-/*!****************************************!*\
-  !*** ./resources/assets/js/helpers.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*--------------------
-|
-| HELPERS
-|
---------------------*/
-var setTestValue = function setTestValue(ell) {
-  console.log('hello, helper!', ell);
-};
-
-exports.setTestValue = setTestValue;
 
 /***/ }),
 

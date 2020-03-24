@@ -16,13 +16,8 @@ $ composer require monstrex/voyager-extension
 
 ## Usage
 
-## Change log
+...
 
-Please see the [changelog](changelog.md) for more information on what has changed recently.
-
-## Testing
-
-Not implemented yet
 
 ## Contributing
 

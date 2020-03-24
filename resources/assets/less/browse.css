@@ -129,7 +129,6 @@
     top: 3px;
 }
 
-
 /* FIXES */
 .vext-browse table.dataTable .btn.clone {
     margin-right: 7px;
@@ -142,14 +141,12 @@
     text-align: right;
 }
 
-
 .vext-browse  .table>tbody>tr {
     transition: all .4s ease;
 }
 .vext-browse  .table>tbody>tr.unpublished-record {
     opacity: 0.5;
 }
-
 
 /* TREE */
 .vext-browse .tree-items-list .dd-collapsed .dd-collapse {
@@ -216,7 +213,6 @@
     margin-right: 5px;
 }
 
-
 .vext-browse .tree-items-list .dd-handle {
     padding-left: 50px;
 }
@@ -228,7 +224,6 @@
     width: 20px;
 }
 
-
 .vext-browse .tree-items-list .dd-content-holder {
     display: flex;
     align-items: center;
@@ -236,7 +231,6 @@
     width: 100%;
     height: 100%;
 }
-
 
 .vext-browse .tree-items-list .dd-tree-placeholder {
     border: 1px dotted #aaa;
@@ -288,9 +282,6 @@
     font-size: 0.8em;
     color: #7b7b7b;
 }
-
-
-
 
 .vext-browse .tree-items-list .unpublished-record {
     opacity: 0.5;

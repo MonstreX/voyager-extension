@@ -24,8 +24,6 @@ function makeLayoutData() {
 
 $('document').ready(function () {
 
-    makeLayoutData();
-
     // ------------------------------
     // Sorting sections
     // ------------------------------
@@ -34,6 +32,7 @@ $('document').ready(function () {
             animation: 200,
             sort: true,
             scroll: true,
+            // Sort sections EVENT
             onSort: function (evt) {
                 makeLayoutData();
             }
@@ -41,7 +40,7 @@ $('document').ready(function () {
     });
 
     // ------------------------------
-    // Add section
+    // Add section EVENT
     // ------------------------------
     vext_page_content.on('click', '.add-layout-section', function () {
 
@@ -65,7 +64,7 @@ $('document').ready(function () {
     });
 
     // ------------------------------
-    // Remove section
+    // Remove section EVENT
     // ------------------------------
     vext_page_content.on('click', '.remove-layout-section', function () {
         var section = $(this).parent().parent().parent();

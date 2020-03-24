@@ -13,8 +13,6 @@ import Sortable from 'sortablejs';
 window.Sortable = Sortable;
 
 // Local JS code
-window.vext_helpers = require('./helpers.js');
-
 window.vext = require('./common.js');
 
 // Fields Specific
@@ -22,8 +20,3 @@ require('./adv_image.js');
 require('./adv_media_files.js');
 require('./adv_page_layout.js');
 require('./voyager_legacy.js');
-
-$('document').ready(function () {
-
-
-});

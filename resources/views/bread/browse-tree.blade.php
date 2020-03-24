@@ -48,7 +48,6 @@
 $(document).ready(function () {
     var params = {};
 
-
     function setTreeParents() {
         var dd_items = $(".tree-items-list li.dd-item");
         dd_items.each(function(index, elem) {
@@ -159,8 +158,6 @@ $(document).ready(function () {
             'csrf_field': '{{ csrf_field() }}'
         });
     });
-
-
 
 });
 </script>

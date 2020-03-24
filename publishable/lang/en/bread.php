@@ -10,12 +10,26 @@ return [
         'title_placeholder' => 'Enter a title of the image',
         'alt_placeholder'   => 'Enter an Alt value of the image',
     ],
+
     'adv_media_files' => [
         'remove_selected'      => 'Delete selected files',
         'unmark_selected'      => 'Unmark selected files',
         'select_all'           => 'Select all files',
         'dialog_remove_images' => ' image(s)',
-        'dialog_remove_files' => ' media files(s)',
+        'dialog_remove_files'  => ' media files(s)',
+    ],
+
+    'adv_page_layout' => [
+        'remove_section_title'     => 'Remove section',
+        'available_content_fields' => 'Available content fields',
+        'add_field_section'        => 'Add field section',
+        'add_block_section'        => 'Add block section',
+        'add_form_section'         => 'Add form section',
+        'available_blocks'         => 'Available blocks',
+        'available_forms'          => 'Available forms',
+        'field_title'              => 'Field:',
+        'block_title'              => 'Block:',
+        'form_title'               => 'Form:',
     ],
 
     'media_removed'          => 'Removed...',

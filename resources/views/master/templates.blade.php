@@ -16,8 +16,3 @@
     </form>
 </template>
 @endpush
-
-
-@section('css')
-    111111111111111111
-@endsection

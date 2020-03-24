@@ -45,12 +45,10 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             return new VoyagerExtension();
         });
 
-
         $this->loadHelpers();
 
         if ($this->app->runningInConsole()) {
             $this->registerPublishableResources();
-            //$this->registerConsoleCommands();
         }
 
         $this->app->bind(
@@ -74,7 +72,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         // Create Common Routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
@@ -94,10 +91,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         $this->registerActions();
 
         $this->registerFields();
-
     }
-
-
 
     /**
      * Register the publishable files.
@@ -105,7 +99,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
     private function registerPublishableResources()
     {
         // Publish Assets
-        //$this->publishes([dirname(__DIR__).'/publishable/assets' => public_path('vendor/voyager-extension/assets')], 'public');
+        $this->publishes([dirname(__DIR__).'/publishable/assets' => public_path('vendor/voyager-extension/assets')], 'public');
 
         // Publish Config
         $this->publishes([dirname(__DIR__).'/publishable/config/voyager-extension.php' => config_path('voyager-extension.php')]);
@@ -249,7 +243,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             // do nothing, might just be because table not yet migrated.
         }
-
     }
 
 }

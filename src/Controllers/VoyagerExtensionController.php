@@ -173,9 +173,7 @@ class VoyagerExtensionController extends BaseController
         $media_ids = $request->get('media_ids');
 
         try {
-
             Media::destroy($media_ids);
-
         } catch (Exception $error) {
             return json_response_with_error(500, $error);
         }

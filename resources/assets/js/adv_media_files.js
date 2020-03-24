@@ -296,7 +296,6 @@ $('document').ready(function () {
                     },
                 'remove_elements': files_list.find('.remove').parent()
             });
-
         }
     });
 

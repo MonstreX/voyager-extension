@@ -2,4 +2,4 @@
 
 Copyright (c) author name <author email>
 
-...Add your license text here...
+You can use it as you need without any limitations.

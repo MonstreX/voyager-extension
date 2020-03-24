@@ -524,7 +524,6 @@ span.CodeMirror-selectedtext { background: none; }
     top: 3px;
 }
 
-
 /* FIXES */
 .vext-browse table.dataTable .btn.clone {
     margin-right: 7px;
@@ -537,14 +536,12 @@ span.CodeMirror-selectedtext { background: none; }
     text-align: right;
 }
 
-
 .vext-browse  .table>tbody>tr {
     transition: all .4s ease;
 }
 .vext-browse  .table>tbody>tr.unpublished-record {
     opacity: 0.5;
 }
-
 
 /* TREE */
 .vext-browse .tree-items-list .dd-collapsed .dd-collapse {
@@ -611,7 +608,6 @@ span.CodeMirror-selectedtext { background: none; }
     margin-right: 5px;
 }
 
-
 .vext-browse .tree-items-list .dd-handle {
     padding-left: 50px;
 }
@@ -623,7 +619,6 @@ span.CodeMirror-selectedtext { background: none; }
     width: 20px;
 }
 
-
 .vext-browse .tree-items-list .dd-content-holder {
     display: flex;
     align-items: center;
@@ -631,7 +626,6 @@ span.CodeMirror-selectedtext { background: none; }
     width: 100%;
     height: 100%;
 }
-
 
 .vext-browse .tree-items-list .dd-tree-placeholder {
     border: 1px dotted #aaa;
@@ -684,9 +678,6 @@ span.CodeMirror-selectedtext { background: none; }
     color: #7b7b7b;
 }
 
-
-
-
 .vext-browse .tree-items-list .unpublished-record {
     opacity: 0.5;
 }/* GENERAL */
@@ -719,9 +710,6 @@ span.CodeMirror-selectedtext { background: none; }
     font-weight: normal;
     color: #f5576c;
 }
-
-
-
 
 /* ADVANCE IMAGE */
 .adv-image {
@@ -981,7 +969,6 @@ span.CodeMirror-selectedtext { background: none; }
     margin-bottom: 0;
 }
 
-
 .bunch-adv-remove-holder {
     margin-bottom: 20px;
     transition: all .4s ease;
@@ -1008,8 +995,6 @@ span.CodeMirror-selectedtext { background: none; }
     height: auto;
     border: none;
 }
-
-
 
 @media (max-width: 1600px){
     .adv-media-files-item {
@@ -1265,7 +1250,6 @@ span.CodeMirror-selectedtext { background: none; }
     color: #ddd;
 }
 
-
 /* Z-Dialog REQUEST */
 .ZebraDialog.vext-dialog-request {
     min-width: 330px;
@@ -1303,9 +1287,6 @@ span.CodeMirror-selectedtext { background: none; }
 .ZebraDialog.vext-dialog-request .dialog-file-name {
     color: #ddd;
 }
-
-
-
 
 /* MODAL FORM */
 .w-modal-form {
@@ -1430,7 +1411,6 @@ span.config-help i {
     font-style: normal;
     color: #e01313;
 }
-
 
 .form-control,
 .panel-body .select2-selection {
