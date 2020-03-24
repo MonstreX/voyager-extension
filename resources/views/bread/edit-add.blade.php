@@ -2,6 +2,7 @@
     $edit = !is_null($dataTypeContent->getKey());
     $add  = is_null($dataTypeContent->getKey());
 
+    // Init Tabs Subsystem
     $dataTypeRows = $dataType->{(isset($dataTypeContent->id) ? 'editRows' : 'addRows' )};
     $tabs[] = __('voyager-extension::bread.tab_main_title');
     foreach($dataTypeRows as $row) {
@@ -93,6 +94,13 @@
                                         $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')};
                                     }
                                 @endphp
+
+                                @if (isset($row->details->section))
+                                    <div class="panel-section">
+                                        <h3>{{ $row->details->section }}</h3>
+                                    </div>
+                                @endif
+
                                 @if (isset($row->details->legend) && isset($row->details->legend->text))
                                     <legend class="text-{{ $row->details->legend->align ?? 'center' }}" style="background-color: {{ $row->details->legend->bgcolor ?? '#f0f0f0' }};padding: 5px;">{{ $row->details->legend->text }}</legend>
                                 @endif

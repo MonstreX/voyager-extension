@@ -453,9 +453,6 @@
     color: #f79c2b;
 }
 
-
-
-
 .adv-page-layout-wrapper .layout-section-icon i {
     display: flex;
     align-items: center;
@@ -466,4 +463,17 @@
 }
 .tab-content.tab-extension-edit>div {
     padding: 20px 0;
+}
+
+.panel-section {
+    background: #62a8ea;
+    padding: 10px 15px 10px 15px;
+    margin-bottom: 15px;
+}
+.panel-section h3 {
+    font-size: 1.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 0;
 }
