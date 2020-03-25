@@ -20,7 +20,3 @@ mix.copy('node_modules/zebra_dialog/dist/css/flat', 'publishable/assets/js/zebra
 .copy('node_modules/codemirror/theme', 'publishable/assets/js/codemirror/theme');
 
 mix.less('resources/assets/less/app.less', 'publishable/assets/css/app.css').options({ processCssUrls: false });
-
-if (mix.inProduction()) {
-    mix.version();
-}
