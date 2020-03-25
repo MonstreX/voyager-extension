@@ -25,9 +25,43 @@ Via Composer
 $ composer require monstrex/voyager-extension
 ```
 
-## Usage
+Publish config if you need:
+```
+$ php artisan vendor:publish --provider="MonstreX\VoyagerExtension\VoyagerExtensionServiceProvider" --tag="config"
+```
 
-To be published...
+To use Image fields you need publish and migrate medialibrary resources
+
+``` bash
+$ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+$ php artisan migrate
+```
+
+Optional you may would like to publish config medialibrary as well
+``` bash
+$ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+```
+
+## Configure
+
+To use additional images fields you should to configure your models like this:
+
+```
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Article extends Model implements HasMedia
+{
+   use HasMediaTrait;    
+}
+
+```
+Also you can use any other advantages of medialibrary packge.
+
+
 
 
 ## Contributing
