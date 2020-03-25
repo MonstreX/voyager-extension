@@ -4,9 +4,20 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+The package extends the original Voyager Admin Panel with some new advantages and features.
 
-## Installation
+## Features
+
+- Integration of laravel-medialibrary by Spatie
+- New field: Advanced ML Image, supports Title and Alt field. 
+- New field: Advanced ML Files (including images), supports Sorting and unlimited attached custom fields with different types.
+- New field: Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
+- New field: Fields Group. JSON kind group of fields inside the one model field.
+- New field: Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
+- New extended Browse Bread appearance and options.
+- Tree view mode mode for models have parent_id field
+
+## Package installation
 
 Via Composer
 
@@ -14,9 +25,15 @@ Via Composer
 $ composer require monstrex/voyager-extension
 ```
 
+You should to publish resources before you can use it
+
+``` bash
+$ php artisan voyager-extension:install
+```
+
 ## Usage
 
-...
+To be published...
 
 
 ## Contributing
