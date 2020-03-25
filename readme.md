@@ -4,7 +4,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
 
-The package extends the original Voyager Admin Panel with some new advantages and features.
+The package extends the original [Voyager Admin Panel](https://github.com/the-control-group/voyager) with some new advantages and features.
 
 ## Features
 
@@ -105,7 +105,7 @@ The field utilize **laravel-medialibrary** package to store single image. In add
 
 This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files. 
 The collection can be sorted as you need using drag and drop. Select and group removing is implemented. 
-By default is implemented two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed. 
+By default it keeps two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed. 
 You can use the field like a collection of widgets or just like a sortable image collection. 
 Elements of media collection can hold additional content fields using **BREAD Json Options**.
 
