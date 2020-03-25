@@ -25,12 +25,6 @@ Via Composer
 $ composer require monstrex/voyager-extension
 ```
 
-You should to publish resources before you can use it
-
-``` bash
-$ php artisan voyager-extension:install
-```
-
 ## Usage
 
 To be published...
