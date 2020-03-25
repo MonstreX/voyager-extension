@@ -97,11 +97,11 @@ Usage
 
 The package provide some new type fields.
 
-#### Field: Advanced ML Image
+>##### Field: Advanced ML Image
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
   
-#### Field: Advanced ML Media Files
+>##### Field: Advanced ML Media Files
 
 This field represents **laravel-medialibrary** collection with subsets of additional custom fields.  
 Uses to store any media files. The collection can be sorted. Select and group removing is implemented. 
@@ -109,7 +109,7 @@ By default is implemented two fields - **Title** and **Alt**. Changing a file in
 You may create additional type fields using **BREAD Json Options**.
 
 >Implemented fields types:
-```json
+```js
 {
     "extra_fields": {
         "content": {
