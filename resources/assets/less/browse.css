@@ -53,6 +53,10 @@
 .vext-browse #bread-actions {
     padding: 0 10px 0 10px;
 }
+.vext-browse #bread-actions .btn {
+    padding: 6px 12px;
+}
+
 .vext-browse #bread-actions a span {
     display: none;
 }
@@ -77,10 +81,6 @@
     font-size: 12px;
     border-radius: 20px;
     transition: all .4s ease;
-}
-
-.vext-browse .actions .btn {
-    padding: 6px 12px;
 }
 
 .vext-browse #bread-actions a.btn-sm.btn-danger {
