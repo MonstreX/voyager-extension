@@ -90,10 +90,56 @@ class Article extends Model implements HasMedia
 }
 
 ```
-Also you can use any other advantages provided by [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) packge.
+Also you can use any other advantages provided by [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) package.
+
+Usage
+---
+
+The package provide some new type fields.
+
+#### Field: Advanced ML Image
+
+The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
+  
+#### Field: Advanced ML Media Files
+
+This field represents **laravel-medialibrary** collection with subsets of additional custom fields.  
+Uses to store any media files. The collection can be sorted. Select and group removing is implemented. 
+By default is implemented two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed.  
+You may create additional type fields using **BREAD Json Options**.
+
+>Implemented fields types:
+```json
+{
+    "extra_fields": {
+        "content": {
+            "type": "textarea",
+            "title": "Description",
+        },
+        "code": {
+            "type": "codemirror",
+            "title": "HTML Widget"
+        },
+        "link": {
+            "type": "text",
+            "title": "URL"
+        }        
+    }
+}
+```
+>Accepted files types template:
+```json
+{
+  "input_accept": "image/*,.pdf,.zip,.js,.html,.doc,.xsxl"
+}
+```
+By default "image/*" is used.
 
 
+Localizations
+---
 
+To be described.
 
 ## Contributing
 
