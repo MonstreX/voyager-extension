@@ -109,7 +109,7 @@ By default is implemented two fields - **Title** and **Alt**. Changing a file in
 You may create additional type fields using **BREAD Json Options**.
 
 >Implemented fields types:
-```metadata json
+```json
 {
     "extra_fields": {
         "content": {
@@ -128,7 +128,7 @@ You may create additional type fields using **BREAD Json Options**.
 }
 ```
 >Accepted files types template:
-```metadata json
+```json
 {
   "input_accept": "image/*,.pdf,.zip,.js,.html,.doc,.xsxl"
 }
