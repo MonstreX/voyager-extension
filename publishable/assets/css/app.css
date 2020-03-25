@@ -474,6 +474,10 @@ span.CodeMirror-selectedtext { background: none; }
     transition: all .4s ease;
 }
 
+.vext-browse .actions .btn {
+    padding: 6px 12px;
+}
+
 .vext-browse #bread-actions a.btn-sm.btn-danger {
     color: #FF1100;
     border: 2px solid rgba(255, 17, 0, 0.3);
