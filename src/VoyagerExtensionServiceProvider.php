@@ -47,10 +47,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
         $this->loadHelpers();
 
-        if ($this->app->runningInConsole()) {
-            $this->registerPublishableResources();
-        }
-
         $this->app->bind(
             'TCG\Voyager\Http\Controllers\VoyagerController',
             'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionRootController'
@@ -72,6 +68,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        if ($this->app->runningInConsole()) {
+            $this->registerPublishableResources();
+        }
+
         // Create Common Routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
@@ -102,7 +103,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         $this->publishes([dirname(__DIR__).'/publishable/assets' => public_path('vendor/voyager-extension/assets')], 'public');
 
         // Publish Config
-        $this->publishes([dirname(__DIR__).'/publishable/config/voyager-extension.php' => config_path('voyager-extension.php')]);
+        $this->publishes([dirname(__DIR__).'/publishable/config/voyager-extension.php' => config_path('voyager-extension.php')], 'config');
     }
 
 

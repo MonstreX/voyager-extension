@@ -8,7 +8,7 @@ The package extends the original Voyager Admin Panel with some new advantages an
 
 ## Features
 
-- Integration of laravel-medialibrary by Spatie
+- Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
 - New field: Advanced ML Image, supports Title and Alt field. 
 - New field: Advanced ML Files (including images), supports Sorting and unlimited attached custom fields with different types.
 - New field: Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
@@ -30,23 +30,54 @@ Publish config if you need:
 $ php artisan vendor:publish --provider="MonstreX\VoyagerExtension\VoyagerExtensionServiceProvider" --tag="config"
 ```
 
-To use Image fields you need publish and migrate medialibrary resources
+To use Image fields you need publish and migrate [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) resources
 
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 $ php artisan migrate
 ```
 
-Optional you may would like to publish config medialibrary as well
+Optional you may would like to publish config [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) as well
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ```
 
-## Configure
+Configure
+---
+
+#### Config file
+
+```php
+/*
+| Use original edit-add.blade.php or use extended one
+*/
+'legacy_edit_add_bread' => false,
+
+/*
+| CLone Record parameters
+| @params: enabled - if action is available
+|          reset_types - A value of these bread type fields will be cleared
+|          suffix_fields - The suffix '(clone)' will be added to these fields content
+*/
+'clone_record' => [
+    'enabled' => true,
+    'reset_types' => ['image', 'multiple_images','file'],
+    'suffix_fields' => ['title','name','slug'],
+],
+/*
+| You can enable or disable the custom path generator for medialibrary images
+| at MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator
+*/
+'use_media_path_generator' => true,
+
+```
+
+
+#### Models
 
 To use additional images fields you should to configure your models like this:
 
-```
+```php
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +90,7 @@ class Article extends Model implements HasMedia
 }
 
 ```
-Also you can use any other advantages of medialibrary packge.
+Also you can use any other advantages provided by [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) packge.
 
 
 
