@@ -223,7 +223,7 @@ Rendering the field:
 
 >### New BREAD Browse modes and options
 
-#### Tree mode
+### Tree mode
 
 New TREE browse mode implemented. If you have the field **parent_id** you can add option **browse_tree** for it and then TREE browse mode will enabled :
 ```json
@@ -241,7 +241,7 @@ You can use option **browse_tree_push_right** to push browsed fields to the righ
 All browsed fields after this field will push right.
 
 
-#### Inline checkbox switcher
+### Inline checkbox switcher
 
 Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode. 
 After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode. 
@@ -255,7 +255,7 @@ After that you can change the field value directly (by clicking on it) from a br
 }
 ``` 
 
-#### Action on a field click
+### Action on a field click
 
 If you add this option *url* you will be able to call appropriate action for the record using just a click on it. 
 For an instance let it be field **Title** 
@@ -265,7 +265,7 @@ For an instance let it be field **Title**
 }
 ``` 
 
-#### Column width, align and font size
+### Column width, align and font size
 Sets width, align and font-size for the column in browse mode:
 ```json
 {
@@ -275,7 +275,7 @@ Sets width, align and font-size for the column in browse mode:
 }
 ``` 
 
-#### Column order
+### Column order
 
 Now you can change the column order in a browse mode using this option:
 ```json
@@ -284,7 +284,7 @@ Now you can change the column order in a browse mode using this option:
 }
 ``` 
 
-#### Image max height in a row
+### Image max height in a row
 
 Sets maximal height of thumbnail images:
 ```json
