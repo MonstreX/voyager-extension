@@ -1,6 +1,28 @@
 <?php
 
 use Illuminate\Filesystem\Filesystem;
+use App;
+
+/*
+ * Get Translation from the given string using locale code
+ * @param: {{en}}text in english{{ru}}text in russian
+ * @return: text in current or given locale
+ */
+if (!function_exists('str_trans')) {
+    function str_trans(string $string, $lang = null)
+    {
+        if (!$lang) {
+            $lang = App::getLocale();
+        }
+        foreach (explode('{{', $string) as $line) {
+            if (substr($line, 0, 4) === $lang . '}}') {
+                return substr($line, 4, strlen($line) - 4);
+            }
+        }
+        return $string;
+    }
+}
+
 
 if (!function_exists('json_response_with_success')) {
     function json_response_with_success($status, $message, $data = null)

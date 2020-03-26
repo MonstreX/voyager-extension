@@ -134,11 +134,64 @@ Elements of media collection can hold additional content fields using **BREAD Js
   "input_accept": "image/*,.pdf,.zip,.js,.html,.doc,.xsxl"
 }
 ```
-By default "image/*" is used.
+By default uses "image/*" template.
+
+> Retrieving field data on frontend side.
+ 
+You can use any method provided by laravel-medialibrary package. The field name of is represented media gallery name.
+
+```php
+$image = Post->getFirstMedia('field_name');
+$imageUrl = $image->getFullUrl();
+$imageTitle = $image->getCustomProperty('title');
+$imageAlt = $image->getCustomProperty('alt');
+``` 
+More details see in the original [laravel-medialibrary documentation](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/retrieving-media/).
+
+>### Field: Advanced Fields Group Field
+
+Is a simple JSON like fieldset. Support three field subtypes inside. 
+Useful when you need implement the same group fields in different models.
+BREAD Json Options:
+```json
+{
+    "fields": {
+        "seo_title": {
+            "label": "SEO Title",
+            "type": "text"
+        },
+        "meta_description": {
+            "label": "META Description",
+            "type": "text"
+        },
+        "meta_keywords": {
+            "label": "META Keywords",
+            "type": "text"
+        }
+    }
+}
+```   
+Retrieving:
+```blade
+@if($seo = json_decode($Post->seo->fields))
+  <title>{{ $seo->seo_title->value }}</title>
+@endif
+```
 
 
 Localizations
 ---
+
+New types of fields don't provide localization service used in Voyager. 
+But you can use built-in localization helper and retrieve translated substring from a field content:
+
+```php
+$field_data = '{{en}}English title {{ru}}Russian title';
+...
+$field_title_en = str_trans($field_data);
+$field_title_ru = str_trans($field_data,'ru');
+``` 
+
 
 To be described.
 
