@@ -10,7 +10,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 
 - Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
 - New field: VE Image, supports Title and Alt field. 
-- New field: VE Files (including images), supports Sorting and unlimited attached custom fields with different types.
+- New field: VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
 - New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
 - New field: VE Fields Group. JSON kind group of fields inside the one model field.
 - New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
@@ -190,7 +190,7 @@ BREAD Json Options (Post model, category_id field):
     }
 }
 ```   
-In Post model add:
+In a Post model add:
 ```php
 public function categoryId()
 {
@@ -200,6 +200,26 @@ public function categoryId()
 
 >### Field: VE Page Layout
 
+The special content field type. Available only if [Voyager Site](https://github.com/MonstreX/voyager-site) package is installed.
+Provides a subsystem to organize the layout of content fields, blocks, and forms on a page.
+BREAD Json Option for this field:
+```json
+{
+    "layout_fields": {
+        "content": "Content"
+    },
+    "block_model": "MonstreX\\VoyagerSite\\Models\\Block",
+    "form_model": "MonstreX\\VoyagerSite\\Models\\Form"
+}
+```   
+Where: **layout_fields** - list of model (bread) fields available for a selection.
+**block_model** - block model class used for retrieve block content records. 
+**form_model** - form model class used for retrieve form content records.
+
+Rendering the field:
+```blade
+{!! render_layout($page->layout_field, $page) !!}
+```
 
 Localizations
 ---
@@ -213,9 +233,6 @@ $field_data = '{{en}}English title {{ru}}Russian title';
 $field_title_en = str_trans($field_data);
 $field_title_ru = str_trans($field_data,'ru');
 ``` 
-
-
-To be described.
 
 ## Contributing
 
