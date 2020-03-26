@@ -221,6 +221,80 @@ Rendering the field:
 {!! render_layout($page->layout_field, $page) !!}
 ```
 
+>### New BREAD Browse modes and options
+
+#### Tree mode
+
+New TREE browse mode implemented. If you have the field **parent_id** you can add option **browse_tree** for it and then TREE browse mode will enabled :
+```json
+{
+    "browse_tree": true
+}
+``` 
+The tree mode looks similar to the menu tree view. 
+You can use option **browse_tree_push_right** to push browsed fields to the right part of the view line.
+```json
+{
+    "browse_tree_push_right": true
+}
+``` 
+All browsed fields after this field will push right.
+
+
+#### Inline checkbox switcher
+
+Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode. 
+After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode. 
+
+```json
+{
+    "browse_inline_checkbox": true,
+    "on": "Active",
+    "off": "Disabled",
+    "checked": true
+}
+``` 
+
+#### Action on a field click
+
+If you add this option *url* you will be able to call appropriate action for the record using just a click on it. 
+For an instance let it be field **Title** 
+```json
+{
+    "url": "edit"
+}
+``` 
+
+#### Column width, align and font size
+Sets width, align and font-size for the column in browse mode:
+```json
+{
+    "browse_width": "15px",
+    "browse_align": "right",
+    "browse_font_size": "0.8em"
+}
+``` 
+
+#### Column order
+
+Now you can change the column order in a browse mode using this option:
+```json
+{
+    "browse_order": 1
+}
+``` 
+
+#### Image max height in a row
+
+Sets maximal height of thumbnail images:
+```json
+{
+    "browse_image_max_height": "30px"
+}
+``` 
+
+
+
 Localizations
 ---
 
