@@ -317,10 +317,6 @@ $field_title_en = str_trans($field_data);
 $field_title_ru = str_trans($field_data,'ru');
 ``` 
 
-## Contributing
-
-Please see [contributing.md](contributing.md) for details and a todolist.
-
 ## Security
 
 If you discover any security related issues, please email author email instead of using the issue tracker.
