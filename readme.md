@@ -9,11 +9,11 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 ## Features
 
 - Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
-- New field: Advanced ML Image, supports Title and Alt field. 
-- New field: Advanced ML Files (including images), supports Sorting and unlimited attached custom fields with different types.
-- New field: Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
-- New field: Fields Group. JSON kind group of fields inside the one model field.
-- New field: Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
+- New field: VE Image, supports Title and Alt field. 
+- New field: VE Files (including images), supports Sorting and unlimited attached custom fields with different types.
+- New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
+- New field: VE Fields Group. JSON kind group of fields inside the one model field.
+- New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
 - New extended Browse Bread appearance and options.
 - Tree view mode mode for models have parent_id field
 
@@ -97,11 +97,11 @@ Usage
 
 The package provide some new type fields.
 
->### Field: Advanced ML Image
+>### Field: VE Image
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
   
->### Field: Advanced ML Media Files
+>### Field: VE Media Files
 
 This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files. 
 The collection can be sorted as you need using drag and drop. Select and group removing is implemented. 
@@ -141,16 +141,16 @@ By default uses "image/*" template.
 You can use any method provided by laravel-medialibrary package. The field name of is represented media gallery name.
 
 ```php
-$image = Post->getFirstMedia('field_name');
+$image = $post->getFirstMedia('field_name');
 $imageUrl = $image->getFullUrl();
 $imageTitle = $image->getCustomProperty('title');
 $imageAlt = $image->getCustomProperty('alt');
 ``` 
 More details see in the original [laravel-medialibrary documentation](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/retrieving-media/).
 
->### Field: Advanced Fields Group Field
+>### Field: VE Fields Group
 
-Is a simple JSON like fieldset. Support three field subtypes inside. 
+Is a simple JSON like fieldset. Support three field subtypes inside: text, number and textarea. 
 Useful when you need implement the same group fields in different models.
 BREAD Json Options:
 ```json
@@ -171,12 +171,34 @@ BREAD Json Options:
     }
 }
 ```   
-Retrieving:
+Retrieving data:
 ```blade
 @if($seo = json_decode($Post->seo->fields))
   <title>{{ $seo->seo_title->value }}</title>
 @endif
 ```
+>### Field: VE Select Dropdown Tree
+
+Represents tree-like dropdown control related to the certain model.
+BREAD Json Options (Post model, category_id field):
+```json
+{
+    "relationship": {
+        "field": "category",
+        "key": "id",
+        "label": "title"
+    }
+}
+```   
+In Post model add:
+```php
+public function categoryId()
+{
+   return $this->belongsTo(Category::class);
+}
+```
+
+>### Field: VE Page Layout
 
 
 Localizations
