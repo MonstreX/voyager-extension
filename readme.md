@@ -240,6 +240,15 @@ You can use option **browse_tree_push_right** to push browsed fields to the righ
 ``` 
 All browsed fields after this field will push right.
 
+### Alternate browse title
+
+Just replaces default bread field title with a provided option title: 
+
+```json
+{
+    "browse_title": "Short title"
+}
+```
 
 ### Inline checkbox switcher
 
