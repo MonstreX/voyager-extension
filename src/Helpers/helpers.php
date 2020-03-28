@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Filesystem\Filesystem;
-use App;
 
 /*
  * Get Translation from the given string using locale code
@@ -12,7 +11,7 @@ if (!function_exists('str_trans')) {
     function str_trans(string $string, $lang = null)
     {
         if (!$lang) {
-            $lang = App::getLocale();
+            $lang = \App::getLocale();
         }
         foreach (explode('{{', $string) as $line) {
             if (substr($line, 0, 4) === $lang . '}}') {

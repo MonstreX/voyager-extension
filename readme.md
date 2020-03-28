@@ -303,7 +303,6 @@ Sets maximal height of thumbnail images:
 ``` 
 
 
-
 Localizations
 ---
 

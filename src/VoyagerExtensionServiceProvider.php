@@ -15,6 +15,7 @@ use Lang;
 
 
 use MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator;
+use MonstreX\VoyagerSite\Commands\InstallCommand;
 use TCG\Voyager\Facades\Voyager;
 
 use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
