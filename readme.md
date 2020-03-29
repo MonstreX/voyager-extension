@@ -321,7 +321,7 @@ In add-edit BREAD mode you can use Tabbed layout. Just put the option **tab_titl
     "tab_title": "Media"
 }
 ``` 
-You don't need to make the firs TAB, it'll be created automatically.
+You don't need to make the first TAB, it'll be created automatically.
 
 Localizations
 ---
