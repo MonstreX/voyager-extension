@@ -105,6 +105,9 @@ The field utilize **laravel-medialibrary** package to store single image. In add
 
 <img src="./docs/images/adv-image.png" alt"">
 ![VE Image](images/adv-image.png)
+
+<img src="docs/images/adv-image.png" width=800 /> 
+![](docs/images/adv-image.png)
   
 >### Field: VE Media Files
 
