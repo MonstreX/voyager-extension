@@ -6,11 +6,6 @@
 
 The package extends the original [Voyager Admin Panel](https://github.com/the-control-group/voyager) with some new advantages and features.
 
-<img src="https://github.com/monstrex/voyager-extension/blob/master/docs/images/adv-image.png" width="964" alt="VE Image" >
-
-![image](/docs/images/adv-image.png)
-
-
 ## Features
 
 - Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
@@ -108,13 +103,19 @@ The package provide some new type fields.
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
 
+![VE Image](/docs/images/adv-image.png)
+
 >### Field: VE Media Files
 
 This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files. 
 The collection can be sorted as you need using drag and drop. Select and group removing is implemented. 
+
+![VE Media Files](/docs/images/adv-media-files.png)
+
 By default it keeps two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed. 
 You can use the field like a collection of widgets or just like a sortable image collection. 
 Elements of media collection can hold additional content fields using **BREAD Json Options**.
+
 
 >Implemented fields types:
 ```json
