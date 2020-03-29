@@ -17,7 +17,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 - New extended Browse Bread appearance and options.
 - Custom Browse columns order.
 - Tabs Layout for an add-edit BREAD mode.
-- Tree view mode mode for models have parent_id field
+- Tree view mode mode for models have parent_id field.
 
 ## Package installation
 
@@ -103,7 +103,7 @@ The package provide some new type fields.
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
 
-<img src="https://raw.githubusercontent.com/monstrex/voyager-extension/master/docs/images/adv-image.png" alt=""/>
+<img src="https://github.com/monstrex/voyager-extension/blob/master/docs/images/adv-image.png" width="964" alt="VE Image" >
 
 ![image](./docs/images/adv-image.png)
   
