@@ -102,6 +102,8 @@ The package provide some new type fields.
 >### Field: VE Image
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
+
+![](/images/adv-image.png)
   
 >### Field: VE Media Files
 
