@@ -27,9 +27,11 @@
                             <input type="checkbox" data-id="{{ $item['id'] }}" name="{{ $row->field }}" @if($item[$row->field]) checked @endif class="tiny-toggle" data-tt-type="dot" data-tt-size="tiny">
                         </span>
                         @else
+                            @if($row->field !== 'parent_id')
                             @if(isset($row->details->url)) <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $item['id']) }}"> @endif
                             <span class="tree-{{$row->field}} tree-extra-fields @if(isset($row->details->browse_tree_push_right)) right-auto @endif">{{ mb_strlen( $item[$row->field] ) > 200 ? mb_substr($item[$row->field], 0, 200) . ' ...' : $item[$row->field] }}</span>
                             @if(isset($row->details->url)) </a> @endif
+                            @endif
                         @endif
                     @endif
                 @endforeach

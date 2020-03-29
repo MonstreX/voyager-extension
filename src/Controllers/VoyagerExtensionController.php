@@ -172,6 +172,10 @@ class VoyagerExtensionController extends BaseController
 
         $media_ids = $request->get('media_ids');
 
+        if (!$media_ids) {
+            $media_ids = [$request->get('media_file_id')];
+        }
+
         try {
             Media::destroy($media_ids);
         } catch (Exception $error) {
