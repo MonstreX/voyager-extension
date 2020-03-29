@@ -110,8 +110,6 @@ The field utilize **laravel-medialibrary** package to store single image. In add
 This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files. 
 The collection can be sorted as you need using drag and drop. Select and group removing is implemented. 
 
-![VE Media Files](/docs/images/adv-media-files.png)
-
 By default it keeps two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed. 
 You can use the field like a collection of widgets or just like a sortable image collection. 
 Elements of media collection can hold additional content fields using **BREAD Json Options**.
@@ -143,6 +141,8 @@ Elements of media collection can hold additional content fields using **BREAD Js
 }
 ```
 By default uses "image/*" template.
+
+![VE Media Files](/docs/images/adv-media-files.png)
 
 > Retrieving field data on frontend side.
  
@@ -178,6 +178,9 @@ BREAD Json Options:
         }
     }
 }
+
+![Fields Group](/docs/images/fields-group.png)
+
 ```   
 Retrieving data:
 ```blade
@@ -189,6 +192,7 @@ Retrieving data:
 
 Represents tree-like dropdown control related to the certain model.
 BREAD Json Options (Post model, category_id field):
+
 ```json
 {
     "relationship": {
@@ -211,6 +215,9 @@ public function categoryId()
 The special content field type. Available only if [Voyager Site](https://github.com/MonstreX/voyager-site) package is installed.
 Provides a subsystem to organize the layout of content fields, blocks, and forms on a page.
 BREAD Json Option for this field:
+
+![VE Page Layout](/docs/images/page-layout.png)
+
 ```json
 {
     "layout_fields": {
@@ -239,7 +246,10 @@ New TREE browse mode implemented. If you have the field **parent_id** you can ad
     "browse_tree": true
 }
 ``` 
-The tree mode looks similar to the menu tree view. 
+The tree mode looks similar to the menu tree view.
+
+![Tree mode](/docs/images/tree-view.png)
+ 
 You can use option **browse_tree_push_right** to push browsed fields to the right part of the view line.
 ```json
 {
@@ -262,6 +272,8 @@ Just replaces default bread field title with a provided option title:
 
 Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode. 
 After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode. 
+
+![Inline checkbox switcher](/docs/images/inline-checkbox.png)
 
 ```json
 {
@@ -322,6 +334,9 @@ This option makes a visual section separator line.
 ### Tabs layout for add-edit mode
 
 In add-edit BREAD mode you can use Tabbed layout. Just put the option **tab_title** where you want to start a new TAB.
+
+![Inline checkbox switcher](/docs/images/tabs.png)
+
 ```json
 {
     "tab_title": "Media"
