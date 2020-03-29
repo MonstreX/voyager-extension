@@ -15,7 +15,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 - New field: VE Fields Group. JSON kind group of fields inside the one model field.
 - New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
 - New extended Browse Bread appearance and options.
-- Custom Browse column order.
+- Custom Browse columns order.
 - Tabs Layout for an add-edit BREAD mode.
 - Tree view mode mode for models have parent_id field
 
@@ -103,7 +103,7 @@ The package provide some new type fields.
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
 
-<img src="https://raw.githubusercontent.com/MonstreX/voyager-extension/master/docs/images/adv-image.png" alt=""/>
+<img src="https://raw.githubusercontent.com/monstrex/voyager-extension/master/docs/images/adv-image.png" alt=""/>
 
 ![image](./docs/images/adv-image.png)
   
