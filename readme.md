@@ -161,6 +161,7 @@ More details see in the original [laravel-medialibrary documentation](https://do
 Is a simple JSON like fieldset. Support three field subtypes inside: text, number and textarea. 
 Useful when you need implement the same group fields in different models.
 BREAD Json Options:
+![Fields Group](/docs/images/fields-group.png)
 ```json
 {
     "fields": {
@@ -178,10 +179,8 @@ BREAD Json Options:
         }
     }
 }
-
-![Fields Group](/docs/images/fields-group.png)
-
-```   
+```
+  
 Retrieving data:
 ```blade
 @if($seo = json_decode($Post->seo->fields))
