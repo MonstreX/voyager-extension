@@ -103,11 +103,11 @@ The package provide some new type fields.
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
 
-<img src="images/adv-image.jpg" alt"">
+<img src="images/adv-image.jpg" alt""/>
 
-<img src="/images/adv-image.jpg" alt"">
+<img src="/images/adv-image.jpg" alt""/>
 
-<img src="./images/adv-image.jpg" alt"">
+<img src="./images/adv-image.jpg" alt""/>
 
 ![VE Image](images/adv-image.jpg)
 
