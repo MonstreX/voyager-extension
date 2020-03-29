@@ -39,7 +39,7 @@ $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryService
 $ php artisan migrate
 ```
 
-Optional you may would like to publish config [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) as well
+Optional you may like to publish the config [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) as well
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ```
@@ -160,8 +160,9 @@ More details see in the original [laravel-medialibrary documentation](https://do
 
 Is a simple JSON like fieldset. Support three field subtypes inside: text, number and textarea. 
 Useful when you need implement the same group fields in different models.
-BREAD Json Options:
 ![Fields Group](/docs/images/fields-group.png)
+
+BREAD Json Options:
 ```json
 {
     "fields": {
@@ -213,10 +214,10 @@ public function categoryId()
 
 The special content field type. Available only if [Voyager Site](https://github.com/MonstreX/voyager-site) package is installed.
 Provides a subsystem to organize the layout of content fields, blocks, and forms on a page.
-BREAD Json Option for this field:
 
 ![VE Page Layout](/docs/images/page-layout.png)
 
+BREAD Json Option for this field:
 ```json
 {
     "layout_fields": {
