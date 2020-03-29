@@ -103,7 +103,9 @@ The package provide some new type fields.
 
 The field utilize **laravel-medialibrary** package to store single image. In addition this field can hold text attributes TITLE and ALT.
 
-![image](/docs/images/adv-image.png)
+<img src="https://raw.githubusercontent.com/MonstreX/voyager-extension/master/docs/images/adv-image.png" alt=""/>
+
+![image](./docs/images/adv-image.png)
   
 >### Field: VE Media Files
 
