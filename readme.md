@@ -15,6 +15,8 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 - New field: VE Fields Group. JSON kind group of fields inside the one model field.
 - New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
 - New extended Browse Bread appearance and options.
+- Custom Browse column order.
+- Tabs Layout for an add-edit BREAD mode.
 - Tree view mode mode for models have parent_id field
 
 ## Package installation
@@ -302,6 +304,24 @@ Sets maximal height of thumbnail images:
 }
 ``` 
 
+### Section separator
+
+This option makes a visual section separator line.
+```json
+{
+    "section": "Media files"
+}
+``` 
+
+### Tabs layout for add-edit mode
+
+In add-edit BREAD mode you can use Tabbed layout. Just put the option **tab_title** where you want to start a new TAB.
+```json
+{
+    "tab_title": "Media"
+}
+``` 
+You don't need to make the firs TAB, it'll be created automatically.
 
 Localizations
 ---
