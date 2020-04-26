@@ -2,3 +2,7 @@
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.html linguist-detectable=false
+*.html linguist-detectable=false
+*.htm inguist-detectable=false
+publishable/* linguist-vendored
+docs/* linguist-documentation
