@@ -1,4 +1,4 @@
 *.php linguist-generated=true
-*.html linguist-detectable=false
+*.html linguist-generated=false
 *.js linguist-detectable=false
-*.css linguist-detectable=false
+*.css linguist-generated=false
