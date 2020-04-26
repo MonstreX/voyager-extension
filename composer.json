@@ -13,14 +13,14 @@
     "homepage": "https://github.com/monstrex/voyager-extension",
     "keywords": ["Laravel", "Voyager"],
     "require": {
-        "tcg/voyager": "^1.3.1",
+        "tcg/voyager": "^1.4.0",
         "spatie/laravel-medialibrary": "^7.18",
         "illuminate/support": "~6.0|~7.0",
         "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",
-        "laravel/framework": "^5.8"
+        "laravel/framework": "^7.0"
     },
     "autoload": {
         "psr-4": {
