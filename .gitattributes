@@ -1,2 +1,2 @@
 *.php linguist-generated=true
-*.html linguist-generated=false
+*.html linguist-detectable=false
