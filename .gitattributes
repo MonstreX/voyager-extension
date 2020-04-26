@@ -1,8 +1,3 @@
-*.php linguist-detectable=true
-*.js linguist-detectable=false
-*.css linguist-detectable=false
-*.html linguist-detectable=false
-*.html linguist-detectable=false
-*.htm inguist-detectable=false
-publishable/* linguist-vendored
+*.php linguist-detectable
+*.js linguist-detectable
 docs/* linguist-documentation
