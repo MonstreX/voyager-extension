@@ -1,2 +1,4 @@
-*.php linguist-detectable
-docs/* linguist-documentation
+*.php linguist-detectable=true
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.html linguist-detectable=false
