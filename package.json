@@ -14,7 +14,8 @@
     "laravel-mix": "^5.0.4",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {
     "codemirror": "^5.52.0",

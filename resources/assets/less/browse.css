@@ -290,3 +290,25 @@
 .vext-browse .tree-items-list .unpublished-record {
     opacity: 0.5;
 }
+
+.vext-browse td p {
+    margin-bottom: 0;
+}
+
+.region-block-badge {
+    font-weight: 400;
+}
+
+.urls-block-list ul {
+    margin: 0;
+    padding: 5px 0;
+    list-style: none;
+    font-size: 0.8em;
+}
+
+.urls-block-list.rules-a {
+    color: #ff3324;
+}
+.urls-block-list.rules-b {
+    color: #28b066;
+}

@@ -121,6 +121,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach($dataTypeContent as $data)
                                     <tr data-record-id="{{$data->getKey()}}"
                                         data-slug="{{$dataType->slug}}"
@@ -229,7 +230,7 @@
                                                     {{ $data->{$row->field} }}
                                                     @endif
                                                 @elseif($row->type == 'color')
-                                                    <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
+                                                    <span class="badge badge-md" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
                                                 @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
 
