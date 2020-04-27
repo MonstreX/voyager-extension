@@ -29,7 +29,17 @@
                         @else
                             @if($row->field !== 'parent_id')
                             @if(isset($row->details->url)) <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $item['id']) }}"> @endif
-                            <span class="tree-{{$row->field}} tree-extra-fields @if(isset($row->details->browse_tree_push_right)) right-auto @endif">{{ mb_strlen( $item[$row->field] ) > 200 ? mb_substr($item[$row->field], 0, 200) . ' ...' : $item[$row->field] }}</span>
+                            <span class="tree-{{$row->field}} tree-extra-fields @if(isset($row->details->browse_tree_push_right)) right-auto @endif">
+                                @if($row->type == 'date' || $row->type == 'timestamp')
+                                    @if ( property_exists($row->details, 'format') && !is_null($data->{$row->field}) )
+                                        {{ \Carbon\Carbon::parse($data->{$row->field})->formatLocalized($row->details->format) }}
+                                    @else
+                                        {{ $data->{$row->field} }}
+                                    @endif
+                                @else
+                                    {{ mb_strlen( $item[$row->field] ) > 200 ? mb_substr($item[$row->field], 0, 200) . ' ...' : $item[$row->field] }}
+                                @endif
+                            </span>
                             @if(isset($row->details->url)) </a> @endif
                             @endif
                         @endif

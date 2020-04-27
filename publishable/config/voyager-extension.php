@@ -19,7 +19,7 @@ return [
     'clone_record' => [
         'enabled' => true,
         'reset_types' => ['image', 'multiple_images','file'],
-        'suffix_fields' => ['title','name','slug'],
+        'suffix_fields' => ['title','name','slug','key'],
     ],
 
     /*

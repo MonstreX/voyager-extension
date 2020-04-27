@@ -1,6 +1,5 @@
 @if(!isset($edit))
 @php
-
 $urls = explode(PHP_EOL, $data->{$row->field});
 foreach ($urls as $key => $url) {
     if (empty($url)) {
