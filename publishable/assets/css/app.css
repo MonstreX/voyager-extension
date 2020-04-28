@@ -1466,4 +1466,15 @@ a.btn-setting-route {
     font-weight: 400;
 }
 
+.dd-item.unpublished-record {
+    opacity: 0.6;
+}
+.admin-menu-title {
+    padding-left: 35px;
+}
+.dd-admin-checkbox {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+}
 

@@ -74,6 +74,9 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             $this->registerPublishableResources();
         }
 
+        // Load migrations
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../migrations'));
+
         // Create Common Routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
@@ -163,6 +166,10 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             view('voyager-extension::bread.read')->with($view->gatherData())->render();
         });
 
+        View::composer('voyager::menus.builder', function ($view) {
+            view('voyager-extension::menus.builder')->with($view->gatherData())->render();
+        });
+
         if (!config('voyager-extension.legacy_edit_add_bread')) {
             View::composer('voyager::bread.edit-add', function ($view) {
                 view('voyager-extension::bread.edit-add')->with($view->gatherData())->render();
@@ -229,6 +236,9 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         $extensionVoyagerController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController';
 
         try {
+
+            $router->post( 'menu-items/{id}/record/update', $extensionVoyagerController . '@recordUpdate')->name('menu-items.ext-record-update');
+
             foreach (Voyager::model('DataType')::all() as $dataType) {
                 $router->post($dataType->slug . '/sort/media', $extensionController . '@sort_media')->name($dataType->slug . '.ext-media.sort');
                 $router->post($dataType->slug . '/update/media', $extensionController . '@update_media')->name($dataType->slug . '.ext-media.update');

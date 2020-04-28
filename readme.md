@@ -27,6 +27,12 @@ Via Composer
 $ composer require monstrex/voyager-extension
 ```
 
+Then run migrations:
+
+``` bash
+$ php artisan migrate
+```
+
 Publish config if you need:
 ```
 $ php artisan vendor:publish --provider="MonstreX\VoyagerExtension\VoyagerExtensionServiceProvider" --tag="config"
