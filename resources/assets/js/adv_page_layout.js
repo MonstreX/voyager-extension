@@ -49,18 +49,19 @@ $('document').ready(function () {
         var layout_template = layout_root.find('.layout-template');
         var select = $(this).parent().find('select');
 
-        // Add new section
-        layout_list.append('<div class="layout-section layout-added" style="display:none;">' + layout_template.html() + '</div>');
-        var new_section = layout_list.find('.layout-added');
-        new_section.removeClass('layout-added').addClass('layout-' + select.data('type'));
-        new_section.find('.layout-section-title-type').text(select.data('type'));
-        new_section.find('.layout-section-title-name').text(select.find('option:selected').text());
-        new_section.find('.layout-icon').addClass(select.data('icon'));
-        new_section.data('key', select.val());
-        new_section.slideDown("slow");
+        if(select.val() !== null) {
+            // Add new section
+            layout_list.append('<div class="layout-section layout-added" style="display:none;">' + layout_template.html() + '</div>');
+            var new_section = layout_list.find('.layout-added');
+            new_section.removeClass('layout-added').addClass('layout-' + select.data('type'));
+            new_section.find('.layout-section-title-type').text(select.data('type'));
+            new_section.find('.layout-section-title-name').text(select.find('option:selected').text());
+            new_section.find('.layout-icon').addClass(select.data('icon'));
+            new_section.data('key', select.val());
+            new_section.slideDown("slow");
 
-        makeLayoutData();
-
+            makeLayoutData();
+        }
     });
 
     // ------------------------------
