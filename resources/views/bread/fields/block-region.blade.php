@@ -1,4 +1,4 @@
-@if(!isset($edit))
+@if(!isset($edit) && isset($data->positionId->color))
 <span class="badge badge-md region-block-badge" style="background-color: {{ $data->positionId->color }};">
     @if($row->type == 'relationship')
         @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
