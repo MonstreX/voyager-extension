@@ -14,20 +14,27 @@ class AdvPageLayoutFormField extends AbstractHandler
      */
     public function createContent($row, $dataType, $dataTypeContent, $options)
     {
+        if (isset($options->block_model)) {
+            $model  = app( $options->block_model );
+            $blocks = $model::where( 'status', 1 )->select( 'title', 'key' )->orderBy( 'order', 'asc' )->get()->toArray();
+        }
 
-        $model = app($options->block_model);
-        $blocks = $model::where('status',1)->select('title','key')->orderBy('order', 'asc')->get()->toArray();
+		if (isset($options->form_model)) {
+			$model = app($options->form_model);
+			$forms = $model
+				::where('status', 1)
+				->select('title', 'key')
+				->get()
+				->toArray();
+		}
 
-        $model = app($options->form_model);
-        $forms = $model::where('status',1)->select('title','key')->get()->toArray();
-
-        return view('voyager-extension::formfields.adv_page_layout', [
+		return view('voyager-extension::formfields.adv_page_layout', [
             'row'             => $row,
             'options'         => $options,
             'dataType'        => $dataType,
             'dataTypeContent' => $dataTypeContent,
-            'blocks'          => $blocks,
-            'forms'           => $forms,
+            'blocks'          => $blocks ?? null,
+            'forms'           => $forms ?? null,
         ]);
     }
 
