@@ -234,9 +234,13 @@ BREAD Json Option for this field:
     "style_classes": "col-md-3"
 }
 ```
-Where: **layout_fields** - list of model (bread) fields available for a selection.
+
+**layout_fields** - list of model (bread) fields available for a selection.
+
 **block_model** - block model class used for retrieve block content records.  If param is not present, the block model select input will not be displayed on the edit/add views.
+
 **form_model** - form model class used for retrieve form content records.  If param is not present, the form model select input will not be displayed on the edit/add views;
+
 **style_classes** - additional style classes to be applied to the select input fields on the edit/add views.  Default value: `col-md-4`.
 
 Rendering the field:
