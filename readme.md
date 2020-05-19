@@ -9,11 +9,11 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 ## Features
 
 - Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
-- New field: VE Image, supports Title and Alt field. 
+- New field: VE Image, supports Title and Alt field.
 - New field: VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
 - New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
 - New field: VE Fields Group. JSON kind group of fields inside the one model field.
-- New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package. 
+- New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package.
 - New extended Browse Bread appearance and options.
 - Custom Browse columns order.
 - Tabs Layout for an add-edit BREAD mode.
@@ -94,7 +94,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Article extends Model implements HasMedia
 {
-   use HasMediaTrait;    
+   use HasMediaTrait;
 }
 
 ```
@@ -113,11 +113,11 @@ The field utilize **laravel-medialibrary** package to store single image. In add
 
 >### Field: VE Media Files
 
-This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files. 
-The collection can be sorted as you need using drag and drop. Select and group removing is implemented. 
+This field represents **laravel-medialibrary** collection with subsets of additional custom fields. Uses to store any media files.
+The collection can be sorted as you need using drag and drop. Select and group removing is implemented.
 
-By default it keeps two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed. 
-You can use the field like a collection of widgets or just like a sortable image collection. 
+By default it keeps two fields - **Title** and **Alt**. Changing a file inside a collection element is allowed.
+You can use the field like a collection of widgets or just like a sortable image collection.
 Elements of media collection can hold additional content fields using **BREAD Json Options**.
 
 
@@ -136,7 +136,7 @@ Elements of media collection can hold additional content fields using **BREAD Js
         "link": {
             "type": "text",
             "title": "URL"
-        }        
+        }
     }
 }
 ```
@@ -151,7 +151,7 @@ By default uses "image/*" template.
 ![VE Media Files](/docs/images/adv-media-files.png)
 
 > Retrieving field data on frontend side.
- 
+
 You can use any method provided by laravel-medialibrary package. The field name of is represented media gallery name.
 
 ```php
@@ -159,12 +159,12 @@ $image = $post->getFirstMedia('field_name');
 $imageUrl = $image->getFullUrl();
 $imageTitle = $image->getCustomProperty('title');
 $imageAlt = $image->getCustomProperty('alt');
-``` 
+```
 More details see in the original [laravel-medialibrary documentation](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/retrieving-media/).
 
 >### Field: VE Fields Group
 
-Is a simple JSON like fieldset. Support three field subtypes inside: text, number and textarea. 
+Is a simple JSON like fieldset. Support three field subtypes inside: text, number and textarea.
 Useful when you need implement the same group fields in different models.
 ![Fields Group](/docs/images/fields-group.png)
 
@@ -187,7 +187,7 @@ BREAD Json Options:
     }
 }
 ```
-  
+
 Retrieving data:
 ```blade
 @if($seo = json_decode($Post->seo->fields))
@@ -207,7 +207,7 @@ BREAD Json Options (Post model, category_id field):
         "label": "title"
     }
 }
-```   
+```
 In a Post model add:
 ```php
 public function categoryId()
@@ -230,12 +230,18 @@ BREAD Json Option for this field:
         "content": "Content"
     },
     "block_model": "MonstreX\\VoyagerSite\\Models\\Block",
-    "form_model": "MonstreX\\VoyagerSite\\Models\\Form"
+    "form_model": "MonstreX\\VoyagerSite\\Models\\Form",
+    "style_classes": "col-md-3"
 }
-```   
-Where: **layout_fields** - list of model (bread) fields available for a selection.
-**block_model** - block model class used for retrieve block content records. 
-**form_model** - form model class used for retrieve form content records.
+```
+
+**layout_fields** - list of model (bread) fields available for a selection.
+
+**block_model** - block model class used for retrieve block content records.  If param is not present, the block model select input will not be displayed on the edit/add views.
+
+**form_model** - form model class used for retrieve form content records.  If param is not present, the form model select input will not be displayed on the edit/add views;
+
+**style_classes** - additional style classes to be applied to the select input fields on the edit/add views.  Default value: `col-md-4`.
 
 Rendering the field:
 ```blade
@@ -251,22 +257,22 @@ New TREE browse mode implemented. If you have the field **parent_id** you can ad
 {
     "browse_tree": true
 }
-``` 
+```
 The tree mode looks similar to the menu tree view.
 
 ![Tree mode](/docs/images/tree-view.png)
- 
+
 You can use option **browse_tree_push_right** to push browsed fields to the right part of the view line.
 ```json
 {
     "browse_tree_push_right": true
 }
-``` 
+```
 All browsed fields after this field will push right.
 
 ### Alternate browse title
 
-Just replaces default bread field title with a provided option title: 
+Just replaces default bread field title with a provided option title:
 
 ```json
 {
@@ -276,8 +282,8 @@ Just replaces default bread field title with a provided option title:
 
 ### Inline checkbox switcher
 
-Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode. 
-After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode. 
+Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode.
+After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode.
 
 ![Inline checkbox switcher](/docs/images/inline-checkbox.png)
 
@@ -288,17 +294,17 @@ After that you can change the field value directly (by clicking on it) from a br
     "off": "Disabled",
     "checked": true
 }
-``` 
+```
 
 ### Action on a field click
 
-If you add this option *url* you will be able to call appropriate action for the record using just a click on it. 
-For an instance let it be field **Title** 
+If you add this option *url* you will be able to call appropriate action for the record using just a click on it.
+For an instance let it be field **Title**
 ```json
 {
     "url": "edit"
 }
-``` 
+```
 
 ### Column width, align and font size
 Sets width, align and font-size for the column in browse mode:
@@ -308,7 +314,7 @@ Sets width, align and font-size for the column in browse mode:
     "browse_align": "right",
     "browse_font_size": "0.8em"
 }
-``` 
+```
 
 ### Column order
 
@@ -317,7 +323,7 @@ Now you can change the column order in a browse mode using this option:
 {
     "browse_order": 1
 }
-``` 
+```
 
 ### Image max height in a row
 
@@ -326,7 +332,7 @@ Sets maximal height of thumbnail images:
 {
     "browse_image_max_height": "30px"
 }
-``` 
+```
 
 ### Section separator
 
@@ -335,7 +341,7 @@ This option makes a visual section separator line.
 {
     "section": "Media files"
 }
-``` 
+```
 
 ### Tabs layout for add-edit mode
 
@@ -347,13 +353,13 @@ In add-edit BREAD mode you can use Tabbed layout. Just put the option **tab_titl
 {
     "tab_title": "Media"
 }
-``` 
+```
 You don't need to make the first TAB, it'll be created automatically.
 
 Localizations
 ---
 
-New types of fields don't provide localization service used in Voyager. 
+New types of fields don't provide localization service used in Voyager.
 But you can use built-in localization helper and retrieve translated substring from a field content:
 
 ```php
@@ -361,7 +367,7 @@ $field_data = '{{en}}English title {{ru}}Russian title';
 ...
 $field_title_en = str_trans($field_data);
 $field_title_ru = str_trans($field_data,'ru');
-``` 
+```
 
 ## Security
 
