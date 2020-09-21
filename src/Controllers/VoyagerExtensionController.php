@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use League\Flysystem\Util;
-use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Facades\Voyager;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 use Illuminate\Support\Facades\Cache;
 
 
@@ -116,6 +116,11 @@ class VoyagerExtensionController extends BaseController
 
             // Save OLD Properties
             $old_file = $data->getMedia($field)->where('id', $media_file_id)->first();
+
+
+            //dd($old_file);
+
+
             $old_properties = [];
             $old_properties['title'] = $old_file->getCustomProperty('title');
             $old_properties['alt'] = $old_file->getCustomProperty('alt');
