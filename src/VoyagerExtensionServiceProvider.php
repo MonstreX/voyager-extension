@@ -15,6 +15,7 @@ use Lang;
 
 
 use MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator;
+use MonstreX\VoyagerExtension\Generators\MediaLibraryUrlGenerator;
 use MonstreX\VoyagerSite\Commands\InstallCommand;
 use TCG\Voyager\Facades\Voyager;
 
@@ -123,8 +124,14 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
         // Add custom Path generator for medialibrary files if enabled
         if (config('voyager-extension.use_media_path_generator')) {
-            Config::set('medialibrary.path_generator', MediaLibraryPathGenerator::class);
+            Config::set('media-library.path_generator', MediaLibraryPathGenerator::class);
         }
+
+        // Add custom Url generator for medialibrary files if enabled
+        if (config('voyager-extension.use_media_url_generator')) {
+            Config::set('media-library.url_generator', MediaLibraryUrlGenerator::class);
+        }
+
 
         // Add CSS and JS to the Voyager's config
 

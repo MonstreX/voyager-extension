@@ -24,10 +24,11 @@ return [
 
     /*
     |
-    | You can enable or disable the custom path generator for medialibrary images
+    | You can enable or disable the custom path and urls generator for medialibrary images
     | at MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator
-    |
+    | and at MonstreX\VoyagerExtension\Generators\MediaLibraryUrlGenerator
     */
 
     'use_media_path_generator' => true,
+    'use_media_url_generator' => true,
 ];
