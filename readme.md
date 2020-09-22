@@ -8,7 +8,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 
 ## Features
 
-- Integration of [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
+- Integration of v8 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
 - New field: VE Image, supports Title and Alt field.
 - New field: VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
 - New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
@@ -73,11 +73,13 @@ Configure
     'suffix_fields' => ['title','name','slug'],
 ],
 /*
-| You can enable or disable the custom path generator for medialibrary images
+| You can enable or disable the custom path and urls generator for medialibrary images
 | at MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator
+| and at MonstreX\VoyagerExtension\Generators\MediaLibraryUrlGenerator
 */
-'use_media_path_generator' => true,
 
+'use_media_path_generator' => true,
+'use_media_url_generator' => true,
 ```
 
 
@@ -89,12 +91,12 @@ To use additional images fields you should to configure your models like this:
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Article extends Model implements HasMedia
 {
-   use HasMediaTrait;
+   use InteractsWithMedia;
 }
 
 ```
