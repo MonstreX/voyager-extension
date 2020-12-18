@@ -12,7 +12,7 @@ class MediaLibraryUrlGenerator extends  BaseUrlGenerator
     public function getUrl(): string
     {
 
-        $url = '/storage/' . $this->getPathRelativeToRoot();
+        $url = $this->getDisk()->url($this->getPathRelativeToRoot());
 
         $url = $this->versionUrl($url);
 
