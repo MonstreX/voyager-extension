@@ -347,7 +347,9 @@
                                     'order_by' => $orderBy,
                                     'sort_order' => $sortOrder,
                                     'showSoftDeleted' => $showSoftDeleted,
-                                ])->links() }}
+                                ])
+                                ->onEachSide(5)
+                                ->links('voyager-extension::bread.partials.pagination') }}
                             </div>
                         @endif
                     </div>

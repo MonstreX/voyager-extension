@@ -296,3 +296,14 @@ a.btn-setting-route {
     top: 15px;
     left: 10px;
 }
+
+
+/* Fix for Clone Button margin */
+.table-responsive .clone {
+    margin-right: 5px;
+}
+
+/*Fix to remove overlay in Media manager */
+.modal-backdrop.fade.in {
+    display: none;
+}
