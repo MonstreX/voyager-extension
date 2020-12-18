@@ -2,11 +2,10 @@
 
 namespace MonstreX\VoyagerExtension\Generators;
 
-use DateTimeInterface;
-use Spatie\MediaLibrary\Support\UrlGenerator\BaseUrlGenerator;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Str;
 
-class MediaLibraryUrlGenerator extends  BaseUrlGenerator
+class MediaLibraryUrlGenerator extends  DefaultUrlGenerator
 {
     public function getUrl(): string
     {
@@ -17,34 +16,4 @@ class MediaLibraryUrlGenerator extends  BaseUrlGenerator
 
         return $url;
     }
-
-    public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
-    {
-        return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
-    }
-
-    public function getPath(): string
-    {
-        $adapter = $this->getDisk()->getAdapter();
-
-        $cachedAdapter = '\League\Flysystem\Cached\CachedAdapter';
-
-        if ($adapter instanceof $cachedAdapter) {
-            $adapter = $adapter->getAdapter();
-        }
-
-        $pathPrefix = $adapter->getPathPrefix();
-
-        return $pathPrefix.$this->getPathRelativeToRoot();
-    }
-
-    public function getResponsiveImagesDirectoryUrl(): string
-    {
-        $base = \Illuminate\Support\Str::finish($this->getBaseMediaDirectoryUrl(), '/');
-
-        $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
-
-        return Str::finish(url($base.$path), '/');
-    }
-
 }
