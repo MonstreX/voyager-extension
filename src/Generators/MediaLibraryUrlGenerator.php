@@ -10,7 +10,7 @@ class MediaLibraryUrlGenerator extends  DefaultUrlGenerator
     public function getUrl(): string
     {
 
-        $url = $this->getDisk()->url($this->getPathRelativeToRoot());
+        $url = Str::replaceFirst(request()->getSchemeAndHttpHost(), '', $this->getDisk()->url($this->getPathRelativeToRoot()));
 
         $url = $this->versionUrl($url);
 
