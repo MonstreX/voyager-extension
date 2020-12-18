@@ -13,6 +13,8 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvPageLayoutContentType;
 
+use Str;
+
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
 
@@ -76,6 +78,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
                 $data->addMediaFromRequest($row->field)
                     ->withCustomProperties(['title' => null, 'alt' => null])
+                    ->setFileName($this->getFileName($request->file($row->field)))
                     ->toMediaCollection($row->field);
 
             } elseif ($row->type == 'adv_image') {
@@ -103,9 +106,11 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                             $fields[$key] = null;
                         }
                     }
+
                     // Add Image
                     $data->addMedia($file)
                         ->withCustomProperties($fields)
+                        ->setFileName($this->getFileName($file))
                         ->toMediaCollection($row->field);
                 }
             }
@@ -267,5 +272,13 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         }
     }
 
+    private function getFileName($file)
+    {
+        $fullName = $file->getClientOriginalName();
+        $filename = pathinfo($fullName, PATHINFO_FILENAME);
+        $extension = pathinfo($fullName, PATHINFO_EXTENSION);
+
+        return config('voyager-extension.slug_filenames')? Str::slug($filename) . '.' . $extension : $fullName;
+    }
 
 }

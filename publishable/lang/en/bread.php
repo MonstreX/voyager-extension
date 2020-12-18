@@ -13,8 +13,8 @@ return [
 
     'adv_media_files' => [
         'remove_selected'      => 'Delete selected files',
-        'unmark_selected'      => 'Unmark selected files',
-        'select_all'           => 'Select all files',
+        'unmark_selected'      => 'Clear selection',
+        'select_all'           => 'Select all',
         'dialog_remove_images' => ' image(s)',
         'dialog_remove_files'  => ' media files(s)',
     ],

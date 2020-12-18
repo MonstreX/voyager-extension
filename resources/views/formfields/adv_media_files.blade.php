@@ -65,24 +65,25 @@
     </div>
 
     <div class="bunch-adv-select-all" data-files-gallery-list="{{ $row->field }}">
-        <a href="javascript:;"
-           title="@lang('voyager-extension::bread.adv_media_files.select_all')"
-           class="bunch-adv-media-files-select-all">
-            <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_media_files.select_all')</span>
-        </a>
-    </div>
+        <span id="bunch-adv-remove-{{ $row->field }}" class="bunch-adv-remove-holder hidden" data-files-gallery-list="{{ $row->field }}">
+            <button type="button"
+               title="@lang('voyager-extension::bread.adv_media_files.remove_selected')"
+               class="btn btn-sm btn-danger bunch-adv-media-files-remove">
+                <i class="voyager-trash"></i> <span class="">@lang('voyager-extension::bread.adv_media_files.remove_selected')</span>
+            </button>
+        </span>
 
-    <div id="bunch-adv-remove-{{ $row->field }}" class="bunch-adv-remove-holder hidden" data-files-gallery-list="{{ $row->field }}">
-        <a href="javascript:;"
-           title="@lang('voyager-extension::bread.adv_media_files.remove_selected')"
-           class="btn btn-sm btn-danger bunch-adv-media-files-remove">
-            <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_media_files.remove_selected')</span>
-        </a>
-        <a href="javascript:;"
+        <button type="button"
+           title="@lang('voyager-extension::bread.adv_media_files.select_all')"
+           class="bunch-adv-media-files-select-all btn btn-sm btn-success">
+            <span class="">@lang('voyager-extension::bread.adv_media_files.select_all')</span>
+        </button>
+
+        <button type="button"
            title="@lang('voyager-extension::bread.adv_media_files.unmark_selected')"
-           class="bunch-adv-media-files-unmark">
-            <span class="hidden-xs hidden-sm">@lang('voyager-extension::bread.adv_media_files.unmark_selected')</span>
-        </a>
+           class="bunch-adv-media-files-unmark btn btn-sm btn-info hidden">
+            <span class="">@lang('voyager-extension::bread.adv_media_files.unmark_selected')</span>
+        </button>
     </div>
 
 </div>

@@ -261,17 +261,26 @@ $('document').ready(function () {
         var bunch_holder = $('#' + files_list.data('bunch-adv-remove-holder'));
         var files_items = files_list.find('.adv-media-files-item-holder');
 
+        var select_button = $('.bunch-adv-media-files-select-all');
+        var clear_button = $('.bunch-adv-media-files-unmark');
+
         if ($(this).hasClass('bunch-adv-media-files-unmark')) {
             files_items.each(function(index, elem) {
                 $(elem).removeClass('remove');
             });
             bunch_holder.addClass('hidden');
+            select_button.removeClass('hidden');
+            clear_button.addClass('hidden');
         } else {
             files_items.each(function(index, elem) {
                 $(elem).addClass('remove');
             });
             bunch_holder.removeClass('hidden');
+            select_button.addClass('hidden');
+            clear_button.removeClass('hidden');
         }
+
+        //$(this).toggle('hidden');
     });
 
 
