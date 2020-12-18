@@ -3,7 +3,6 @@
 namespace MonstreX\VoyagerExtension\Generators;
 
 use DateTimeInterface;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\BaseUrlGenerator;
 use Str;
 
