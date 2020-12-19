@@ -18,6 +18,26 @@ use Str;
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
 
+
+    public function index(Request $request)
+    {
+
+        if ($request->has('key') && $request->has('filter') && !$request->session()->has('browse_filter')) {
+            if(!$request->session()->has('browse_filter')) {
+                $request->session()->put('browse_filter', ['key' => $request->input('key'), 'filter' => $request->input('filter'), 's' => $request->input('s')]);
+            }
+        } elseif ($request->has('reset_filter')) {
+            $request->session()->forget('browse_filter');
+        }
+
+        if ($request->session()->has('browse_filter') && !$request->has('key') && !$request->has('filter')) {
+            $filter = $request->session()->get('browse_filter');
+            $request->merge(['key' => $filter['key'], 'filter' => $filter['filter'], 's' => $filter['s']]);
+        }
+
+        return parent::index($request);
+    }
+
     public function edit(Request $request, $id)
     {
 

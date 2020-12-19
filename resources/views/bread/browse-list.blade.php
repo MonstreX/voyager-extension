@@ -32,6 +32,31 @@
                 @include('voyager::bread.partials.actions', ['action' => $action, 'data' => null])
             @endif
         @endforeach
+
+        @php
+            foreach($dataType->browseRows as $row) {
+                if(isset($row->details->browse_filter)) {
+                    $filter_items = app($row->details->model)->get();
+                    $filter_title = $row->display_name;
+                    $filter_column = $row->details->column;
+                    $filter_key = $row->details->key;
+                    $filter_label = $row->details->label;
+                }
+            }
+        @endphp
+
+        @if(isset($filter_items))
+            <span class="filter-selector">
+            <label for="filter-selector">{{ $filter_title }}:</label>
+            <select id="filter-selector" data-url="{{ Request::url() }}" data-column="{{ $filter_column }}" class="select2">
+                <option value="">---</option>
+                @foreach($filter_items as $key => $item)
+                    <option value="{{ $item['id'] }}" @if(request('key') == $filter_column && request('s') == $item[$filter_key]) selected @endif>{{ $item[$filter_label] }}</option>
+                @endforeach
+            </select>
+        </span>
+        @endif
+
         @include('voyager::multilingual.language-selector')
     </div>
 @stop
@@ -376,6 +401,15 @@
 
     <script>
         $(document).ready(function () {
+
+            // Change Filter Selection
+            $('#filter-selector').on('change', function () {
+                if ($(this).val() === "") {
+                    window.location.replace($(this).data('url') + '?reset_filter');
+                } else {
+                    window.location.replace($(this).data('url') + '?key=' + $(this).data('column') + '&filter=equals&s=' + $(this).val());
+                }
+            });
 
             // Add some new functionality (hidden when we have not selected records) and change ID for using with our own handler
             $('#bulk_delete_btn').addClass('hidden').prop('id','vext_bulk_delete_btn');
