@@ -21,6 +21,9 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 
 ## Package installation
 
+> #### Requirement
+> You should fully install the package [Voyager](https://github.com/the-control-group/voyager) before.
+
 Via Composer
 
 ``` bash
@@ -72,14 +75,22 @@ Configure
     'reset_types' => ['image', 'multiple_images','file'],
     'suffix_fields' => ['title','name','slug'],
 ],
+
 /*
 | You can enable or disable the custom path and urls generator for medialibrary images
 | at MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator
 | and at MonstreX\VoyagerExtension\Generators\MediaLibraryUrlGenerator
 */
-
 'use_media_path_generator' => true,
 'use_media_url_generator' => true,
+
+/*
+|
+| Use Str::slug function on media file names before saving
+|
+*/
+'slug_filenames' => true,
+
 ```
 
 
@@ -251,6 +262,17 @@ Rendering the field:
 ```
 
 >### New BREAD Browse modes and options
+
+### Dropdown browse filter
+
+Needed for filtering data in a browse mode. Uses on relationship field type only - "belongs to".
+
+```json
+{
+    "browse_filter": true
+}
+```
+![Browse filter](/docs/images/browse-filter.png)
 
 ### Tree mode
 
