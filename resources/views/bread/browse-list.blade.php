@@ -34,15 +34,15 @@
         @endforeach
 
         @php
-            foreach($dataType->browseRows as $row) {
-                if(isset($row->details->browse_filter)) {
-                    $filter_items = app($row->details->model)->get();
-                    $filter_title = $row->display_name;
-                    $filter_column = $row->details->column;
-                    $filter_key = $row->details->key;
-                    $filter_label = $row->details->label;
-                }
+        foreach($dataType->browseRows as $row) {
+            if(isset($row->details->browse_filter)) {
+                $filter_items = app($row->details->model)->get();
+                $filter_title = $row->display_name;
+                $filter_column = $row->details->column;
+                $filter_key = $row->details->key;
+                $filter_label = $row->details->label;
             }
+        }
         @endphp
 
         @if(isset($filter_items))
@@ -168,14 +168,11 @@
                                                 @if (isset($row->details->view))
                                                     @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $data->{$row->field}, 'action' => 'browse', 'view' => 'browse', 'options' => $row->details])
                                                 @elseif($row->type == 'image')
-
                                                     <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="height: 50px; width:auto">
-
                                                 @elseif($row->type == 'adv_image')
                                                     @if($adv_image = $data->getFirstMedia($row->field))
                                                         <img src="{{ $adv_image->getFullUrl() }}" style="height: {{ $row->details->browse_image_max_height?? '50px' }}; width:auto">
                                                     @endif
-
                                                 @elseif($row->type == 'adv_media_files')
                                                     @if($adv_media_files = $data->getMedia($row->field)->take(3))
                                                         @foreach($adv_media_files as $key => $adv_file)
@@ -240,17 +237,15 @@
                                                     @endif
                                                 @elseif($row->type == 'checkbox')
                                                     @if(property_exists($row->details, 'on') && property_exists($row->details, 'off'))
-
-                                                        @if(property_exists($row->details, 'browse_inline_checkbox'))
+                                                        @if(property_exists($row->details, 'browse_inline_checkbox') || property_exists($row->details, 'browse_inline_editor'))
                                                             <input type="checkbox" data-id="{{ $data->id }}" name="{{ $row->field }}" @if($data->{$row->field}) checked @endif class="tiny-toggle" data-tt-type="dot" data-tt-size="tiny">
                                                         @else
                                                             @if($data->{$row->field})
-                                                                <span class="label label-info">{{ $row->details->on }}</span>
+                                                            <span class="label label-info">{{ $row->details->on }}</span>
                                                             @else
-                                                                <span class="label label-primary">{{ $row->details->off }}</span>
+                                                            <span class="label label-primary">{{ $row->details->off }}</span>
                                                             @endif
                                                         @endif
-
                                                     @else
                                                     {{ $data->{$row->field} }}
                                                     @endif
@@ -259,19 +254,31 @@
                                                 @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
 
-                                                    @if(isset($row->details->url))
-                                                    <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
+
+                                                    @if(property_exists($row->details, 'browse_inline_editor'))
+                                                    <div class="browse-inline-editor">
+                                                        <input type="text" name="{{$row->field}}_inline" value="{{ $data->{$row->field} }}">
+                                                        <button class="text-inline-save" type="button" title="Save field"><i class="voyager-check"></i></button>
+                                                        <button class="text-inline-cancel" type="button" title="Cancel"><i class="voyager-x"></i></button>
+                                                    </div>
                                                     @endif
 
-                                                    @if(isset($row->details->route) && isset($row->details->route->name) && isset($row->details->route->param_field))
-                                                    <a href="{{ route($row->details->route->name, $data->{$row->details->route->param_field}) }}">
-                                                    @endif
+                                                    <div class="browse-text-holder">
+                                                        @if(isset($row->details->url))
+                                                        <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
+                                                        @elseif(isset($row->details->route) && isset($row->details->route->name) && isset($row->details->route->param_field))
+                                                        <a href="{{ route($row->details->route->name, $data->{$row->details->route->param_field}) }}">
+                                                        @endif
 
-                                                        <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                                            <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
 
-                                                    @if(isset($row->details->url))
-                                                    </a>
-                                                    @endif
+                                                        @if(isset($row->details->url))
+                                                        </a>
+                                                        @endif
+                                                        @if(property_exists($row->details, 'browse_inline_editor'))
+                                                        <button class="text-inline-edit" type="button" title="Edit field"><i class="voyager-edit"></i></button>
+                                                        @endif
+                                                    </div>
 
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')

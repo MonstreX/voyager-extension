@@ -334,3 +334,46 @@
     font-weight: 400;
 }
 
+.browse-text-holder {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.browse-text-holder button {
+    display: none;
+    border: none;
+    background-color: transparent;
+}
+.browse-text-holder button i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.browse-text-holder:hover button {
+    display: flex;
+}
+
+.browse-inline-editor {
+    display: none;
+    //display: inline-flex;
+    width: 100%;
+}
+.browse-inline-editor button {
+    border: none;
+    background-color: transparent;
+}
+.text-inline-save i {
+    color: #00a142;
+}
+.text-inline-cancel i {
+    color: #f13024;
+}
+.text-inline-edit i {
+    color: #3152b5;
+}
+
+.browse-inline-editor input {
+    width: 100%;
+    border: 1px solid #eee;
+}
