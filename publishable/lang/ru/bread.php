@@ -58,4 +58,8 @@ return [
 
     'tab_main_title'          => 'Контент',
 
+    'inline_edit'             => 'Редактировать',
+    'inline_save'             => 'Сохранить',
+    'inline_cancel'           => 'Отмена',
+
 ];

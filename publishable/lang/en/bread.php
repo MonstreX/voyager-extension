@@ -58,4 +58,8 @@ return [
 
     'tab_main_title'          => 'Main',
 
+    'inline_edit'             => 'Edit',
+    'inline_save'             => 'Save',
+    'inline_cancel'           => 'Cancel',
+
 ];

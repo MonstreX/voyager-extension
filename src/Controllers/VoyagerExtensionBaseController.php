@@ -197,6 +197,54 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         })->first();
     }
 
+    /*
+     *  Get Record Field
+     */
+    public function recordGet(Request $request)
+    {
+        try {
+
+            $slug = $request->get('slug');
+            $id = $request->get('id');
+            $field = $request->get('field');
+
+            // GET THE DataType based on the slug
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+            // Load model and find record
+            $model = app($dataType->model_name);
+            $data = $model::find([$id])->first();
+
+            // Check permission
+            $this->authorize('edit', $data);
+
+            // Check if field exists
+            if (!isset($data->{$field}) && $data->{$field} !== null) {
+                throw new Exception(__('voyager::generic.field_does_not_exist'), 400);
+            }
+
+            $fieldValue = $data->{$field};
+
+            // Get field meta data and options
+            $dataField = $this->getRowByField($dataType->browseRows, $field);
+
+            // Special conversions for JSON group fields
+            if ($dataField->type === 'adv_fields_group') {
+                $group = json_decode($data->{$field});
+                if (!isset($group->fields)) {
+                    $fieldValue = $dataField->details->fields;
+                } else {
+                    $fieldValue = $group->fields;
+                }
+            }
+
+            return json_response_with_success(200, '', $fieldValue);
+
+        } catch (Exception $e) {
+            return json_response_with_error(500, $e);
+        }
+    }
+
 
     /*
      *  Update Record Field
@@ -246,7 +294,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             return json_response_with_error(500, $e);
         }
     }
-
 
     /*
      * Reorder Records according to the given TREE

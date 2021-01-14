@@ -83,7 +83,7 @@
                                     <div class="col-2">
                                         <select id="search_key" name="key">
                                             @foreach($searchNames as $key => $name)
-                                                <option value="{{ $key }}" @if($search->key == $key || (empty($search->key) && $key == $defaultSearchKey)) selected @endif>{{ $name }}</option>
+                                            <option value="{{ $key }}" @if($search->key == $key || (empty($search->key) && $key == $defaultSearchKey)) selected @endif>{{ $name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -251,33 +251,37 @@
                                                     @endif
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-md" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
-                                                @elseif($row->type == 'text')
+                                                @elseif($row->type == 'text' || $row->type == 'number')
+                                                    {{-- TEXT FIELDS --}}
+                                                    {{-- TEXT FIELDS --}}
+                                                    {{-- TEXT FIELDS --}}
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
 
+                                                    <div class="text-field-holder">
 
-                                                    @if(property_exists($row->details, 'browse_inline_editor'))
-                                                    <div class="browse-inline-editor">
-                                                        <input type="text" name="{{$row->field}}_inline" value="{{ $data->{$row->field} }}">
-                                                        <button class="text-inline-save" type="button" title="Save field"><i class="voyager-check"></i></button>
-                                                        <button class="text-inline-cancel" type="button" title="Cancel"><i class="voyager-x"></i></button>
-                                                    </div>
-                                                    @endif
-
-                                                    <div class="browse-text-holder">
-                                                        @if(isset($row->details->url))
-                                                        <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
-                                                        @elseif(isset($row->details->route) && isset($row->details->route->name) && isset($row->details->route->param_field))
-                                                        <a href="{{ route($row->details->route->name, $data->{$row->details->route->param_field}) }}">
-                                                        @endif
-
-                                                            <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-
-                                                        @if(isset($row->details->url))
-                                                        </a>
-                                                        @endif
                                                         @if(property_exists($row->details, 'browse_inline_editor'))
-                                                        <button class="text-inline-edit" type="button" title="Edit field"><i class="voyager-edit"></i></button>
+                                                        <div class="browse-inline-editor">
+                                                            <input class="browse-inline-input" data-id="{{ $data->id }}" @if($row->type == 'number') type="number" @else type="text" @endif name="{{$row->field}}" value="{{ $data->{$row->field} }}">
+                                                            <button class="text-inline-save" type="button" title="@lang('voyager-extension::bread.inline_save')"><i class="voyager-check"></i></button>
+                                                            <button class="text-inline-cancel" type="button" title="@lang('voyager-extension::bread.inline_cancel')"><i class="voyager-x"></i></button>
+                                                        </div>
                                                         @endif
+
+                                                        <div class="browse-text-holder">
+                                                            @if(isset($row->details->url))
+                                                            <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
+                                                            @elseif(isset($row->details->route) && isset($row->details->route->name) && isset($row->details->route->param_field))
+                                                            <a href="{{ route($row->details->route->name, $data->{$row->details->route->param_field}) }}">
+                                                            @endif
+                                                                <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                                            @if(isset($row->details->url))
+                                                            </a>
+                                                            @endif
+                                                            @if(property_exists($row->details, 'browse_inline_editor'))
+                                                            <button class="text-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
+                                                            @endif
+                                                        </div>
+
                                                     </div>
 
                                                 @elseif($row->type == 'text_area')
@@ -344,6 +348,33 @@
                                                     @else
                                                         {{ trans_choice('voyager::media.files', 0) }}
                                                     @endif
+                                                @elseif($row->type == 'adv_fields_group')
+                                                    <div class="browse-group-fields">
+                                                        @php
+                                                            $group = json_decode($data->{$row->field});
+                                                            if (!isset($group->fields) && isset($row->details->fields)) {
+                                                                $fields = $row->details->fields;
+                                                            } else {
+                                                                $fields = $group->fields;
+                                                            }
+                                                        @endphp
+                                                        @if(isset($fields))
+                                                            @foreach($fields as $field)
+                                                                <span class="browse-group-field" data-label="{{ $field->label }}" data-value="{{ isset($field->value)? $field->value : '' }}">
+                                                                @if(!empty($field->value))
+                                                                    <i class="voyager-check"></i>
+                                                                @else
+                                                                    <i class="voyager-dot"></i>
+                                                                @endif
+                                                                </span>
+                                                            @endforeach
+                                                        @else
+                                                            <i class="voyager-dot"></i><i class="voyager-dot"></i><i class="voyager-dot"></i>
+                                                        @endif
+                                                        @if(property_exists($row->details, 'browse_inline_editor'))
+                                                            <button data-name="{{$row->field}}" class="group-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
+                                                        @endif
+                                                    </div>
                                                 @else
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <span>{{ $data->{$row->field} }}</span>
@@ -556,6 +587,7 @@
 
                 var parent = $(this).parent().parent().parent();
                 var value = $(this).attr("checked") ? 1 : 0;
+
                 params = {
                     slug: parent.data("slug"),
                     id: parent.data("record-id"),
@@ -565,24 +597,149 @@
                     _token: '{{ csrf_token() }}'
                 }
 
-                $.post('{{ route('voyager.'.$dataType->slug.'.ext-record-update', '__id') }}'.replace('__id', $(this).data('id')), params, function (response) {
-                    if (response
-                        && response.data
-                        && response.data.status
-                        && response.data.status == 200) {
-                        toastr.success(response.data.message);
-
-                        if (params.field === 'status') {
-                            parent.toggleClass('unpublished-record');
-                        }
-
-                    } else {
-                        toastr.error("Error setting new value for the field.");
-                    }
-                });
-
+                updateRecord(parent, params);
             },
         });
+
+        function updateRecord(parent, params) {
+            $.post('{{ route('voyager.'.$dataType->slug.'.ext-record-update', '__id') }}'.replace('__id', params.id), params, function (response) {
+                if (response
+                    && response.data
+                    && response.data.status
+                    && response.data.status == 200) {
+
+                    toastr.success(response.data.message);
+
+                    if (params.field === 'status') {
+                        parent.toggleClass('unpublished-record');
+                    }
+
+                } else {
+                    toastr.error("Error setting new value for the field.");
+                }
+            });
+        }
+
+        // Inline Editors
+        $('.text-inline-edit').on('click', function(e) {
+            let elEditorHolder = $(this).parent().parent().find('.browse-inline-editor');
+            $(this).parent().css('display','none');
+            elEditorHolder.css('display','flex');
+            elEditorHolder.find('input').select();
+        });
+
+        $('.text-inline-cancel').on('click', function(e) {
+            $(this).parent().css('display','none');
+            $(this).parent().parent().find('.browse-text-holder').css('display','flex');
+        });
+
+
+        $('.browse-inline-input').keypress(function(event) {
+            if (event.keyCode == 13) {
+                $(this).parent().find('.text-inline-save').click();
+            }
+        });
+
+        $('.text-inline-save').on('click', function(e) {
+
+            let elTextHolder = $(this).parent().parent().find('.browse-text-holder');
+            let elInput = $(this).parent().find('input');
+            let parent = $(this).parent().parent().parent().parent();
+
+            $(this).parent().css('display','none');
+            elTextHolder.css('display','flex');
+            elTextHolder.find('div').html(elInput.val().substring(0, 20));
+
+            params = {
+                slug: parent.data("slug"),
+                id: elInput.data("id"),
+                field: elInput.attr("name"),
+                value: elInput.val(),
+                json: null,
+                _token: '{{ csrf_token() }}'
+            };
+
+            updateRecord(parent, params);
+
+        });
+
+
+        $('.group-inline-edit').on('click', function(e) {
+
+            let parent = $(this).parent().parent().parent();
+
+            params = {
+                slug: parent.data("slug"),
+                id: parent.data("record-id"),
+                field: $(this).data("name"),
+                _token: '{{ csrf_token() }}'
+            };
+
+            let vext_dialog = new $.Zebra_Dialog('', {
+                'title': 'Dialog title',
+                'custom_class': 'dialog class',
+                'type': false,
+                'modal': false,
+                'position': ['center', 'middle'],
+                'backdrop_opacity': 0.6,
+                'buttons':  [
+                    {
+                        caption: vext.trans('bread.dialog_button_save'), callback: function() {
+                            console.log('save');
+                        }
+                    },
+                    {
+                        caption: vext.trans('bread.dialog_button_cancel'), callback: function() {}
+                    }
+                ],
+                source: {
+                    ajax: {
+                        method: "GET",
+                        url: '{{ route('voyager.'.$dataType->slug.'.ext-group.form', '__id') }}'.replace('__id', params.id),
+                        data: params,
+                        complete: function(data) {
+
+                            //JSON.parse(data.responseJSON.data.data)
+                            //console.log(date);
+
+                            vext_dialog.update();
+                        }
+                    }
+                }
+            });
+
+            // let vext_dialog = new $.Zebra_Dialog('', {
+            //     'type': false,
+            //     'modal': false,
+            //     'max_width': '90%',
+            //     //'position': [pos.x, pos.y],
+            //     'position': ['center', 'middle'],
+            //     'buttons':  [
+            //         {
+            //             caption: vext.trans('bread.dialog_button_save'), callback: function() {
+            //                 console.log('save');
+            //             }
+            //         },
+            //         {
+            //             caption: vext.trans('bread.dialog_button_cancel'), callback: function() {}
+            //         }
+            //     ],
+            //     source: {
+            //         ajax: {
+            //             method: "POST",
+            //             url: vext_routes.ext_media_form,
+            //             data: params,
+            //             complete: function(data) {
+            //
+            //                 vext_dialog.update();
+            //             }
+            //         }
+            //     }
+            // });
+
+
+        });
+
 
     </script>
 @stop

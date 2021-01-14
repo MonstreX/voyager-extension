@@ -533,7 +533,8 @@ span.CodeMirror-selectedtext { background: none; }
     margin-right: 7px;
 }
 
-.vext-browse  table.dataTable thead th.right {
+.vext-browse  table.dataTable thead th.right,
+.vext-browse  table.dataTable thead th.right div {
     text-align: right;
 }
 .vext-browse  .table>tbody>tr>td.right {
@@ -729,34 +730,40 @@ span.CodeMirror-selectedtext { background: none; }
     font-weight: 400;
 }
 
+
+.text-field-holder div {
+    width: 100%;
+}
+
 .browse-text-holder {
     display: inline-flex;
     width: 100%;
+    min-height: 20px;
     justify-content: space-between;
     align-items: center;
 }
 .browse-text-holder button {
-    display: none;
+    opacity: 0.2;
     border: none;
+    padding: 0 3px;
     background-color: transparent;
 }
-.browse-text-holder button i {
+.text-field-holder i {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .browse-text-holder:hover button {
-    display: flex;
+    opacity: 1;
 }
-
 .browse-inline-editor {
     display: none;
-    //display: inline-flex;
     width: 100%;
 }
 .browse-inline-editor button {
     border: none;
     background-color: transparent;
+    padding: 0 3px;
 }
 .text-inline-save i {
     color: #00a142;
@@ -765,12 +772,52 @@ span.CodeMirror-selectedtext { background: none; }
     color: #f13024;
 }
 .text-inline-edit i {
+    margin: 3px 0 0 3px;
     color: #3152b5;
 }
 
 .browse-inline-editor input {
     width: 100%;
     border: 1px solid #eee;
+}
+
+.browse-group-fields {
+    display: flex;
+}
+
+.browse-group-fields i {
+    padding: 0;
+    margin: 0;
+    width: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+.browse-group-fields .voyager-check {
+    color: #00a142;
+}
+
+.browse-group-fields .voyager-dot {
+    color: #c4c4c4;
+}
+
+.group-inline-edit {
+    opacity: 0.3;
+    border: none;
+    background-color: transparent;
+    padding: 0 3px;
+}
+
+.browse-group-fields:hover .group-inline-edit {
+    opacity: 1;
+}
+
+.group-inline-edit i {
+    color: #3152b5;
+}
+
+.browse-group-fields .group-inline-form {
+    display: none;
 }/* GENERAL */
 .control-label {
     cursor: help;

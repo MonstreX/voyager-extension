@@ -26,6 +26,34 @@ class VoyagerExtensionController extends BaseController
 
 
     /*
+     * Get Data Type Row Instance and Field Data
+     */
+    private function getDataType($slug, $id, $field)
+    {
+        // GET THE DataType based on the slug
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+        // Get field meta data and options
+        $dataRow = $dataType->editRows->filter(function ($item) use ($field) {
+            return $item->field == $field;
+        })->first();
+
+        // Load model and find record
+        $model = app($dataType->model_name);
+        $data = $model->findOrFail($id);
+
+        // Check if field exists
+        if (!isset($data->{$field}) && $data->{$field} !== null) {
+            throw new Exception(__('voyager::generic.field_does_not_exist'), 400);
+        }
+
+        return [
+            'dataType' => $dataType,
+            'dataRow' => $dataRow,
+            'data' => $data,
+        ];
+    }
+
+    /*
      * Load AJAX Content (HTML rendered) using Request params
      */
     public function load_image_form(Request $request)
@@ -35,29 +63,56 @@ class VoyagerExtensionController extends BaseController
         $id = $request->get('id');
         $media_file_id = $request->get('media_file_id');
 
-        // Load related BREAD Data
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-        $dataRow = $dataType->editRows->filter(function ($item) use ($field) {
-            return $item->field == $field;
-        })->first();
+        $row = $this->getDataType($slug, $id, $field);
 
-        // Load Related Media
-        $model = app($dataType->model_name);
-        $data = $model->findOrFail($id);
-        $file = $data->getMedia($field)->where('id', $media_file_id)->first();
+        $file = $row['data']->getMedia($field)->where('id', $media_file_id)->first();
 
         return view('voyager-extension::forms.form-ajax', [
-            'dataRow' => $dataRow,
-            'data' => $data,
+            'dataRow' => $row['dataRow'],
+            'data' => $row['data'],
             'file' => $file,
             'model' => [
-                'model' => $dataType->model_name,
+                'model' => $row['dataType']->model_name,
                 'id' => $id,
                 'field' => $field,
                 'media_file_id' => $media_file_id,
             ]
         ]);
     }
+
+
+    /*
+     *  Get Group Form
+     */
+    public function load_group_form(Request $request)
+    {
+        try {
+
+            $slug = $request->get('slug');
+            $id = $request->get('id');
+            $field = $request->get('field');
+
+            $row = $this->getDataType($slug, $id, $field);
+
+            $group = json_decode($row['data']->{$field});
+            if (!isset($group->fields)) {
+                $fieldValue = $row['dataRow']->details->fields;
+            } else {
+                $fieldValue = $group->fields;
+            }
+
+            return view('voyager-extension::forms.form-group-ajax', [
+                'slug' => $slug,
+                'id' => $id,
+                'field' => $field,
+                'fields' => $fieldValue,
+            ]);
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 
 
     /*

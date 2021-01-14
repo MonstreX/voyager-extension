@@ -256,6 +256,10 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
                 $router->post($dataType->slug . '/{id}/clone', $extensionVoyagerController . '@clone')->name($dataType->slug . '.clone');
                 $router->post($dataType->slug . '/{id}/record/update', $extensionVoyagerController . '@recordUpdate')->name($dataType->slug . '.ext-record-update');
                 $router->post($dataType->slug . '/records/order', $extensionVoyagerController . '@recordsOrder')->name($dataType->slug . '.ext-records-order');
+
+                $router->get($dataType->slug . '/{id}/record/group', $extensionController . '@load_group_form')->name($dataType->slug . '.ext-group.form');
+                //$router->get($dataType->slug . '/{id}/record/get', $extensionVoyagerController . '@recordGet')->name($dataType->slug . '.ext-record-get');
+
             }
         } catch (\InvalidArgumentException $e) {
             throw new \InvalidArgumentException("Custom routes hasn't been configured because: " . $e->getMessage(), 1);
