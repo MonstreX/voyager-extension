@@ -359,8 +359,8 @@
                                                             }
                                                         @endphp
                                                         @if(isset($fields))
-                                                            @foreach($fields as $field)
-                                                                <span class="browse-group-field" data-label="{{ $field->label }}" data-value="{{ isset($field->value)? $field->value : '' }}">
+                                                            @foreach($fields as $key => $field)
+                                                                <span class="browse-group-field" data-key="{{$key}}">
                                                                 @if(!empty($field->value))
                                                                     <i class="voyager-check"></i>
                                                                 @else
@@ -667,6 +667,7 @@
         $('.group-inline-edit').on('click', function(e) {
 
             let parent = $(this).parent().parent().parent();
+            let elFieldsHodlder =  $(this).parent();
 
             params = {
                 slug: parent.data("slug"),
@@ -675,7 +676,11 @@
                 _token: '{{ csrf_token() }}'
             };
 
-            let vext_dialog = new $.Zebra_Dialog('', {
+            if (vext_dialog) {
+                vext_dialog.close();
+            }
+
+            vext_dialog = new $.Zebra_Dialog('', {
                 'title': 'Dialog title',
                 'custom_class': 'dialog class',
                 'type': false,
@@ -685,7 +690,28 @@
                 'buttons':  [
                     {
                         caption: vext.trans('bread.dialog_button_save'), callback: function() {
-                            console.log('save');
+
+                            let elForm = $('.inline-group-form');
+                            let elInputs = elForm.find('input');
+                            let data = { fields: {}};
+
+                            // Make a complex fields object
+                            elInputs.each(function(index, elem) {
+                                data.fields[$(elem).data('key')] = {
+                                    type: $(elem).attr('type'),
+                                    label: $(elem).data('label'),
+                                    value: $(elem).val()
+                                }
+
+                                let icon = $(elem).val() && $(elem).val().length > 0? 'voyager-check' : 'voyager-dot';
+
+                                elFieldsHodlder.find(`[data-key='${$(elem).data('key')}']`).html(`<i class="${icon}"></i>`);
+
+                            });
+
+                            params.value = JSON.stringify(data);
+
+                            updateRecord(parent, params);
                         }
                     },
                     {
