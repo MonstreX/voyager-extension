@@ -36,6 +36,7 @@ return [
     'media_sorted'           => 'Отсортировано...',
     'media_updated'          => 'Обновлено...',
 
+    'dialog_inline_title'     => 'Inline Редактирование',
     'dialog_remove_title'     => 'Вы уверены?',
     'dialog_remove_message'   => 'Вы собираетесь удалить: ',
     'dialog_button_save'      => 'Сохранить',

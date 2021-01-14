@@ -36,6 +36,7 @@ return [
     'media_sorted'           => 'Sorted...',
     'media_updated'          => 'Updated...',
 
+    'dialog_inline_title'     => 'Inline edit',
     'dialog_remove_title'     => 'Are you sure?',
     'dialog_remove_message'   => 'You are going to remove: ',
     'dialog_button_save'      => 'Save',

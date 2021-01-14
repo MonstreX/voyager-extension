@@ -167,12 +167,18 @@
 
                                                 @if (isset($row->details->view))
                                                     @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $data->{$row->field}, 'action' => 'browse', 'view' => 'browse', 'options' => $row->details])
+
+                                                {{-- FIELD IMAGE TYPE --}}
                                                 @elseif($row->type == 'image')
                                                     <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="height: 50px; width:auto">
+
+                                                {{-- FIELD ADVANCED MEDIA IMAGE TYPE --}}
                                                 @elseif($row->type == 'adv_image')
                                                     @if($adv_image = $data->getFirstMedia($row->field))
                                                         <img src="{{ $adv_image->getFullUrl() }}" style="height: {{ $row->details->browse_image_max_height?? '50px' }}; width:auto">
                                                     @endif
+
+                                                {{-- FIELD ADVANCED MEDIA FILES TYPE --}}
                                                 @elseif($row->type == 'adv_media_files')
                                                     @if($adv_media_files = $data->getMedia($row->field)->take(3))
                                                         @foreach($adv_media_files as $key => $adv_file)
@@ -185,15 +191,17 @@
                                                             @endif
                                                         @endforeach
                                                     @endif
+
+                                                {{-- FIELD RELATION TYPE --}}
                                                 @elseif($row->type == 'relationship')
                                                     @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
+
+                                                {{-- FIELD SELECT MULTIPLE TYPE --}}
                                                 @elseif($row->type == 'select_multiple')
                                                     @if(property_exists($row->details, 'relationship'))
-
                                                         @foreach($data->{$row->field} as $item)
                                                             {{ $item->{$row->field} }}
                                                         @endforeach
-
                                                     @elseif(property_exists($row->details, 'options'))
                                                         @if (!empty(json_decode($data->{$row->field})))
                                                             @foreach(json_decode($data->{$row->field}) as $item)
@@ -206,21 +214,23 @@
                                                         @endif
                                                     @endif
 
-                                                    @elseif($row->type == 'multiple_checkbox' && property_exists($row->details, 'options'))
-                                                        @if (@count(json_decode($data->{$row->field})) > 0)
-                                                            @foreach(json_decode($data->{$row->field}) as $item)
-                                                                @if (@$row->details->options->{$item})
-                                                                    {{ $row->details->options->{$item} . (!$loop->last ? ', ' : '') }}
-                                                                @endif
-                                                            @endforeach
-                                                        @else
-                                                            {{ __('voyager::generic.none') }}
-                                                        @endif
+                                                {{-- FIELD MULTIPLE CHECKBOX TYPE --}}
+                                                @elseif($row->type == 'multiple_checkbox' && property_exists($row->details, 'options'))
+                                                    @if (@count(json_decode($data->{$row->field})) > 0)
+                                                        @foreach(json_decode($data->{$row->field}) as $item)
+                                                            @if (@$row->details->options->{$item})
+                                                                {{ $row->details->options->{$item} . (!$loop->last ? ', ' : '') }}
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        {{ __('voyager::generic.none') }}
+                                                    @endif
 
+                                                {{-- FIELD DROPDOWN SELECT TYPE --}}
                                                 @elseif(($row->type == 'select_dropdown' || $row->type == 'radio_btn') && property_exists($row->details, 'options'))
-
                                                     {!! $row->details->options->{$data->{$row->field}} ?? '' !!}
 
+                                                {{-- FIELD ADVANCED TREE DROPDOWN SELECT TYPE --}}
                                                 @elseif(($row->type == 'adv_select_dropdown_tree'))
                                                     @if(!empty($data->{$row->field}))
                                                     <span class="browse-dropdown-title">
@@ -229,12 +239,16 @@
                                                         </span>
                                                     </span>
                                                     @endif
+
+                                                {{-- FIELD DATE OR TIMESTUMP TYPE --}}
                                                 @elseif($row->type == 'date' || $row->type == 'timestamp')
                                                     @if ( property_exists($row->details, 'format') && !is_null($data->{$row->field}) )
                                                         {{ \Carbon\Carbon::parse($data->{$row->field})->formatLocalized($row->details->format) }}
                                                     @else
                                                         {{ $data->{$row->field} }}
                                                     @endif
+
+                                                {{-- FIELD CHECKBOX TYPE --}}
                                                 @elseif($row->type == 'checkbox')
                                                     @if(property_exists($row->details, 'on') && property_exists($row->details, 'off'))
                                                         @if(property_exists($row->details, 'browse_inline_checkbox') || property_exists($row->details, 'browse_inline_editor'))
@@ -249,16 +263,15 @@
                                                     @else
                                                     {{ $data->{$row->field} }}
                                                     @endif
+
+                                                {{-- FIELD COLOR TYPE --}}
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-md" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
+
+                                                {{-- FIELD TEXT OR NUMBER TYPE --}}
                                                 @elseif($row->type == 'text' || $row->type == 'number')
-                                                    {{-- TEXT FIELDS --}}
-                                                    {{-- TEXT FIELDS --}}
-                                                    {{-- TEXT FIELDS --}}
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
-
                                                     <div class="text-field-holder">
-
                                                         @if(property_exists($row->details, 'browse_inline_editor'))
                                                         <div class="browse-inline-editor">
                                                             <input class="browse-inline-input" data-id="{{ $data->id }}" @if($row->type == 'number') type="number" @else type="text" @endif name="{{$row->field}}" value="{{ $data->{$row->field} }}">
@@ -266,7 +279,6 @@
                                                             <button class="text-inline-cancel" type="button" title="@lang('voyager-extension::bread.inline_cancel')"><i class="voyager-x"></i></button>
                                                         </div>
                                                         @endif
-
                                                         <div class="browse-text-holder">
                                                             @if(isset($row->details->url))
                                                             <a href="{{ route('voyager.'.$dataType->slug.'.'.$row->details->url, $data->{$data->getKeyName()}) }}">
@@ -281,12 +293,14 @@
                                                             <button class="text-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
                                                             @endif
                                                         </div>
-
                                                     </div>
 
+                                                {{-- FIELD TEXT AREA TYPE --}}
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+
+                                                {{-- FIELD FILE TYPE --}}
                                                 @elseif($row->type == 'file' && !empty($data->{$row->field}) )
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     @if(json_decode($data->{$row->field}) !== null)
@@ -301,11 +315,17 @@
                                                             Download
                                                         </a>
                                                     @endif
+
+                                                {{-- FIELD RICH TEXT TYPE --}}
                                                 @elseif($row->type == 'rich_text_box')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( strip_tags($data->{$row->field}, '<b><i><u>') ) > 200 ? mb_substr(strip_tags($data->{$row->field}, '<b><i><u>'), 0, 200) . ' ...' : strip_tags($data->{$row->field}, '<b><i><u>') }}</div>
+
+                                                {{-- FIELD COORDINATES TYPE --}}
                                                 @elseif($row->type == 'coordinates')
                                                     @include('voyager::partials.coordinates-static-image')
+
+                                                {{-- FIELD MULTIPLE IMAGES TYPE --}}
                                                 @elseif($row->type == 'multiple_images')
                                                     @php $images = json_decode($data->{$row->field}); @endphp
                                                     @if($images)
@@ -314,6 +334,8 @@
                                                             <img src="@if( !filter_var($image, FILTER_VALIDATE_URL)){{ Voyager::image( $image ) }}@else{{ $image }}@endif" style="width:50px">
                                                         @endforeach
                                                     @endif
+
+                                                {{-- FIELD MEDIA PICKER TYPE --}}
                                                 @elseif($row->type == 'media_picker')
                                                     @php
                                                         if (is_array($data->{$row->field})) {
@@ -348,6 +370,8 @@
                                                     @else
                                                         {{ trans_choice('voyager::media.files', 0) }}
                                                     @endif
+
+                                                {{-- FIELD GROUP TYPE --}}
                                                 @elseif($row->type == 'adv_fields_group')
                                                     <div class="browse-group-fields">
                                                         @php
@@ -375,6 +399,8 @@
                                                             <button data-name="{{$row->field}}" class="group-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
                                                         @endif
                                                     </div>
+
+                                                {{-- FIELD OTHER TYPES --}}
                                                 @else
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <span>{{ $data->{$row->field} }}</span>
@@ -479,7 +505,6 @@
             });
         });
 
-
         @if($usesSoftDeletes)
             @php
                 $params = [
@@ -566,7 +591,6 @@
 
         });
 
-
         // Clone RECORD
         $('#dataTable').on('click', '.btn.clone', function () {
             vext.dialogActionRequest({
@@ -601,6 +625,7 @@
             },
         });
 
+        // Updated requested record field - helper
         function updateRecord(parent, params) {
             $.post('{{ route('voyager.'.$dataType->slug.'.ext-record-update', '__id') }}'.replace('__id', params.id), params, function (response) {
                 if (response
@@ -620,7 +645,7 @@
             });
         }
 
-        // Inline Editors
+        // Inline Edit button
         $('.text-inline-edit').on('click', function(e) {
             let elEditorHolder = $(this).parent().parent().find('.browse-inline-editor');
             $(this).parent().css('display','none');
@@ -628,18 +653,20 @@
             elEditorHolder.find('input').select();
         });
 
+        // Inline Cancel button
         $('.text-inline-cancel').on('click', function(e) {
             $(this).parent().css('display','none');
             $(this).parent().parent().find('.browse-text-holder').css('display','flex');
         });
 
-
+        // Inline press Enter
         $('.browse-inline-input').keypress(function(event) {
             if (event.keyCode == 13) {
                 $(this).parent().find('.text-inline-save').click();
             }
         });
 
+        // Inline Save button
         $('.text-inline-save').on('click', function(e) {
 
             let elTextHolder = $(this).parent().parent().find('.browse-text-holder');
@@ -663,7 +690,7 @@
 
         });
 
-
+        // Inline Group Field Edit button
         $('.group-inline-edit').on('click', function(e) {
 
             let parent = $(this).parent().parent().parent();
@@ -680,16 +707,17 @@
                 vext_dialog.close();
             }
 
+            // Inline Group Field Dialog
             vext_dialog = new $.Zebra_Dialog('', {
-                'title': 'Dialog title',
+                'title': "{{ __('voyager-extension::bread.dialog_inline_title') }}",
                 'custom_class': 'dialog class',
                 'type': false,
-                'modal': false,
+                'modal': true,
                 'position': ['center', 'middle'],
                 'backdrop_opacity': 0.6,
                 'buttons':  [
                     {
-                        caption: vext.trans('bread.dialog_button_save'), callback: function() {
+                        caption: "{{ __('voyager-extension::bread.dialog_button_save') }}", callback: function() {
 
                             let elForm = $('.inline-group-form');
                             let elInputs = elForm.find('input');
@@ -724,48 +752,13 @@
                         url: '{{ route('voyager.'.$dataType->slug.'.ext-group.form', '__id') }}'.replace('__id', params.id),
                         data: params,
                         complete: function(data) {
-
-                            //JSON.parse(data.responseJSON.data.data)
-                            //console.log(date);
-
                             vext_dialog.update();
                         }
                     }
                 }
             });
 
-            // let vext_dialog = new $.Zebra_Dialog('', {
-            //     'type': false,
-            //     'modal': false,
-            //     'max_width': '90%',
-            //     //'position': [pos.x, pos.y],
-            //     'position': ['center', 'middle'],
-            //     'buttons':  [
-            //         {
-            //             caption: vext.trans('bread.dialog_button_save'), callback: function() {
-            //                 console.log('save');
-            //             }
-            //         },
-            //         {
-            //             caption: vext.trans('bread.dialog_button_cancel'), callback: function() {}
-            //         }
-            //     ],
-            //     source: {
-            //         ajax: {
-            //             method: "POST",
-            //             url: vext_routes.ext_media_form,
-            //             data: params,
-            //             complete: function(data) {
-            //
-            //                 vext_dialog.update();
-            //             }
-            //         }
-            //     }
-            // });
-
-
         });
-
 
     </script>
 @stop

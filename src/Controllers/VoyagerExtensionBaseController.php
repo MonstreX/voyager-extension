@@ -18,7 +18,6 @@ use Str;
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
 
-
     public function index(Request $request)
     {
 
@@ -59,7 +58,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         View::share('page_slug', $slug);
         return parent::create($request);
     }
-
 
     public function getContentBasedOnType(Request $request, $slug, $row, $options = null)
     {
@@ -140,12 +138,11 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         return $result;
     }
 
-    //***************************************
-    //
-    //         Clone an item BREA(D)
-    //
-    //****************************************
-
+    /*
+    *
+    * Clone an item BREA(D)
+    *
+    */
     public function clone(Request $request, $id)
     {
         $slug = $this->getSlug($request);
@@ -244,7 +241,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             return json_response_with_error(500, $e);
         }
     }
-
 
     /*
      *  Update Record Field

@@ -80,7 +80,6 @@ class VoyagerExtensionController extends BaseController
         ]);
     }
 
-
     /*
      *  Get Group Form
      */
@@ -113,8 +112,6 @@ class VoyagerExtensionController extends BaseController
         }
     }
 
-
-
     /*
      *  Update media file
      */
@@ -144,7 +141,6 @@ class VoyagerExtensionController extends BaseController
 
         return json_response_with_success(200, __('voyager-extension::bread.media_updated'));
     }
-
 
     /*
      *  Change media file
