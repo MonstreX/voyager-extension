@@ -1,4 +1,8 @@
 /* VOYAGER RESETS */
+.vext-browse .table {
+    color: #111;
+}
+
 .tt {
     display: inline-block;
     margin: 0 5px;
@@ -7,10 +11,7 @@
 .vext-browse table.dataTable tbody td, table.dataTable tbody th {
   padding: 0;
 }
-.vext-browse .table>tbody>tr>td,
-.vext-browse .table>tbody>tr>th,
-.vext-browse .table>tfoot>tr>td,
-.vext-browse .table>tfoot>tr>th,
+
 .vext-browse .table>thead>tr>td,
 .vext-browse .table>thead>tr>th {
    padding: 0;
@@ -29,7 +30,8 @@
     font-weight: 600;
 }
 .vext-browse .table>tbody>tr>td {
-    padding: 0 20px 0 10px;
+    padding: 5px 20px 5px 10px;
+    vertical-align: middle;
 }
 
 .vext-browse .table>thead>tr>th.sorting,
@@ -50,24 +52,23 @@
   color: #4a4a4a;
 }
 
-.vext-browse #bread-actions {
-    padding: 0 10px 0 10px;
-}
-.vext-browse #bread-actions .btn {
-    padding: 6px 12px;
+
+
+/* Actions buttons  */
+.vext-browse #bread-actions .delete,
+.vext-browse #bread-actions .edit,
+.vext-browse #bread-actions .restore {
+    margin-left: 0;
 }
 
+.vext-browse #bread-actions .btn {
+    padding: 0 8px;
+}
 .vext-browse #bread-actions a span {
     display: none;
 }
-
 .vext-browse #bread-actions a.btn-sm {
     background: none;
-}
-
-.vext-browse #bread-actions a.btn-sm i:before {
-    font-size: 14px;
-    transition: all .4s ease;
 }
 
 .vext-browse #dataTable #bread-actions a,
@@ -76,68 +77,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    border-radius: 20px;
+    color: #adadad;
     transition: all .4s ease;
 }
 
-.vext-browse #bread-actions a.btn-sm.btn-danger {
+.vext-browse #bread-actions a.btn-sm.btn-danger:hover i {
     color: #FF1100;
-    border: 2px solid rgba(255, 17, 0, 0.3);
 }
-.vext-browse #bread-actions a.btn-sm.btn-primary {
+.vext-browse #bread-actions a.btn-sm.btn-primary:hover i {
     color: #419eff;
-    border: 2px solid rgba(65, 158, 255, 0.3);
 }
-.vext-browse #bread-actions a.btn-sm.btn-warning {
+.vext-browse #bread-actions a.btn-sm.btn-warning:hover i {
     color: #dbae3a;
-    border: 2px solid rgba(219, 174, 58, 0.3);
 }
-.vext-browse #bread-actions a.btn-sm.btn-success {
+.vext-browse #bread-actions a.btn-sm.btn-success:hover i {
     color: #28b066;
-    border: 2px solid rgba(40, 176, 102, 0.3);
 }
 
-.vext-browse .tree-items-list #bread-actions a {
-    border: none;
-    padding: 6px 12px;
-}
 
-.vext-browse #bread-actions a.btn-sm.btn-danger:hover {
-    border: 2px solid #FF1100;
-}
-.vext-browse #bread-actions a.btn-sm.btn-primary:hover {
-    border: 2px solid #419eff;
-}
-.vext-browse #bread-actions a.btn-sm.btn-warning:hover {
-    border: 2px solid #dbae3a;
-}
-.vext-browse #bread-actions a.btn-sm.btn-success:hover {
-    border: 2px solid #28b066;
-}
 
-.vext-browse .btn-group-sm>.btn i,
-.vext-browse .btn-sm i {
-    position: relative;
-    top: 2px;
-    font-size: 12px;
-}
 
-.vext-browse .btn-group-sm>.btn i,
-.vext-browse .btn-sm i {
-    top: 2px;
-}
-.vext-browse .btn-sm .voyager-edit {
-    top: 3px;
-}
+
+
+
 
 /* FIXES */
-.vext-browse table.dataTable .btn.clone {
-    margin-right: 7px;
-}
-
 .vext-browse  table.dataTable thead th.right,
 .vext-browse  table.dataTable thead th.right div {
     text-align: right;
