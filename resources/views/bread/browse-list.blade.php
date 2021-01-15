@@ -34,27 +34,47 @@
         @endforeach
 
         @php
+
+        $model_filters = [];
         foreach($dataType->browseRows as $row) {
             if(isset($row->details->browse_filter)) {
-                $filter_items = app($row->details->model)->get();
-                $filter_title = $row->display_name;
-                $filter_column = $row->details->column;
-                $filter_key = $row->details->key;
-                $filter_label = $row->details->label;
+                $model_filters[] = [
+                    'filter_items' => app($row->details->model)->get(),
+                    'filter_title' => $row->display_name,
+                    'filter_column' => $row->details->column,
+                    'filter_key' => $row->details->key,
+                    'filter_label' => $row->details->label,
+                ];
             }
         }
         @endphp
 
-        @if(isset($filter_items))
+        @if(count($model_filters) > 0)
+        <div class="browse-filters-holder" data-url="{{ Request::url() }}">
+            @foreach($model_filters as $key => $filter)
             <span class="filter-selector">
-            <label for="filter-selector">{{ $filter_title }}:</label>
-            <select id="filter-selector" data-url="{{ Request::url() }}" data-column="{{ $filter_column }}" class="select2">
-                <option value="">---</option>
-                @foreach($filter_items as $key => $item)
-                    <option value="{{ $item['id'] }}" @if(request('key') == $filter_column && request('s') == $item[$filter_key]) selected @endif>{{ $item[$filter_label] }}</option>
-                @endforeach
-            </select>
-        </span>
+                <label for="filter-selector-{{ $key }}">{{ $filter['filter_title'] }}:</label>
+                <select id="filter-selector-{{ $key }}" name="filter-selector[]" data-column="{{ $filter['filter_column'] }}" class="filter-select select2">
+                    <option value="">---</option>
+
+                    @php
+                        $val = null;
+                        if ($filters) {
+                            foreach ($filters['field'] as $idx => $field) {
+                                $val = $field === $filter['filter_column']? $val = $filters['value'][$idx] : $val;
+                            }
+                        }
+                    @endphp
+
+                    @foreach($filter['filter_items'] as $key2 => $item)
+                        <option value="{{ $item['id'] }}" @if ($val && $item['id'] == $val) selected @endif>
+                            {{ $item[$filter['filter_label']] }}
+                        </option>
+                    @endforeach
+                </select>
+            </span>
+            @endforeach
+        </div>
         @endif
 
         @include('voyager::multilingual.language-selector')
@@ -79,6 +99,7 @@
                     <div class="panel-body">
                         @if ($isServerSide)
                             <form method="get" class="form-search">
+
                                 <div id="search-input">
                                     <div class="col-2">
                                         <select id="search_key" name="key">
@@ -102,6 +123,7 @@
                                         </span>
                                     </div>
                                 </div>
+
                                 @if (Request::has('sort_order') && Request::has('order_by'))
                                     <input type="hidden" name="sort_order" value="{{ Request::get('sort_order') }}">
                                     <input type="hidden" name="order_by" value="{{ Request::get('order_by') }}">
@@ -466,14 +488,29 @@
     <script>
         $(document).ready(function () {
 
+
             // Change Filter Selection
-            $('#filter-selector').on('change', function () {
-                if ($(this).val() === "") {
-                    window.location.replace($(this).data('url') + '?reset_filter');
+            $('.filter-select').on('change', function () {
+
+                let url = $('.browse-filters-holder').data('url');
+                let filter_params = '';
+
+                let i = 0;
+                $('.filter-select').each(function(index, elem) {
+                    console.log($(elem).val());
+                    if ($(elem).val()) {
+                        filter_params = filter_params + (i > 0? '&' : '') + `field[${i}]=${$(elem).data('column')}&value[${i}]=${$(elem).val()}`;
+                        i++;
+                    }
+                });
+
+                if (filter_params.length === 0) {
+                    window.location.replace(`${url}?reset_filters`);
                 } else {
-                    window.location.replace($(this).data('url') + '?key=' + $(this).data('column') + '&filter=equals&s=' + $(this).val());
+                    window.location.replace(`${url}?${filter_params}`);
                 }
             });
+
 
             // Add some new functionality (hidden when we have not selected records) and change ID for using with our own handler
             $('#bulk_delete_btn').addClass('hidden').prop('id','vext_bulk_delete_btn');

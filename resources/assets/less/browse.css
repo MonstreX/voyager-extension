@@ -278,11 +278,19 @@
     color: #28b066;
 }
 
+
+
+.browse-filters-holder {
+    background-color: #efefef;
+    padding: 15px;
+    border-radius: 4px;
+}
+
 .filter-selector {
     display: inline-flex;
     min-width: 300px;
     max-width: 500px;
-    margin-left: 30px;
+    margin-right: 30px;
     align-items: center;
 }
 .filter-selector label {
