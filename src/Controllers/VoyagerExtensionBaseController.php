@@ -26,29 +26,16 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     {
 
         //-------- Extended #1
-        $filters = null;
         if ($request->has('field') && $request->has('value')) {
             $filters  = ['field' => $request->get('field'), 'value' => $request->get('value')];
-        }
-
-        if ($filters && !$request->session()->has('filters')) {
-            // Store to session Initial
             $request->session()->put('filters', $filters);
-        } elseif ($request->has('reset_filters')) {
-            // Reset filters
+        } elseif ($request->session()->has('filters') && !$request->has('reset_filters')) {
+            $filters = $request->session()->get('filters');
+        } else {
             $request->session()->forget('filters');
             $filters = null;
         }
-
-        if ($filters && $request->session()->has('filters') && $request->session()->get('filters') !== $filters) {
-            // Store to session Changed
-            $request->session()->put('filters', $filters);
-        } elseif ($request->session()->has('filters')) {
-            // Get from session
-            $filters = $request->session()->get('filters');
-        }
         //-------- Extended #1 END
-
 
         // GET THE SLUG, ex. 'posts', 'pages', etc.
         $slug = $this->getSlug($request);
