@@ -263,9 +263,9 @@ Rendering the field:
 
 >### New BREAD Browse modes and options
 
-### Dropdown browse filter
+### Dropdown browse filters
 
-Needed for filtering data in a browse mode. Uses on relationship field type only - "belongs to".
+Needed for filtering data in a browse mode. Uses on relationship "belongs to" field type only.
 
 ```json
 {
@@ -306,19 +306,31 @@ Just replaces default bread field title with a provided option title:
 
 ### Inline checkbox switcher
 
-Using **browse_inline_checkbox** you can enable an inline switcher in a browse view mode.
+Using **browse_inline_editor** you can enable an inline switcher in a browse view mode.
 After that you can change the field value directly (by clicking on it) from a browse mode without entering an edit mode.
 
 ![Inline checkbox switcher](/docs/images/inline-checkbox.png)
 
 ```json
 {
-    "browse_inline_checkbox": true,
+    "browse_inline_editor": true,
     "on": "Active",
     "off": "Disabled",
     "checked": true
 }
 ```
+
+### Inline text, number editors
+
+Using **browse_inline_editor** you can also enable an inline editors in a browse view mode for text and number types.
+After that you can change the field value directly from a browse mode without entering to edit mode.
+
+```json
+{
+    "browse_inline_editor": true
+}
+```
+
 
 ### Action on a field click
 

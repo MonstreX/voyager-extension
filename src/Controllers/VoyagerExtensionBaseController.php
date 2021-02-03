@@ -25,18 +25,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     public function index(Request $request)
     {
 
-        //-------- Extended #1
-        if ($request->has('field') && $request->has('value')) {
-            $filters  = ['field' => $request->get('field'), 'value' => $request->get('value')];
-            $request->session()->put('filters', $filters);
-        } elseif ($request->session()->has('filters') && !$request->has('reset_filters')) {
-            $filters = $request->session()->get('filters');
-        } else {
-            $request->session()->forget('filters');
-            $filters = null;
-        }
-        //-------- Extended #1 END
-
         // GET THE SLUG, ex. 'posts', 'pages', etc.
         $slug = $this->getSlug($request);
 
@@ -98,13 +86,23 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                 $query->where($search->key, $search_filter, $search_value);
             }
 
-            //-------- Extended #2 START
+            //-------- Extended #1
+            $filters = null;
+            if ($request->has('field') && $request->has('value')) {
+                $filters  = ['field' => $request->get('field'), 'value' => $request->get('value')];
+                $request->session()->put('filters', $filters);
+            } elseif ($request->session()->has('filters') && !$request->has('reset_filters')) {
+                $filters = $request->session()->get('filters');
+            } else {
+                $request->session()->forget('filters');
+            }
+
             if ($filters) {
                 foreach ($filters['field'] as $key => $filter) {
                     $query->where($filters['field'][$key], '=', $filters['value'][$key]);
                 }
             }
-            //-------- Extended #2 END
+            //-------- Extended #1 END
 
             if ($orderBy && in_array($orderBy, $dataType->fields())) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
