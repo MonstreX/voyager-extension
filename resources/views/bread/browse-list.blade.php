@@ -712,7 +712,7 @@
 
             $(this).parent().css('display','none');
             elTextHolder.css('display','flex');
-            elTextHolder.find('div').html(elInput.val().substring(0, 20));
+            elTextHolder.find('div').html(elInput.val());
 
             params = {
                 slug: parent.data("slug"),
