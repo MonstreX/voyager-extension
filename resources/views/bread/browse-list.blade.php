@@ -294,7 +294,7 @@
                                                 @elseif($row->type == 'text' || $row->type == 'number')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div class="text-field-holder">
-                                                        @if(property_exists($row->details, 'browse_inline_editor'))
+                                                        @if(isset($row->details->browse_inline_editor))
                                                         <div class="browse-inline-editor">
                                                             <input class="browse-inline-input" data-id="{{ $data->id }}" @if($row->type == 'number') type="number" @else type="text" @endif name="{{$row->field}}" value="{{ $data->{$row->field} }}">
                                                             <button class="text-inline-save" type="button" title="@lang('voyager-extension::bread.inline_save')"><i class="voyager-check"></i></button>
@@ -311,7 +311,7 @@
                                                             @if(isset($row->details->url))
                                                             </a>
                                                             @endif
-                                                            @if(property_exists($row->details, 'browse_inline_editor'))
+                                                            @if(isset($row->details->browse_inline_editor))
                                                             <button class="text-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
                                                             @endif
                                                         </div>
