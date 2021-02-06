@@ -61,6 +61,10 @@
     margin-left: 0;
 }
 
+
+.vext-browse .th.actions {
+    min-width: 160px;
+}
 .vext-browse #bread-actions .btn {
     padding: 0 8px;
 }
