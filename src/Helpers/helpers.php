@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
 /*
  * Get Translation from the given string using locale code
@@ -104,8 +105,8 @@ if (!function_exists('build_tree'))
         }
 
         if($sort) {
-            usort($branch, function ($item1, $item2) {
-                return $item1['order'] > $item2['order'];
+            $branch = Arr::sort($branch, function ($value) {
+                return $value['order'];
             });
         }
 
