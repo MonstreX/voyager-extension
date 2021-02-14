@@ -400,3 +400,7 @@
 .browse-group-fields .group-inline-form {
     display: none;
 }
+.ZebraDialog.dialog-field-group {
+    width: 100%;
+    max-width: 700px !important;
+}

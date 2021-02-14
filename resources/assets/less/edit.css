@@ -483,3 +483,38 @@
     border:1px solid #ddd;
     margin-bottom:10px;
 }
+
+.adv-json-list {
+    margin-bottom: 10px;
+}
+.adv-json-add-form,
+.adv-json-item {
+    display: flex;
+}
+.adv-json-item {
+    margin-bottom: 3px;
+}
+.form-group-line {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-right: 5px;
+}
+.form-group-line label {
+    white-space: nowrap;
+    margin-right: 5px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.adv-json-add-form button.btn,
+.adv-json-item button.btn{
+    height: 34px;
+    margin: 0;
+}
+
+.adv-json-list button i,
+.adv-json-add-form button i{
+    display: flex;
+    align-items: center;
+}

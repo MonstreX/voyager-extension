@@ -747,7 +747,7 @@
             // Inline Group Field Dialog
             vext_dialog = new $.Zebra_Dialog('', {
                 'title': "{{ __('voyager-extension::bread.dialog_inline_title') }}",
-                'custom_class': 'dialog class',
+                'custom_class': 'dialog-field-group class',
                 'type': false,
                 'modal': true,
                 'position': ['center', 'middle'],

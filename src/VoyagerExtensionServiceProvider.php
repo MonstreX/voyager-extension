@@ -2,27 +2,23 @@
 
 namespace MonstreX\VoyagerExtension;
 
-use Illuminate\Http\Request;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Filesystem\Filesystem;
 use Config;
 use Lang;
 
-
 use MonstreX\VoyagerExtension\Generators\MediaLibraryPathGenerator;
 use MonstreX\VoyagerExtension\Generators\MediaLibraryUrlGenerator;
-use MonstreX\VoyagerSite\Commands\InstallCommand;
 use TCG\Voyager\Facades\Voyager;
 
 use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvFieldsGroupFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvJsonFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvPageLayoutFormField;
 
 use MonstreX\VoyagerExtension\Actions\CloneAction;
@@ -204,6 +200,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvMediaFilesFormField::class);
         Voyager::addFormField(AdvSelectDropdownTreeFormField::class);
         Voyager::addFormField(AdvFieldsGroupFormField::class);
+        Voyager::addFormField(AdvJsonFormField::class);
 
         // This field depends on voyager-site package
         if (find_package('monstrex/voyager-site')) {
