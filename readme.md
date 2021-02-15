@@ -18,7 +18,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 - New extended Browse Bread appearance and options.
 - Custom Browse columns order.
 - Tabs Layout for an add-edit BREAD mode.
-- Tree view mode mode for models have parent_id field.
+- Tree view mode for models have parent_id field.
 
 ## Package installation
 
