@@ -13,7 +13,7 @@
     "homepage": "https://github.com/monstrex/voyager-extension",
     "keywords": ["Laravel", "Voyager"],
     "require": {
-        "tcg/voyager": "1.4",
+        "tcg/voyager": "~1.4",
         "spatie/laravel-medialibrary": "^8.00.0",
         "illuminate/support": "~6.0|~7.0|~8.0",
         "ext-json": "*"
