@@ -60,25 +60,32 @@ $('document').ready(function () {
     // ------------------------------
     function collectFieldsAndMakeJSON(elList) {
         var field_json = $(`#${elList.data('field')}`);
-        var json_data = [];
 
-        elList.find('.adv-json-item').each(function(i1, item) {
-            var row_data = {};
-            $(item).find('input').each(function(index, elem) {
-                // Make one field row
-                $(elem).each(function(i, inp) {
-                    var inputField = $(inp);
-                    row_data[inputField.data('field')] = {
-                        title: inputField.data('title'),
-                        key: inputField.data('field'),
-                        value: inputField.val()
-                    };
-                });
+        var fields = {};
+        var rows = [];
+
+        // Each ROW
+        elList.find('.adv-json-item').each(function(iRow, elRow) {
+
+            // Each INPUT FIELD
+            var row = {};
+            $(elRow).find('input').each(function(iInput, elInput) {
+                var input = $(elInput);
+                // Generate header fields
+                if (!fields[input.data('field')]) {
+                    fields[input.data('field')] = input.data('title');
+                }
+                row[input.data('field')] = input.val();
             });
-            json_data.push(row_data);
+            rows.push(row);
         });
 
-        field_json.val(JSON.stringify(json_data));
+        var data = {
+            "fields": fields,
+            "rows": rows
+        };
+
+        field_json.val(JSON.stringify(data));
     }
 
 });

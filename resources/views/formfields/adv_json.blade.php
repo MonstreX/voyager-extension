@@ -9,16 +9,16 @@
     <input id="{{$row->field}}" name="{{$row->field}}" type="hidden" value="{{ $dataTypeContent->{$row->field} }}">
     <div id="adv-json-list-{{$row->field}}" class="adv-json-list {{$row->field}}" data-field="{{$row->field}}">
 
-    @if($fields = json_decode($dataTypeContent->{$row->field}))
-        @foreach($fields as $key => $field)
+    @if($fieldsData = json_decode($dataTypeContent->{$row->field}))
+        @foreach($fieldsData->rows as $key => $field)
         <div class="adv-json-item">
-            @foreach($field as $key2 => $input)
+            @foreach($field as $fieldName => $fieldValue)
             <div class="form-group-line">
-                <input type="text" data-master-field="{{$row->field}}" data-field="{{ $input->key }}" data-title="{{ $input->title }}" class="form-control" value="{{ $input->value }}">
+                <input type="text" data-master-field="{{$row->field}}" data-field="{{ $fieldName }}" data-title="{{ $fieldsData->fields->{$fieldName} }}" class="form-control" value="{{ $fieldValue }}">
             </div>
             @endforeach
             <div class="form-group-line">
-                <button data-field="{{ $row->field }}" data-remove="Remove" type="button" class="btn btn-danger remove-json"><i class='voyager-x'></i></button>
+                <button data-field="{{ $row->field }}" type="button" class="btn btn-danger remove-json"><i class='voyager-x'></i></button>
             </div>
         </div>
         @endforeach

@@ -13,6 +13,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 - New field: VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
 - New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
 - New field: VE Fields Group. JSON kind group of fields inside the one model field.
+- New field: VE JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
 - New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package.
 - New extended Browse Bread appearance and options.
 - Custom Browse columns order.
@@ -207,6 +208,47 @@ Retrieving data:
   <title>{{ $seo->seo_title->value }}</title>
 @endif
 ```
+
+>### Field: VE JSON Fields
+
+Sortable multi-rows and multi-fields JSON storage.  
+![Fields Group](/docs/images/fields-json-multi.png)
+
+BREAD Json multi-field configuration:
+```json
+{
+    "json_fields": {
+        "group": "Param Group",
+        "name": "Param Name",
+        "value": "Param Value"
+    }
+}
+```
+
+Stored data structure (2 rows):
+```json
+{
+  "fields": {
+    "group": "Field Group",
+    "name": "Field Name",
+    "value": "Field value"    
+  },
+  "rows": [
+      {
+        "group":"Main",
+        "name":"Services",
+        "value":"12"
+      },  
+      {
+        "group":"Second",
+        "name":"Packages",
+        "value": "100"
+      }
+  ]
+}
+```
+
+
 >### Field: VE Select Dropdown Tree
 
 Represents tree-like dropdown control related to the certain model.
