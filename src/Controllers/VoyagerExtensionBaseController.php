@@ -88,8 +88,14 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
             //-------- Extended #1
             $filters = null;
+
+            // Reset filters if slug was changed
+            if ($request->session()->has('filters') && $request->session()->get('filters')['slug'] !== $slug) {
+                $request->session()->forget('filters');
+            }
+
             if ($request->has('field') && $request->has('value')) {
-                $filters  = ['field' => $request->get('field'), 'value' => $request->get('value')];
+                $filters  = ['slug' => $slug, 'field' => $request->get('field'), 'value' => $request->get('value')];
                 $request->session()->put('filters', $filters);
             } elseif ($request->session()->has('filters') && !$request->has('reset_filters')) {
                 $filters = $request->session()->get('filters');
