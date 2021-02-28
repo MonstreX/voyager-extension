@@ -81,7 +81,11 @@ if (!function_exists('flat_to_tree'))
     function flat_to_tree($flat_array)
     {
         $result = $flat_array;
-        $result = build_tree($result);
+
+        if (count($flat_array) > 0 && array_key_exists('parent_id', $flat_array[0])) {
+            $result = build_tree($result);
+        }
+
         return $result;
     }
 }

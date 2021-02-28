@@ -35,24 +35,24 @@
 
         @php
 
-        $model_filters = [];
-        foreach($dataType->browseRows as $row) {
-            if(isset($row->details->browse_filter)) {
-                $model_filters[] = [
-                    'filter_items' => app($row->details->model)->get(),
-                    'filter_title' => $row->display_name,
-                    'filter_column' => $row->details->column,
-                    'filter_key' => $row->details->key,
-                    'filter_label' => $row->details->label,
-                ];
+            $model_filters = [];
+            foreach($dataType->browseRows as $row) {
+                if(isset($row->details->browse_filter)) {
+                    $model_filters[] = [
+                        'filter_items' => buildFlatFromTree(flat_to_tree(app($row->details->model)->get()->toArray())),
+                        'filter_title' => $row->display_name,
+                        'filter_column' => $row->details->column,
+                        'filter_key' => $row->details->key,
+                        'filter_label' => $row->details->label,
+                    ];
+                }
             }
-        }
         @endphp
 
         @if(count($model_filters) > 0)
-        <div class="browse-filters-holder" data-url="{{ Request::url() }}">
-            @foreach($model_filters as $key => $filter)
-            <span class="filter-selector">
+            <div class="browse-filters-holder" data-url="{{ Request::url() }}">
+                @foreach($model_filters as $key => $filter)
+                    <span class="filter-selector">
                 <label for="filter-selector-{{ $key }}">{{ $filter['filter_title'] }}:</label>
                 <select id="filter-selector-{{ $key }}" name="filter-selector[]" data-column="{{ $filter['filter_column'] }}" class="filter-select select2">
                     <option value="">---</option>
@@ -68,13 +68,14 @@
 
                     @foreach($filter['filter_items'] as $key2 => $item)
                         <option value="{{ $item['id'] }}" @if ($val && $item['id'] == $val) selected @endif>
-                            {{ $item[$filter['filter_label']] }}
-                        </option>
+                        @if($item['level'] > 0) {{ str_repeat("--", $item['level']) }} @endif {{ $item[$filter['filter_label']] }}
+                    </option>
                     @endforeach
+
                 </select>
             </span>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
         @endif
 
         @include('voyager::multilingual.language-selector')

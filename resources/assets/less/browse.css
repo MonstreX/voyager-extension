@@ -289,11 +289,9 @@
     padding: 15px;
     border-radius: 4px;
 }
-
 .filter-selector {
     display: inline-flex;
-    min-width: 300px;
-    max-width: 500px;
+    min-width: 500px;
     margin-right: 30px;
     align-items: center;
 }
