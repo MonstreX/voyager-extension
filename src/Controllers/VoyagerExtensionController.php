@@ -180,6 +180,7 @@ class VoyagerExtensionController extends BaseController
             // Add New Image from Request
             $new_file = $data->addMediaFromRequest($field)
                 ->withCustomProperties($old_properties)
+                ->setFileName($this->getFileName($request->file($field)))
                 ->toMediaCollection($field);
 
             $all_files = $data->getMedia($field);
@@ -309,5 +310,13 @@ class VoyagerExtensionController extends BaseController
         abort(404);
     }
 
+    private function getFileName($file)
+    {
+        $fullName = $file->getClientOriginalName();
+        $filename = pathinfo($fullName, PATHINFO_FILENAME);
+        $extension = pathinfo($fullName, PATHINFO_EXTENSION);
+
+        return config('voyager-extension.slug_filenames')? Str::slug($filename) . '.' . $extension : $fullName;
+    }
 
 }
