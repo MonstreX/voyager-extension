@@ -96,7 +96,7 @@
                                 @endphp
 
                                 @if (isset($row->details->section))
-                                    <div class="panel-section">
+                                    <div class="panel-section col-md-12">
                                         <h3>{{ $row->details->section }}</h3>
                                     </div>
                                 @endif
