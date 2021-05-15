@@ -39,7 +39,7 @@
             foreach($dataType->browseRows as $row) {
                 if(isset($row->details->browse_filter)) {
                     $model_filters[] = [
-                        'filter_items' => buildFlatFromTree(flat_to_tree(app($row->details->model)->get()->toArray())),
+                        'filter_items' => build_flat_from_tree(flat_to_tree(app($row->details->model)->get()->toArray())),
                         'filter_title' => $row->display_name,
                         'filter_column' => $row->details->column,
                         'filter_key' => $row->details->key,

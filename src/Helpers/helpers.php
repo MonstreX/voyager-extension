@@ -131,7 +131,6 @@ if (!function_exists('build_flat_from_tree')) {
     }
 }
 
-// buildFlatFromTree($tree)
 if (!function_exists('build_flat_children')) {
     function build_flat_children($children, &$result, &$level)
     {
