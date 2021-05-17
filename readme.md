@@ -94,6 +94,19 @@ Configure
 
 ```
 
+> #### Using coordinates field
+Some of legacy voyager fields like 'coordinates' don't work properly in the mode 'legacy_edit_add_bread' => false  
+To make it work as supposed to be you need copy the legacy template file into your own template folder: /resources/views/vendor/voyager/formfields/coordinates.blade.php  
+Then you should replace string:
+```php
+var gMapVm = new Vue({ el: '#coordinates-formfield' });
+```
+with: 
+```php
+if (typeof gMapVm === 'undefined') {
+    var gMapVm = new Vue({ el: '#coordinates-formfield' });
+}
+```
 
 #### Models
 

@@ -177,6 +177,10 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             View::composer('voyager::bread.edit-add', function ($view) {
                 view('voyager-extension::bread.edit-add')->with($view->gatherData())->render();
             });
+//            // Coordinate field fixed template
+//            View::composer('voyager::formfields.coordinates', function ($view) {
+//                view('voyager-extension::formfields.coordinates')->with($view->gatherData())->render();
+//            });
         }
     }
 
