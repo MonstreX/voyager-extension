@@ -173,6 +173,9 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             $orderColumn = [[$index, $sortOrder ?? 'desc']];
         }
 
+        // Define list of columns that can be sorted server side
+        $sortableColumns = $this->getSortableColumns($dataType->browseRows);
+
         $view = 'voyager::bread.browse';
 
         if (view()->exists("voyager::$slug.browse")) {
@@ -188,6 +191,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             'filters', // Extended params
             'orderBy',
             'orderColumn',
+            'sortableColumns',
             'sortOrder',
             'searchNames',
             'isServerSide',
