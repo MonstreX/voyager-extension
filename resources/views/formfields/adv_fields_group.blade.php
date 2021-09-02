@@ -10,18 +10,18 @@
         @endphp
         @if($field->type === 'text')
             <div class="form-group">
-                <label for="{{$key_field}}">{{$field->label}}</label>
-                <input type="text" id="{{$key_field}}" class="form-control" name="{{$key_field}}" value="{{ $value }}">
+                <label for="{{$row->field}}_{{$key_field}}">{{$field->label}}</label>
+                <input type="text" id="{{$row->field}}_{{$key_field}}" class="form-control" name="{{$row->field}}_{{$key_field}}" value="{{ $value }}">
             </div>
         @elseif($field->type === 'number')
             <div class="form-group">
-                <label for="{{$key_field}}">{{$field->label}}</label>
-                <input type="number" id="{{$key_field}}" class="form-control" name="{{$key_field}}" value="{{ $value }}">
+                <label for="{{$row->field}}_{{$key_field}}">{{$field->label}}</label>
+                <input type="number" id="{{$row->field}}_{{$key_field}}" class="form-control" name="{{$row->field}}_{{$key_field}}" value="{{ $value }}">
             </div>
         @elseif($field->type === 'textarea')
             <div class="form-group">
-                <label for="{{$key_field}}">{{$field->label}}</label>
-                <textarea id="{{$key_field}}" class="form-control" name="{{$key_field}}">{{ $value }}</textarea>
+                <label for="{{$row->field}}_{{$key_field}}">{{$field->label}}</label>
+                <textarea id="{{$row->field}}_{{$key_field}}" class="form-control" name="{{$key_field}}">{{ $value }}</textarea>
             </div>
         @endif
     @endforeach
