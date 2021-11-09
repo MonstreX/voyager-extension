@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "dev",
     "homepage": "https://github.com/monstrex/voyager-extension",
-    "keywords": ["Laravel", "Voyager"],
+    "keywords": ["Laravel", "Voyager", "admin"],
     "require": {
         "tcg/voyager": "~1.4",
         "spatie/laravel-medialibrary": "^8.00.0",
