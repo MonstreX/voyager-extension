@@ -169,7 +169,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach($dataTypeContent as $data)
                                     <tr data-record-id="{{$data->getKey()}}"
                                         data-slug="{{$dataType->slug}}"

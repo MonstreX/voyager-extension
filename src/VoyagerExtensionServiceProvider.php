@@ -46,6 +46,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         $this->loadHelpers();
 
         $this->app->bind(
+            'TCG\Voyager\Models\DataType',
+            'MonstreX\VoyagerExtension\Models\DataType'
+        );
+
+        $this->app->bind(
             'TCG\Voyager\Http\Controllers\VoyagerController',
             'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionRootController'
         );
@@ -173,14 +178,14 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             view('voyager-extension::menus.builder')->with($view->gatherData())->render();
         });
 
+        View::composer('voyager::tools.bread.edit-add', function ($view) {
+            view('voyager-extension::tools.bread.edit-add')->with($view->gatherData())->render();
+        });
+
         if (!config('voyager-extension.legacy_edit_add_bread')) {
             View::composer('voyager::bread.edit-add', function ($view) {
                 view('voyager-extension::bread.edit-add')->with($view->gatherData())->render();
             });
-//            // Coordinate field fixed template
-//            View::composer('voyager::formfields.coordinates', function ($view) {
-//                view('voyager-extension::formfields.coordinates')->with($view->gatherData())->render();
-//            });
         }
     }
 

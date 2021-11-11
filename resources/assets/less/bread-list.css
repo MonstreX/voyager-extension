@@ -1,0 +1,68 @@
+#voyagerBreadEditAdd .bread-list-header {
+
+}
+
+#bread-items .bread-list-field {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #0b75d9;
+}
+#bread-items .bread-list-attr {
+    font-size: 13px;
+}
+
+#bread-items .bread-list-attr strong {
+    color: #262626;
+}
+
+#bread-items .bread-list-col {
+    margin-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#bread-items .row-dd>div:first-child {
+    padding-left: 37px;
+}
+.fake-table-hd>div:first-child {
+    padding-left: 35px;
+}
+
+#bread-items .tt-label {
+    padding: 0 0 0 3px;
+}
+
+#bread-items .tt {
+    margin: 0 5px 0 0;
+}
+
+#bread-items .bread-list-col select {
+    padding: 6px;
+    border-radius: 3px;
+    border-color: #dadcde;
+}
+#bread-items .ace-github {
+    /*max-height: 44px;*/
+}
+
+#bread-items .bread-list-details {
+    max-height: 45px;
+    overflow: hidden;
+}
+#bread-items .bread-list-details.opened {
+    max-height: none;
+}
+
+#bread-items .bread-list-collapse {
+    display: flex;
+    width: 100%;
+    height: 15px;
+    justify-content: center;
+    align-items: center;
+    background: #f1f1f1;
+}
+
+#bread-items .bread-list-display-title {
+    font-weight: 500;
+    color: #6a6a6a;
+}
