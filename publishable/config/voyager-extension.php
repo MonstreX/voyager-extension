@@ -12,6 +12,27 @@ return [
 
     /*
     |
+    | Use original tools/bread/edit-add.blade.php or use extended one
+    |
+    */
+
+    'legacy_bread_list' => false,
+
+    /*
+    |
+    | Use sticky action panel (if 'enabled' = true) instead the original action buttons.
+    | If 'autohide' = true will show and hide automatically on mouse over/leave events.
+    | Uses in edit-add.blade.php and tools/bread/edit-add.blade.php
+    |
+    */
+
+    'sticky_action_panel' => [
+        'enabled' => true,
+        'autohide' => false,
+    ],
+
+    /*
+    |
     | CLone Record parameters
     | @params: enabled - if action is available
     |          reset_types - A value of these bread type fields will be cleared

@@ -63,4 +63,6 @@ return [
     'inline_save'             => 'Save',
     'inline_cancel'           => 'Cancel',
 
+    'extra_details'           => 'Extra Options',
+    'save_and_continue'       => 'Save and continue editing',
 ];

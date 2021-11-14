@@ -60,12 +60,13 @@
         <div class="row">
             <div class="col-md-12">
 
-                <form action="@if(isset($dataType->id)){{ route('voyager.bread.update', $dataType->id) }}@else{{ route('voyager.bread.store') }}@endif"
+                <form id="bread-list-form" data-url="{{ Request::url() }}" action="@if(isset($dataType->id)){{ route('voyager.bread.update', $dataType->id) }}@else{{ route('voyager.bread.store') }}@endif"
                       method="POST" role="form">
                 @if(isset($dataType->id))
                     <input type="hidden" value="{{ $dataType->id }}" name="id">
                     {{ method_field("PUT") }}
                 @endif
+                    <input id="redirect-to" type="hidden" value="" name="redirect_to">
                     <!-- CSRF TOKEN -->
                     {{ csrf_field() }}
 
@@ -188,7 +189,7 @@
                                 </div>
                             </div>
                             <div class="row clearfix">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="order_column">{{ __('voyager::bread.order_column') }}</label>
                                     <span class="voyager-question"
                                           aria-hidden="true"
@@ -204,7 +205,7 @@
                                         @endforeach
                                       </select>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="order_display_column">{{ __('voyager::bread.order_ident_column') }}</label>
                                     <span class="voyager-question"
                                           aria-hidden="true"
@@ -220,7 +221,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="order_direction">{{ __('voyager::bread.order_direction') }}</label>
                                     <select name="order_direction" class="select2 form-control">
                                         <option value="asc" @if(isset($dataType) && $dataType->order_direction == 'asc') selected @endif>
@@ -231,7 +232,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="default_search_key">{{ __('voyager::bread.default_search_key') }}</label>
                                     <span class="voyager-question"
                                           aria-hidden="true"
@@ -247,29 +248,48 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row clearfix">
                                 @if (isset($scopes) && isset($dataType))
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-2 form-group">
                                         <label for="scope">{{ __('voyager::bread.scope') }}</label>
                                         <select name="scope" class="select2 form-control">
                                             <option value="">-- {{ __('voyager::generic.none') }} --</option>
                                             @foreach($scopes as $scope)
-                                            <option value="{{ $scope }}"
-                                                    @if($dataType->scope == $scope) selected @endif
-                                            >{{ $scope }}</option>
+                                                <option value="{{ $scope }}"
+                                                        @if($dataType->scope == $scope) selected @endif
+                                                >{{ $scope }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 @endif
-                                <div class="col-md-9 form-group">
+                            </div>
+
+
+
+
+                            <div class="row clearfix">
+                                <div class="col-md-6 form-group bread-extra-details">
+                                    <label for="extra_details">{{ __('voyager-extension::bread.extra_details') }}</label>
+                                    <div class="bread-list-details">
+                                        <div class="bread-list-ace-container">
+                                            <div id="extra_details" class="code_editor">{{ $dataType->extra_details }}</div>
+                                            <textarea name="extra_details" id="extra_details_textarea" class="hidden">{{ $dataType->extra_details }}</textarea>
+                                        </div>
+                                        <div class="bread-list-collapse">
+                                            <div class="icon voyager-double-up"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
                                     <label for="description">{{ __('voyager::bread.description') }}</label>
-                                    <textarea class="form-control"
+                                    <textarea class="form-control bread-description-text"
                                               name="description"
                                               placeholder="{{ __('voyager::bread.description') }}"
                                     >{{ $dataType->description ?? '' }}</textarea>
                                 </div>
                             </div>
+
+
+
                         </div><!-- .panel-body -->
                     </div><!-- .panel -->
 
@@ -286,8 +306,8 @@
                             <div class="row fake-table-hd">
                                 <div class="col-xs-3 bread-list-header">{{ __('voyager::database.field') }}</div>
                                 <div class="col-xs-2 bread-list-header">{{ __('voyager::database.visibility') }}</div>
-                                <div class="col-xs-2 bread-list-header">{{ __('voyager::bread.display_name') }}</div>
                                 <div class="col-xs-2 bread-list-header">{{ __('voyager::database.input_type') }}</div>
+                                <div class="col-xs-2 bread-list-header">{{ __('voyager::bread.display_name') }}</div>
                                 <div class="col-xs-3 bread-list-header">{{ __('voyager::database.optional_details') }}</div>
                             </div>
 
@@ -330,18 +350,6 @@
                                         @include('voyager-extension::tools.bread.action', ['data' => $data, 'action' => 'delete', 'color' => 'red'])
                                     </div>
                                     <div class="col-xs-2 bread-list-col">
-                                        @if($isModelTranslatable)
-                                            @include('voyager::multilingual.input-hidden', [
-                                                'isModelTranslatable' => true,
-                                                '_field_name'         => 'field_display_name_' . $data['field'],
-                                                '_field_trans' => $dataRow ? get_field_translations($dataRow, 'display_name') : json_encode([config('voyager.multilingual.default') => ucwords(str_replace('_', ' ', $data['field']))]),
-                                            ])
-                                        @endif
-                                        <input type="text" class="form-control bread-list-display-title"
-                                               value="{{ $dataRow->display_name ?? ucwords(str_replace('_', ' ', $data['field'])) }}"
-                                               name="field_display_name_{{ $data['field'] }}">
-                                    </div>
-                                    <div class="col-xs-2 bread-list-col">
                                         <input type="hidden" name="field_{{ $data['field'] }}" value="{{ $data['field'] }}">
                                         @if($data['type'] == 'timestamp')
                                             <p>{{ __('voyager::generic.timestamp') }}</p>
@@ -359,6 +367,18 @@
                                                 @endforeach
                                             </select>
                                         @endif
+                                    </div>
+                                    <div class="col-xs-2 bread-list-col">
+                                        @if($isModelTranslatable)
+                                            @include('voyager::multilingual.input-hidden', [
+                                                'isModelTranslatable' => true,
+                                                '_field_name'         => 'field_display_name_' . $data['field'],
+                                                '_field_trans' => $dataRow ? get_field_translations($dataRow, 'display_name') : json_encode([config('voyager.multilingual.default') => ucwords(str_replace('_', ' ', $data['field']))]),
+                                            ])
+                                        @endif
+                                        <input type="text" class="form-control bread-list-display-title"
+                                               value="{{ $dataRow->display_name ?? ucwords(str_replace('_', ' ', $data['field'])) }}"
+                                               name="field_display_name_{{ $data['field'] }}">
                                     </div>
                                     <div class="col-xs-3 bread-list-col">
                                         <div class="bread-list-details">
@@ -380,8 +400,6 @@
                                     </div>
                                 </div>
 
-
-
                             @endforeach
 
                             @if(isset($dataTypeRelationships))
@@ -393,13 +411,30 @@
                             </div>
 
                         </div><!-- .panel-body -->
+                        @if(!config('voyager-extension.sticky_action_panel.enabled'))
                         <div class="panel-footer">
                              <div class="btn btn-new-relationship"><i class="voyager-heart"></i> <span>
                              {{ __('voyager::database.relationship.create') }}</span></div>
                         </div>
+                        @endif
                     </div><!-- .panel -->
 
-                    <button type="submit" class="btn pull-right btn-primary">{{ __('voyager::generic.submit') }}</button>
+                    @if(!config('voyager-extension.sticky_action_panel.enabled'))
+                    <div class="action-panel">
+                        <button type="submit" class="btn pull-right btn-primary">{{ __('voyager::generic.submit') }}</button>
+                    </div>
+                    @else
+                    <div class="float-action-panel @if(!config('voyager-extension.sticky_action_panel.autohide')) locked @endif">
+{{--                        <div class="float-action-handle">--}}
+{{--                            <i class="voyager-double-right"></i>--}}
+{{--                        </div>--}}
+                        <div class="btn btn-new-relationship">
+                            <i class="voyager-heart"></i><span>{{ __('voyager::database.relationship.create') }}</span>
+                        </div>
+                        <button type="button" class="btn btn-save-and-continue btn-success">{{ __('voyager-extension::bread.save_and_continue') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('voyager::generic.submit') }}</button>
+                    </div>
+                    @endif
 
                 </form>
             </div><!-- .col-md-12 -->
@@ -425,6 +460,17 @@
         validationAlerts.hide();
         $(function () {
 
+            // Manage sticky action panel
+            @if(config('voyager-extension.sticky_action_panel.autohide'))
+            const elFloatPanel = $('.float-action-panel');
+            elFloatPanel.on("mouseover", function () {
+                $(this).css("bottom","0px");
+            });
+            elFloatPanel.on("mouseleave", function () {
+                $(this).css("bottom","-40px");
+            });
+            @endif
+
             // Apply TinyToggles
             $(".tiny-toggle").tinyToggle();
 
@@ -438,6 +484,31 @@
 
             $('.bread-list-collapse').on('click', function(){
                 $(this).parent().removeClass('opened');
+            });
+
+            // Ace Code Editor
+            $('.code_editor').each(function () {
+                let codeEditor = ace.edit(this);
+
+                codeEditor.session.setMode("ace/mode/json");
+                codeEditor.setTheme("ace/theme/github");
+                codeEditor.setOption("maxLines", 100);
+                codeEditor.setOption("minLines", 4);
+
+                codeEditor.on('change', function(event, el) {
+                    ace_editor_id = el.container.id;
+                    ace_editor_textarea = document.getElementById(ace_editor_id + '_textarea');
+                    ace_editor_instance = ace.edit(ace_editor_id);
+                    ace_editor_textarea.value = ace_editor_instance.getValue();
+                });
+            });
+
+            // Save and continue
+            $('.btn-save-and-continue').on('click', function(){
+                let elForm = $('#bread-list-form');
+                $('#redirect-to').val(elForm.data('url'));
+                elForm.submit();
+                //console.log('save and continue');
             });
 
             @if ($isModelTranslatable)

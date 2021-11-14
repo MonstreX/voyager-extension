@@ -5,18 +5,23 @@ namespace MonstreX\VoyagerExtension\Models;
 use TCG\Voyager\Models\DataType as VoyagerDataType;
 
 class DataType extends VoyagerDataType
-{    
-    /**
-     * setOrderColumnAttribute
-     *
-     * @param mixed $value
-     *
-     * @return void
-     */
-    public function setOrderColumnAttribute($value)
+{
+
+    public function __construct(array $attributes = [])
     {
-        //dd($this->attributes['details'], collect($this->details)->merge(['browse_order' => 12345, 'order_column' => $value]));
-        //$this->attributes['details'] = collect($this->details)->merge(['order_column' => $value]);
-        $this->attributes['details'] = collect($this->details)->merge(['browse_order' => 12345, 'order_column' => $value]);
+        $this->fillable[] = 'extra_details';
+        parent::__construct($attributes);
     }
+
+    public function getExtraDetailsAttribute()
+    {
+        return $this->details->extra_details ? json_encode($this->details->extra_details, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '{}';
+    }
+
+    public function setExtraDetailsAttribute($value)
+    {
+        $value = json_decode(!empty($value) ? $value : '{}');
+        $this->attributes['details'] = collect($this->details)->merge(['extra_details' => $value]);
+    }
+
 }

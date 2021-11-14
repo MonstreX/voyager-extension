@@ -1,7 +1,3 @@
-#voyagerBreadEditAdd .bread-list-header {
-
-}
-
 #bread-items .bread-list-field {
     font-size: 15px;
     margin-bottom: 5px;
@@ -40,20 +36,21 @@
     padding: 6px;
     border-radius: 3px;
     border-color: #dadcde;
-}
-#bread-items .ace-github {
-    /*max-height: 44px;*/
+    width: 100%;
 }
 
-#bread-items .bread-list-details {
+#bread-items .bread-list-details,
+.bread-extra-details .bread-list-details {
     max-height: 45px;
     overflow: hidden;
 }
-#bread-items .bread-list-details.opened {
+#bread-items .bread-list-details.opened,
+.bread-extra-details .bread-list-details.opened {
     max-height: none;
 }
 
-#bread-items .bread-list-collapse {
+#bread-items .bread-list-collapse,
+.bread-extra-details .bread-list-collapse {
     display: flex;
     width: 100%;
     height: 15px;
@@ -65,4 +62,22 @@
 #bread-items .bread-list-display-title {
     font-weight: 500;
     color: #6a6a6a;
+}
+
+
+
+
+
+/* FIXES */
+.min_height_50 {
+    width: 100%;
+    min-height: 100px;
+}
+
+.code_editor {
+    position: relative;
+}
+
+.bread-description-text {
+    max-width: 100%;
 }

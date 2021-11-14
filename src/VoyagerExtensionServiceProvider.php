@@ -45,10 +45,12 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
 
         $this->loadHelpers();
 
-        $this->app->bind(
-            'TCG\Voyager\Models\DataType',
-            'MonstreX\VoyagerExtension\Models\DataType'
-        );
+        if (!config('voyager-extension.legacy_bread_list')) {
+            $this->app->bind(
+                'TCG\Voyager\Models\DataType',
+                'MonstreX\VoyagerExtension\Models\DataType'
+            );
+        }
 
         $this->app->bind(
             'TCG\Voyager\Http\Controllers\VoyagerController',
@@ -60,8 +62,13 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController'
         );
 
-        $path = resource_path(__DIR__.'/../publishable/lang/en');
+        $this->app->bind(
+            'TCG\Voyager\Http\Controllers\VoyagerBreadController',
+            'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBreadController'
+        );
 
+        // ToDo: remove if not necessary
+        // $path = resource_path(__DIR__.'/../publishable/lang/en');
     }
 
     /**
@@ -178,9 +185,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             view('voyager-extension::menus.builder')->with($view->gatherData())->render();
         });
 
-        View::composer('voyager::tools.bread.edit-add', function ($view) {
-            view('voyager-extension::tools.bread.edit-add')->with($view->gatherData())->render();
-        });
+        if (!config('voyager-extension.legacy_bread_list')) {
+            View::composer('voyager::tools.bread.edit-add', function ($view) {
+                view('voyager-extension::tools.bread.edit-add')->with($view->gatherData())->render();
+            });
+        }
 
         if (!config('voyager-extension.legacy_edit_add_bread')) {
             View::composer('voyager::bread.edit-add', function ($view) {

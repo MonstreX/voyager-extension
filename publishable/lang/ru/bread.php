@@ -63,4 +63,6 @@ return [
     'inline_save'             => 'Сохранить',
     'inline_cancel'           => 'Отмена',
 
+    'extra_details'           => 'Дополнительные параметры',
+    'save_and_continue'       => 'Сохранить и продложить',
 ];

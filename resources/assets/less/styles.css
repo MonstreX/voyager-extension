@@ -296,6 +296,41 @@ a.btn-setting-route {
     left: 10px;
 }
 
+.float-action-panel {
+    display: flex;
+    position: fixed;
+    justify-content: flex-end;
+    width: 100%;
+    right: 0;
+    bottom: -40px;
+    background: #ffffffc2;
+    border-top-left-radius: 3px;
+    padding: 7px 7px 7px 4px;
+    z-index: 5;
+    -webkit-box-shadow: 0 0 14px 0 rgba(0,0,0,0.17);
+    box-shadow: 0 0 14px 0 rgba(0,0,0,0.17);
+    transition: all .2s ease;
+}
+
+.float-action-panel.locked {
+    bottom: 0;
+}
+
+.float-action-handle {
+    display: flex;
+    align-items: center;
+    padding-right: 3px;
+}
+.float-action-panel .btn {
+    margin: 0;
+}
+.float-action-panel .btn-new-relationship,
+.float-action-panel .btn-success {
+    margin-right: 5px;
+}
+.float-action-panel .btn-new-relationship i {
+    margin-right: 5px;
+}
 
 /*Fix to remove overlay in Media manager */
 .modal-backdrop.fade.in {
