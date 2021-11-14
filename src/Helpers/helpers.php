@@ -171,3 +171,21 @@ if (!function_exists('find_package')) {
         return $version;
     }
 }
+
+if (!function_exists('get_row_by_name')) {
+    function get_row_by_name($browse_rows, $field_name)
+    {
+        return $browse_rows->first(function ($value) use ($field_name){
+            return $value->field == $field_name;
+        });
+    }
+}
+
+if (!function_exists('get_index_by_name')) {
+    function get_index_by_name($browse_fields, $field_name)
+    {
+        return collect($browse_fields)->search(function($value) use ($field_name) {
+            return $value === $field_name;
+        });
+    }
+}

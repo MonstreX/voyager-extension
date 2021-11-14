@@ -34,7 +34,6 @@
         @endforeach
 
         @php
-
             $model_filters = [];
             foreach($dataType->browseRows as $row) {
                 if(isset($row->details->browse_filter)) {
@@ -59,6 +58,7 @@
 
                     @php
                         $val = null;
+                        // $filters - comes from the index controller
                         if ($filters) {
                             foreach ($filters['field'] as $idx => $field) {
                                 $val = $field === $filter['filter_column']? $val = $filters['value'][$idx] : $val;
@@ -67,7 +67,7 @@
                     @endphp
 
                     @foreach($filter['filter_items'] as $key2 => $item)
-                        <option value="{{ $item['id'] }}" @if ($val && $item['id'] == $val) selected @endif>
+                    <option value="{{ $item['id'] }}" @if ($val && $item['id'] == $val) selected @endif>
                         @if($item['level'] > 0) {{ str_repeat("--", $item['level']) }} @endif {{ $item[$filter['filter_label']] }}
                     </option>
                     @endforeach
@@ -83,12 +83,23 @@
 @stop
 
 @php
+    $extra_details = json_decode($dataType->extra_details);
     // Set specified columns order
-    $dataType->browseRows = $dataType->browseRows->sortBy(function ($row, $key) {
-        return isset($row->details->browse_order)? $row->details->browse_order : 0;
+    $dataType->browseRows = $dataType->browseRows->sortBy(function ($row, $key) use ($extra_details) {
+        if (isset($extra_details->browse_order)) {
+            return get_index_by_name($extra_details->browse_order, $row->field);
+        } else {
+            return isset($row->details->browse_order)? $row->details->browse_order : 0;
+        }
     });
+
+    //dd($dataType->browseRows);
+
     // Correct Index Column for sorting in the table
     $orderColumn[0][0] = $dataType->browseRows->pluck('field')->search($orderBy) + ($showCheckboxColumn ? 1 : 0);
+
+
+
 @endphp
 
 @section('content')
@@ -140,9 +151,12 @@
                                                 <input type="checkbox" class="select_all">
                                             </th>
                                         @endif
+
                                         @foreach($dataType->browseRows as $row)
+
                                         <th class="@if(isset($row->details->browse_align)){{ $row->details->browse_align }}@endif"
                                             @if(isset($row->details->browse_width)) style="width:{{ $row->details->browse_width }}"@endif>
+
                                             @if ($isServerSide)
                                                 <a href="{{ $row->sortByUrl($orderBy, $sortOrder) }}">
                                             @endif
@@ -165,6 +179,7 @@
                                             @endif
                                         </th>
                                         @endforeach
+
                                         <th class="actions text-right">{{ __('voyager::generic.actions') }}</th>
                                     </tr>
                                 </thead>
