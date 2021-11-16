@@ -11,6 +11,7 @@
         }
     }
 
+
 @endphp
 
 @extends('voyager::master')
@@ -165,9 +166,11 @@
 @stop
 
 @section('javascript')
+    <script src="{{ voyager_extension_asset('js/jquery-autocomplete/jquery.autocomplete.min.js') }}"></script>
     <script>
 
         $('document').ready(function () {
+
             $('.toggleswitch').bootstrapToggle();
 
             //Init datepicker for date fields if data-datepicker attribute defined

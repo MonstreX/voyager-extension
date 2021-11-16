@@ -15,7 +15,7 @@ class DataType extends VoyagerDataType
 
     public function getExtraDetailsAttribute()
     {
-        return $this->details->extra_details ? json_encode($this->details->extra_details, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '{}';
+        return isset($this->details->extra_details) ? json_encode($this->details->extra_details, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '{}';
     }
 
     public function setExtraDetailsAttribute($value)

@@ -19,6 +19,7 @@ use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvFieldsGroupFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvJsonFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvRelatedFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvPageLayoutFormField;
 
 use MonstreX\VoyagerExtension\Actions\CloneAction;
@@ -140,16 +141,12 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             Config::set('media-library.url_generator', MediaLibraryUrlGenerator::class);
         }
 
-
         // Add CSS and JS to the Voyager's config
-
         Config::set('voyager.additional_css', [
-            //voyager_extension_asset('js/tinytoggle/css/tinytoggle.min.css'),
             voyager_extension_asset('css/app.css'),
         ]);
 
         Config::set('voyager.additional_js', [
-            //voyager_extension_asset('js/tinytoggle/jquery.tinytoggle.min.js'),
             voyager_extension_asset('js/app.js'),
         ]);
     }
@@ -219,6 +216,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvSelectDropdownTreeFormField::class);
         Voyager::addFormField(AdvFieldsGroupFormField::class);
         Voyager::addFormField(AdvJsonFormField::class);
+        Voyager::addFormField(AdvRelatedFormField::class);
 
         // This field depends on voyager-site package
         if (find_package('monstrex/voyager-site')) {
@@ -260,6 +258,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         try {
 
             $router->post( 'menu-items/{id}/record/update', $extensionVoyagerController . '@recordUpdate')->name('menu-items.ext-record-update');
+            $router->get( '/records', $extensionVoyagerController . '@recordsGet')->name('ext-records-get');
 
             foreach (Voyager::model('DataType')::all() as $dataType) {
                 $router->post($dataType->slug . '/sort/media', $extensionController . '@sort_media')->name($dataType->slug . '.ext-media.sort');
@@ -273,8 +272,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
                 $router->post($dataType->slug . '/records/order', $extensionVoyagerController . '@recordsOrder')->name($dataType->slug . '.ext-records-order');
 
                 $router->get($dataType->slug . '/{id}/record/group', $extensionController . '@load_group_form')->name($dataType->slug . '.ext-group.form');
-                //$router->get($dataType->slug . '/{id}/record/get', $extensionVoyagerController . '@recordGet')->name($dataType->slug . '.ext-record-get');
-
             }
         } catch (\InvalidArgumentException $e) {
             throw new \InvalidArgumentException("Custom routes hasn't been configured because: " . $e->getMessage(), 1);

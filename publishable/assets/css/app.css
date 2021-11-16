@@ -1406,6 +1406,77 @@ span.CodeMirror-selectedtext { background: none; }
     display: flex;
     align-items: center;
 }
+
+/* Autocomplete */
+.adv-related-add-autocomplete {
+    display: flex;
+}
+.adv-related-add-autocomplete > input {
+    color: #67636f;
+    background-color: #fff;
+    background-image: none;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.adv-related-add-autocomplete .btn.add-related {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+}
+.btn.add-related .voyager-list-add {
+    display: flex;
+}
+
+.adv-related-list {
+    padding: 5px 0 5px;
+}
+
+.adv-related-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+}
+.adv-related-item__title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    color: #111;
+}
+
+.adv-related-item .btn.remove-related {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin: 0;
+}
+
+.adv-related-item__handle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #fafafa;
+}
+.adv-related-item__handle span {
+    display: block;
+    height: 1px;
+    width: 20px;
+    margin: 3px 0;
+    background-color: #777;
+}
+
 /* JS PLUGINS FIXES */
 .app-container .content-container .side-menu {
     top: 0;
@@ -1743,6 +1814,14 @@ a.btn-setting-route {
 .modal-backdrop.fade.in {
     display: none;
 }
+
+/* Autocomplete field */
+.autocomplete-suggestions { box-sizing: border-box; border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+.autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
 
 
 

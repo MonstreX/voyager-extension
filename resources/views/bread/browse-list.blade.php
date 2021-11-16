@@ -93,13 +93,8 @@
         }
     });
 
-    //dd($dataType->browseRows);
-
     // Correct Index Column for sorting in the table
     $orderColumn[0][0] = $dataType->browseRows->pluck('field')->search($orderBy) + ($showCheckboxColumn ? 1 : 0);
-
-
-
 @endphp
 
 @section('content')

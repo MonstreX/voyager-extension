@@ -428,6 +428,48 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     }
 
     /*
+     *  Get multiple RecordS from model
+     */
+    public function recordsGet(Request $request)
+    {
+
+        try {
+            $query = $request->get('query');
+            $slug = $request->get('slug');
+            $search = $request->get('search');
+            $display = $request->get('display');
+            $fields = explode(',', $request->get('fields'));
+
+            // GET THE DataType based on the slug
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+            // Load model and find record
+            $model = app($dataType->model_name);
+            $relatedRecords = $model::where($search, 'like', '%' . $query . '%')->get()->toArray();
+
+            $data = [];
+            foreach ($relatedRecords as $record) {
+                $fieldsData = [];
+                $fieldsData['id'] = $record['id'];
+                foreach ($fields as $field) {
+                    if ($field !== 'id') {
+                        $fieldsData[$field] = $record[$field];
+                    }
+                }
+                $data[] = ["value" => $record[$display], 'data' => $fieldsData];
+            }
+
+            // Check permission
+            $this->authorize('edit', $model);
+
+            return response()->json(["suggestions" => $data]);
+
+        } catch (Exception $e) {
+            return json_response_with_error(500, $e);
+        }
+    }
+
+    /*
      *  Update Record Field
      */
     public function recordUpdate(Request $request)

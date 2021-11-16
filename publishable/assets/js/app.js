@@ -455,6 +455,69 @@ $('document').ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/adv_related.js":
+/*!********************************************!*\
+  !*** ./resources/assets/js/adv_related.js ***!
+  \********************************************/
+/***/ (() => {
+
+$('document').ready(function () {
+  function relatedTemplate(relatedObj) {
+    return "\n        <div class=\"adv-related-item\" data-data='".concat(relatedObj.data, "'>\n            <div class=\"adv-related-item__handle\"><span></span><span></span><span></span></div>\n            <div class=\"adv-related-item__title\">").concat(relatedObj.display, "</div>\n            <div class=\"adv-related-item__remove\">\n                <button data-field=\"").concat(relatedObj.field, "\" type=\"button\" class=\"btn btn-danger remove-related\"><i class='voyager-x'></i></button>\n            </div>\n        </div>");
+  }
+
+  function relatedCheck(relatedObj) {
+    var result = false;
+    $('#adv-related-list-' + relatedObj.field + ' .adv-related-item').each(function () {
+      var title = $(this).find('.adv-related-item__title').text();
+
+      if (title === relatedObj.display) {
+        console.log('Exist!');
+        result = true;
+        return false;
+      }
+    });
+    return result;
+  }
+
+  $('.related-autocomplete').each(function () {
+    var related = $(this);
+    $(this).autocomplete({
+      serviceUrl: related.data('url'),
+      params: {
+        slug: related.data('slug'),
+        search: related.data('search'),
+        display: related.data('display'),
+        fields: related.data('fields')
+      },
+      onSelect: function onSelect(suggestion) {
+        var data = {
+          display: suggestion.value,
+          fields: suggestion.data
+        };
+        related.data('display', suggestion.value);
+        related.data('data', JSON.stringify(data));
+        related.parent().find('button').prop("disabled", false);
+      }
+    });
+  });
+  $('.add-related').on('click', function () {
+    var related = $('#adv-related-autocomplete-' + $(this).data('field'));
+    var relatedObj = {
+      field: related.data('field'),
+      display: related.data('display'),
+      data: related.data('data')
+    };
+    console.log(relatedCheck(relatedObj));
+
+    if (!relatedCheck(relatedObj)) {
+      $("#adv-related-list-" + related.data('field')).append(relatedTemplate(relatedObj));
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/app.js":
 /*!************************************!*\
   !*** ./resources/assets/js/app.js ***!
@@ -488,6 +551,8 @@ window.vext = __webpack_require__(/*! ./common.js */ "./resources/assets/js/comm
 __webpack_require__(/*! ./adv_image.js */ "./resources/assets/js/adv_image.js");
 
 __webpack_require__(/*! ./adv_json.js */ "./resources/assets/js/adv_json.js");
+
+__webpack_require__(/*! ./adv_related.js */ "./resources/assets/js/adv_related.js");
 
 __webpack_require__(/*! ./adv_media_files.js */ "./resources/assets/js/adv_media_files.js");
 
