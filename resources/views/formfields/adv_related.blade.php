@@ -1,8 +1,18 @@
 @if ($related_options = isset($row->details->related)? $row->details->related : null)
 <div class="adv-related-wrapper">
-    <div id="adv-related-list-{{$row->field}}" class="adv-related-list">
-
+    @if (!empty($dataTypeContent->{$row->field}))
+    <div id="adv-related-list-{{$row->field}}" data-field="{{$row->field}}" class="adv-related-list">
+        @foreach(json_decode($dataTypeContent->{$row->field}) as $item)
+        <div class="adv-related-item" data-data="{{ json_encode($item) }}">
+            <div class="adv-related-item__handle"><span></span><span></span><span></span></div>
+            <div class="adv-related-item__title">{{ $item->display }}</div>
+            <div class="adv-related-item__remove">
+                <button data-field="{{ $row->field }}" type="button" class="btn btn-danger remove-related"><i class='voyager-x'></i></button>
+            </div>
+        </div>
+        @endforeach
     </div>
+    @endif
     <div class="adv-related-add-holder">
         <div class="adv-related-add-form">
             <div class="adv-related-add-autocomplete">
