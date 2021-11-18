@@ -1,5 +1,8 @@
 @push('javascript')
 <script>
+
+window.rootAdminRoute = "admin"
+
 function tinymce_setup_callback(editor)
 {
     editor.settings.external_plugins = {

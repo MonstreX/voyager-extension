@@ -1,9 +1,6 @@
-/*--------------------
-|
-| HELPERS
-|
---------------------*/
-// Translations
+// ------------------------------
+// Translate
+// ------------------------------
 var trans = function(key, replace = {})
 {
   var translation = key.split('.').reduce((t, i) => t[i] || null, window.translations);
@@ -14,10 +11,10 @@ var trans = function(key, replace = {})
   return translation;
 }
 
-/*
- Set Request parameters to use with AJAX
- el = jQuery object with data vars;
- */
+// ------------------------------
+// Set Request parameters to use with AJAX
+// el = jQuery object with data vars;
+// ------------------------------
 var getMediaParams = function (el)
 {
   return {
@@ -33,11 +30,11 @@ var getMediaParams = function (el)
   }
 }
 
-/*
-Returns Dialog position closest to cursor
-evt = Event
-extra = if True - Dialog has extra fields
- */
+// ------------------------------
+// Returns Dialog position closest to cursor
+// evt = Event
+// extra = if True - Dialog has extra fields
+// ------------------------------
 var getDialogPosition = function (evt, extra, offs = 0)
 {
   var w_width = $(window).width();
@@ -52,6 +49,9 @@ var getDialogPosition = function (evt, extra, offs = 0)
   return pos;
 }
 
+// ------------------------------
+// Create OK Dialog
+// ------------------------------
 var createDialogOk = function (params)
 {
 
@@ -72,9 +72,11 @@ var createDialogOk = function (params)
       }
     ]
   });
-
 }
 
+// ------------------------------
+// Create YES / NO Dialog
+// ------------------------------
 var createDialogYesNo = function (params)
 {
 
@@ -99,11 +101,11 @@ var createDialogYesNo = function (params)
 
 }
 
-/*
-  args.route = URL for AJAX request
-  args.params = data to send to the server
-  args.remove_element = the element to be removed from the DOM tree
- */
+// ------------------------------
+// args.route = URL for AJAX request
+// args.params = data to send to the server
+// args.remove_element = the element to be removed from the DOM tree
+// ------------------------------
 var dialogMediaRemove = function (args) {
 
   vext.createDialogYesNo( {
@@ -154,12 +156,9 @@ var dialogMediaRemove = function (args) {
   });
 };
 
-
-/*
-
- Request Certain Action
-
- */
+// ------------------------------
+// Request Certain Action
+// ------------------------------
 var dialogActionRequest = function (args) {
 
   vext.createDialogYesNo( {
@@ -177,11 +176,9 @@ var dialogActionRequest = function (args) {
   });
 };
 
-
-
-/*
- Set image SRC based on File INPUT field
- */
+// ------------------------------
+// Set image SRC based on File INPUT field
+// ------------------------------
 var readURL = function (input)
 {
   if (input.files && input.files[0]) {
@@ -202,9 +199,10 @@ var readURL = function (input)
 }
 
 
+// ------------------------------
 // Load translations from the backend
+// ------------------------------
 window.translations = {};
-// Loaf Translations
 $.get('/admin/voyager-extension-translations', null, function (data) {
   if (data) {
     window.translations = data;

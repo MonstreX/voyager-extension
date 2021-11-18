@@ -60,7 +60,7 @@ $('document').ready(function () {
     }
 
     // ------------------------------
-    // Initialize All Autocomplete Fields
+    // Initialize and handle All Autocomplete Fields
     // ------------------------------
     $('.related-autocomplete').each(function() {
         const related = $(this);
@@ -90,10 +90,11 @@ $('document').ready(function () {
                                 data: item
                             }
                         })
+
                         done({ suggestions: suggestions});
 
                     } else {
-                        console.log('AJAX Error...')
+                        console.log('Adv Related: Autocomplete AJAX Error...')
                     }
                 });
             },

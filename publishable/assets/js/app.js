@@ -512,7 +512,7 @@ $('document').ready(function () {
     });
     field_json.val(JSON.stringify(data));
   } // ------------------------------
-  // Initialize All Autocomplete Fields
+  // Initialize and handle All Autocomplete Fields
   // ------------------------------
 
 
@@ -543,7 +543,7 @@ $('document').ready(function () {
               suggestions: suggestions
             });
           } else {
-            console.log('AJAX Error...');
+            console.log('Adv Related: Autocomplete AJAX Error...');
           }
         });
       },
@@ -637,12 +637,9 @@ __webpack_require__(/*! ./voyager_legacy.js */ "./resources/assets/js/voyager_le
   \***************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
-/*--------------------
-|
-| HELPERS
-|
---------------------*/
-// Translations
+// ------------------------------
+// Translate
+// ------------------------------
 var trans = function trans(key) {
   var replace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var translation = key.split('.').reduce(function (t, i) {
@@ -654,11 +651,10 @@ var trans = function trans(key) {
   }
 
   return translation;
-};
-/*
- Set Request parameters to use with AJAX
- el = jQuery object with data vars;
- */
+}; // ------------------------------
+// Set Request parameters to use with AJAX
+// el = jQuery object with data vars;
+// ------------------------------
 
 
 var getMediaParams = function getMediaParams(el) {
@@ -673,12 +669,11 @@ var getMediaParams = function getMediaParams(el) {
     filename: el.data('file-name'),
     _token: csrf_token
   };
-};
-/*
-Returns Dialog position closest to cursor
-evt = Event
-extra = if True - Dialog has extra fields
- */
+}; // ------------------------------
+// Returns Dialog position closest to cursor
+// evt = Event
+// extra = if True - Dialog has extra fields
+// ------------------------------
 
 
 var getDialogPosition = function getDialogPosition(evt, extra) {
@@ -693,7 +688,10 @@ var getDialogPosition = function getDialogPosition(evt, extra) {
   pos.x = 'left + ' + x_offs;
   pos.y = extra || w_height - evt.screenY < 200 ? 'center' : 'top + ' + (evt.screenY - 100);
   return pos;
-};
+}; // ------------------------------
+// Create OK Dialog
+// ------------------------------
+
 
 var createDialogOk = function createDialogOk(params) {
   if (vext_dialog) {
@@ -712,7 +710,10 @@ var createDialogOk = function createDialogOk(params) {
       callback: function callback() {}
     }]
   });
-};
+}; // ------------------------------
+// Create YES / NO Dialog
+// ------------------------------
+
 
 var createDialogYesNo = function createDialogYesNo(params) {
   if (vext_dialog) {
@@ -734,12 +735,11 @@ var createDialogYesNo = function createDialogYesNo(params) {
       callback: function callback() {}
     }]
   });
-};
-/*
-  args.route = URL for AJAX request
-  args.params = data to send to the server
-  args.remove_element = the element to be removed from the DOM tree
- */
+}; // ------------------------------
+// args.route = URL for AJAX request
+// args.params = data to send to the server
+// args.remove_element = the element to be removed from the DOM tree
+// ------------------------------
 
 
 var dialogMediaRemove = function dialogMediaRemove(args) {
@@ -781,12 +781,9 @@ var dialogMediaRemove = function dialogMediaRemove(args) {
       });
     }
   });
-};
-/*
-
- Request Certain Action
-
- */
+}; // ------------------------------
+// Request Certain Action
+// ------------------------------
 
 
 var dialogActionRequest = function dialogActionRequest(args) {
@@ -799,10 +796,9 @@ var dialogActionRequest = function dialogActionRequest(args) {
       $('#action_form').submit();
     }
   });
-};
-/*
- Set image SRC based on File INPUT field
- */
+}; // ------------------------------
+// Set image SRC based on File INPUT field
+// ------------------------------
 
 
 var readURL = function readURL(input) {
@@ -822,11 +818,12 @@ var readURL = function readURL(input) {
 
     reader.readAsDataURL(input.files[0]);
   }
-}; // Load translations from the backend
+}; // ------------------------------
+// Load translations from the backend
+// ------------------------------
 
 
-window.translations = {}; // Loaf Translations
-
+window.translations = {};
 $.get('/admin/voyager-extension-translations', null, function (data) {
   if (data) {
     window.translations = data;
