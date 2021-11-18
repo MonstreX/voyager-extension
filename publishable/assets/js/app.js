@@ -462,9 +462,30 @@ $('document').ready(function () {
 /***/ (() => {
 
 $('document').ready(function () {
+  var advRelatedList = $('.adv-related-list'); // ------------------------------
+  // Sorting related items
+  // ------------------------------
+
+  advRelatedList.each(function (index, elem) {
+    Sortable.create(document.getElementById($(elem).attr('id')), {
+      animation: 200,
+      sort: true,
+      scroll: true,
+      onSort: function onSort(evt) {
+        var relatedList = $('#adv-related-list-' + $(elem).data('field'));
+        collectRelatedItemsAndMakeJSON(relatedList);
+      }
+    });
+  }); // ------------------------------
+  // Related Item Template
+  // ------------------------------
+
   function relatedTemplate(relatedObj) {
     return "\n        <div class=\"adv-related-item\" data-data='".concat(relatedObj.data, "'>\n            <div class=\"adv-related-item__handle\"><span></span><span></span><span></span></div>\n            <div class=\"adv-related-item__title\">").concat(relatedObj.display, "</div>\n            <div class=\"adv-related-item__remove\">\n                <button data-field=\"").concat(relatedObj.field, "\" type=\"button\" class=\"btn btn-danger remove-related\"><i class='voyager-x'></i></button>\n            </div>\n        </div>");
-  }
+  } // ------------------------------
+  // Check for doubles
+  // ------------------------------
+
 
   function relatedCheck(relatedObj) {
     var result = false;
@@ -472,13 +493,16 @@ $('document').ready(function () {
       var title = $(this).find('.adv-related-item__title').text();
 
       if (title === relatedObj.display) {
-        console.log('Exist!');
         result = true;
         return false;
       }
     });
     return result;
-  }
+  } // ------------------------------
+  // Collect all related items, convert to
+  // JSON and store it in the result input field
+  // ------------------------------
+
 
   function collectRelatedItemsAndMakeJSON(elList) {
     var field_json = $("#".concat(elList.data('field')));
@@ -487,18 +511,41 @@ $('document').ready(function () {
       data.push($(elRow).data('data'));
     });
     field_json.val(JSON.stringify(data));
-    console.log(field_json.val());
-  }
+  } // ------------------------------
+  // Initialize All Autocomplete Fields
+  // ------------------------------
+
 
   $('.related-autocomplete').each(function () {
     var related = $(this);
     $(this).autocomplete({
-      serviceUrl: related.data('url'),
-      params: {
-        slug: related.data('slug'),
-        search: related.data('search'),
-        display: related.data('display'),
-        fields: related.data('fields')
+      lookup: function lookup(query, done) {
+        var params = {
+          query: related.val(),
+          slug: related.data('slug'),
+          where: 'like',
+          prefix: '%',
+          suffix: '%',
+          search: related.data('search'),
+          display: related.data('display-field'),
+          fields: related.data('fields')
+        };
+        $.get(related.data('url'), params, function (response) {
+          if (response && response.data && response.data.status && response.data.status == 200) {
+            var suggestions = [];
+            suggestions = response.data.data.map(function (item, index) {
+              return {
+                value: item.display,
+                data: item
+              };
+            });
+            done({
+              suggestions: suggestions
+            });
+          } else {
+            console.log('AJAX Error...');
+          }
+        });
       },
       onSelect: function onSelect(suggestion) {
         var data = {
@@ -510,7 +557,9 @@ $('document').ready(function () {
         related.parent().find('button').prop("disabled", false);
       }
     });
-  }); // Add new related item into the related list
+  }); // ------------------------------
+  // Add new related item into the related list
+  // ------------------------------
 
   $('.add-related').on('click', function () {
     var related = $('#adv-related-autocomplete-' + $(this).data('field'));
@@ -525,9 +574,11 @@ $('document').ready(function () {
       $("#adv-related-list-" + related.data('field')).append(relatedTemplate(relatedObj));
       collectRelatedItemsAndMakeJSON(relatedList);
     }
-  }); // Remove related item
+  }); // ------------------------------
+  // Remove related item
+  // ------------------------------
 
-  $('.adv-related-list').on('click', '.remove-related', function () {
+  advRelatedList.on('click', '.remove-related', function () {
     var relatedList = $('#adv-related-list-' + $(this).data('field'));
     $(this).closest('.adv-related-item').remove();
     collectRelatedItemsAndMakeJSON(relatedList);

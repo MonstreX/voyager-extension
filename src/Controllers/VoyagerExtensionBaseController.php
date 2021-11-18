@@ -430,7 +430,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     /*
      *  Get multiple RecordS from model
      */
-    public function recordsGet(Request $request)
+    public function recordsGetBak(Request $request)
     {
 
         try {
@@ -468,6 +468,52 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             return json_response_with_error(500, $e);
         }
     }
+
+    /*
+     *  Get multiple RecordS from model
+     */
+    public function recordsGet(Request $request)
+    {
+        try {
+            $query = $request->get('query');
+            $where = $request->get('where');
+            $prefix = $request->get('prefix');
+            $suffix = $request->get('suffix');
+            $slug = $request->get('slug');
+            $search = $request->get('search');
+            $display = $request->get('display');
+            $fields = explode(',', $request->get('fields'));
+
+            // GET THE DataType based on the slug
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+            // Load model and find record
+            $model = app($dataType->model_name);
+            $relatedRecords = $model::where($search, $where, $prefix . $query . $suffix)->get()->toArray();
+
+            $data = [];
+            foreach ($relatedRecords as $record) {
+                $fieldsData = [];
+                $fieldsData['id'] = $record['id'];
+                $fieldsData['display'] = $record[$display];
+                foreach ($fields as $field) {
+                    if ($field !== 'id' && $field !== 'display') {
+                        $fieldsData[$field] = $record[$field];
+                    }
+                }
+                $data[] = $fieldsData;
+            }
+
+            // Check permission
+            $this->authorize('edit', $model);
+
+            return json_response_with_success(200, '', $data);
+
+        } catch (Exception $e) {
+            return json_response_with_error(500, $e);
+        }
+    }
+
 
     /*
      *  Update Record Field

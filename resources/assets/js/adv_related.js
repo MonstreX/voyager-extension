@@ -1,5 +1,25 @@
 $('document').ready(function () {
 
+    const advRelatedList = $('.adv-related-list')
+
+    // ------------------------------
+    // Sorting related items
+    // ------------------------------
+    advRelatedList.each(function(index, elem) {
+        Sortable.create( document.getElementById($(elem).attr('id')), {
+            animation: 200,
+            sort: true,
+            scroll: true,
+            onSort: function (evt) {
+                const relatedList = $('#adv-related-list-' + $(elem).data('field'))
+                collectRelatedItemsAndMakeJSON(relatedList)
+            }
+        });
+    });
+
+    // ------------------------------
+    // Related Item Template
+    // ------------------------------
     function relatedTemplate(relatedObj) {
         return `
         <div class="adv-related-item" data-data='${relatedObj.data}'>
@@ -11,12 +31,14 @@ $('document').ready(function () {
         </div>`
     }
 
+    // ------------------------------
+    // Check for doubles
+    // ------------------------------
     function relatedCheck(relatedObj) {
         let result = false;
         $('#adv-related-list-' + relatedObj.field + ' .adv-related-item').each(function() {
            const title = $(this).find('.adv-related-item__title').text()
            if (title === relatedObj.display) {
-               console.log('Exist!')
                result = true
                return false
            }
@@ -24,27 +46,56 @@ $('document').ready(function () {
         return result;
     }
 
+    // ------------------------------
+    // Collect all related items, convert to
+    // JSON and store it in the result input field
+    // ------------------------------
     function collectRelatedItemsAndMakeJSON(elList) {
         const field_json = $(`#${elList.data('field')}`);
-
         const data = []
         elList.find('.adv-related-item').each(function(iRow, elRow) {
             data.push($(elRow).data('data'))
         });
         field_json.val(JSON.stringify(data));
-
-        console.log(field_json.val());
     }
 
+    // ------------------------------
+    // Initialize All Autocomplete Fields
+    // ------------------------------
     $('.related-autocomplete').each(function() {
         const related = $(this);
         $( this ).autocomplete({
-            serviceUrl: related.data('url'),
-            params: {
-                slug: related.data('slug'),
-                search: related.data('search'),
-                display: related.data('display'),
-                fields: related.data('fields')
+            lookup: function (query, done) {
+                const params = {
+                    query: related.val(),
+                    slug: related.data('slug'),
+                    where: 'like',
+                    prefix: '%',
+                    suffix: '%',
+                    search: related.data('search'),
+                    display: related.data('display-field'),
+                    fields: related.data('fields')
+                }
+
+                $.get(related.data('url'), params, function (response) {
+                    if ( response
+                        && response.data
+                        && response.data.status
+                        && response.data.status == 200 ) {
+
+                        let suggestions = []
+                        suggestions = response.data.data.map(function(item, index) {
+                            return {
+                                value: item.display,
+                                data: item
+                            }
+                        })
+                        done({ suggestions: suggestions});
+
+                    } else {
+                        console.log('AJAX Error...')
+                    }
+                });
             },
             onSelect: function (suggestion) {
                 const data = {
@@ -58,7 +109,9 @@ $('document').ready(function () {
         })
     })
 
+    // ------------------------------
     // Add new related item into the related list
+    // ------------------------------
     $('.add-related').on('click', function () {
         const related = $('#adv-related-autocomplete-' + $(this).data('field'))
         const relatedList = $('#adv-related-list-' + $(this).data('field'))
@@ -73,8 +126,10 @@ $('document').ready(function () {
         }
     })
 
+    // ------------------------------
     // Remove related item
-    $('.adv-related-list').on('click', '.remove-related', function () {
+    // ------------------------------
+    advRelatedList.on('click', '.remove-related', function () {
         const relatedList = $('#adv-related-list-' + $(this).data('field'))
         $(this).closest('.adv-related-item').remove();
         collectRelatedItemsAndMakeJSON(relatedList)

@@ -24,7 +24,7 @@
                        data-url="{{ route('voyager.ext-records-get') }}"
                        data-slug="{{ $related_options->source }}"
                        data-search="{{ $related_options->search }}"
-                       data-display="{{ $related_options->display }}"
+                       data-display-field="{{ $related_options->display }}"
                        data-fields="{{ implode(',', $related_options->fields) }}"
                         >
                 <button data-field="{{$row->field}}" type="button" disabled class="btn btn-success add-related"><i class='voyager-list-add'></i></button>
