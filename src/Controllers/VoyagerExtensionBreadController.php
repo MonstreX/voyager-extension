@@ -27,9 +27,7 @@ class VoyagerExtensionBreadController extends VoyagerBreadController
      */
     public function store(Request $request)
     {
-        if ($request->has('redirect_to') && !empty($request->redirect_to)) {
-            $request->session()->put('redirect_to', $request->redirect_to);
-        }
+        set_session_redirect($request);
         return parent::store($request);
     }
 
@@ -40,10 +38,9 @@ class VoyagerExtensionBreadController extends VoyagerBreadController
      */
     public function update(Request $request, $id)
     {
-        if ($request->has('redirect_to') && !empty($request->redirect_to)) {
-            $request->session()->put('redirect_to', $request->redirect_to);
-        }
+        set_session_redirect($request);
         return parent::update($request, $id);
     }
+
 
 }

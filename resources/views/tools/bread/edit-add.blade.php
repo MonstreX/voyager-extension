@@ -263,9 +263,6 @@
                                 @endif
                             </div>
 
-
-
-
                             <div class="row clearfix">
                                 <div class="col-md-6 form-group bread-extra-details">
                                     <label for="extra_details">{{ __('voyager-extension::bread.extra_details') }}</label>
@@ -288,11 +285,8 @@
                                 </div>
                             </div>
 
-
-
                         </div><!-- .panel-body -->
                     </div><!-- .panel -->
-
 
                     <div class="panel panel-primary panel-bordered">
                         <div class="panel-heading">
@@ -425,9 +419,6 @@
                     </div>
                     @else
                     <div class="float-action-panel @if(!config('voyager-extension.sticky_action_panel.autohide')) locked @endif">
-{{--                        <div class="float-action-handle">--}}
-{{--                            <i class="voyager-double-right"></i>--}}
-{{--                        </div>--}}
                         <div class="btn btn-new-relationship">
                             <i class="voyager-heart"></i><span>{{ __('voyager::database.relationship.create') }}</span>
                         </div>
@@ -464,7 +455,7 @@
             @if(config('voyager-extension.sticky_action_panel.autohide'))
             const elFloatPanel = $('.float-action-panel');
             elFloatPanel.on("mouseover", function () {
-                $(this).css("bottom","0px");
+                $(this).css("bottom","0");
             });
             elFloatPanel.on("mouseleave", function () {
                 $(this).css("bottom","-40px");
@@ -508,7 +499,6 @@
                 let elForm = $('#bread-list-form');
                 $('#redirect-to').val(elForm.data('url'));
                 elForm.submit();
-                //console.log('save and continue');
             });
 
             @if ($isModelTranslatable)

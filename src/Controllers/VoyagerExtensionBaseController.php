@@ -17,6 +17,7 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvPageLayoutContentType;
 
+use Session;
 use Str;
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
@@ -29,6 +30,12 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
      */
     public function index(Request $request)
     {
+        if (Session::has('redirect_to')) {
+            $redirectToURL = Session::get('redirect_to');
+            Session::forget('redirect_to');
+            return redirect($redirectToURL);
+        }
+
         // GET THE SLUG, ex. 'posts', 'pages', etc.
         $slug = $this->getSlug($request);
 
@@ -230,8 +237,15 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         return parent::edit($request, $id);
     }
 
+    public function store(Request $request)
+    {
+        set_session_redirect($request);
+        return parent::store($request);
+    }
+
     public function update(Request $request, $id)
     {
+        set_session_redirect($request);
         $slug = $this->getSlug($request);
         View::share(['page_slug' => $slug, 'page_id' => $id]);
         return parent::update($request, $id);

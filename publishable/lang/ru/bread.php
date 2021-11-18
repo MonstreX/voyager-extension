@@ -65,4 +65,5 @@ return [
 
     'extra_details'           => 'Дополнительные параметры',
     'save_and_continue'       => 'Сохранить и продложить',
+    'save_and_create'         => 'Сохранить и создать',
 ];

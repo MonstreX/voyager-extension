@@ -38,13 +38,18 @@
                 <div class="panel panel-bordered">
                     <!-- form start -->
                     <form role="form"
+                            id="form-edit-add"
                             class="form-edit-add"
+                            data-url="{{ Request::url() }}"
+                            data-url-create="{{ route('voyager.'.$dataType->slug.'.create') }}"
                             action="{{ $edit ? route('voyager.'.$dataType->slug.'.update', $dataTypeContent->getKey()) : route('voyager.'.$dataType->slug.'.store') }}"
                             method="POST" enctype="multipart/form-data">
                         <!-- PUT Method if we are editing -->
                         @if($edit)
                             {{ method_field("PUT") }}
                         @endif
+
+                        <input id="redirect-to" type="hidden" value="" name="redirect_to">
 
                         <!-- CSRF TOKEN -->
                         {{ csrf_field() }}
@@ -141,12 +146,25 @@
 
                         </div><!-- panel-body -->
 
-                        <div class="panel-footer">
-                            @section('submit-buttons')
-                                <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
-                            @stop
-                            @yield('submit-buttons')
-                        </div>
+                        @if(!config('voyager-extension.sticky_action_panel.enabled'))
+                            <div class="panel-footer">
+                                @section('submit-buttons')
+                                    <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
+                                @stop
+                                @yield('submit-buttons')
+                            </div>
+                        @else
+                            <div class="float-action-panel float-action-edit @if(!config('voyager-extension.sticky_action_panel.autohide')) locked @endif">
+                                @section('submit-buttons')
+                                    <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
+                                @stop
+                                @yield('submit-buttons')
+                                <button type="button" class="btn btn-save-and-continue btn-success">{{ __('voyager-extension::bread.save_and_continue') }}</button>
+                                <button type="button" class="btn btn-save-and-create btn-warning">{{ __('voyager-extension::bread.save_and_create') }}</button>
+                            </div>
+                        @endif
+
+
                     </form>
 
                     <iframe id="form_target" name="form_target" style="display:none"></iframe>
@@ -170,6 +188,30 @@
     <script>
 
         $('document').ready(function () {
+
+            // Manage sticky action panel
+            @if(config('voyager-extension.sticky_action_panel.autohide'))
+            const elFloatPanel = $('.float-action-panel');
+            elFloatPanel.on("mouseover", function () {
+                $(this).css("bottom","0");
+            });
+            elFloatPanel.on("mouseleave", function () {
+                $(this).css("bottom","-40px");
+            });
+            @endif
+
+            // Save and continue
+            const elForm = $('#form-edit-add')
+            const elRedirect = $('#redirect-to')
+            $('.btn-save-and-continue').on('click', function(){
+                elRedirect.val(elForm.data('url'));
+                elForm.submit();
+            });
+
+            $('.btn-save-and-create').on('click', function(){
+                elRedirect.val(elForm.data('url-create'));
+                elForm.submit();
+            });
 
             $('.toggleswitch').bootstrapToggle();
 

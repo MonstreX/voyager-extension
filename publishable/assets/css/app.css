@@ -1440,6 +1440,7 @@ span.CodeMirror-selectedtext { background: none; }
 }
 
 .adv-related-item {
+    cursor: move;
     display: flex;
     justify-content: space-between;
     margin: 2px 0;
@@ -1475,6 +1476,10 @@ span.CodeMirror-selectedtext { background: none; }
     width: 20px;
     margin: 3px 0;
     background-color: #777;
+}
+
+.float-action-edit .btn.btn-primary {
+    margin-right: 5px;
 }
 
 /* JS PLUGINS FIXES */

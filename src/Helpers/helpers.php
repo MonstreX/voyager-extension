@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 /*
@@ -187,5 +188,14 @@ if (!function_exists('get_index_by_name')) {
         return collect($browse_fields)->search(function($value) use ($field_name) {
             return $value === $field_name;
         });
+    }
+}
+
+if (!function_exists('set_session_redirect')) {
+    function set_session_redirect(Request $request)
+    {
+        if ($request->has('redirect_to') && !empty($request->redirect_to)) {
+            $request->session()->put('redirect_to', $request->redirect_to);
+        }
     }
 }
