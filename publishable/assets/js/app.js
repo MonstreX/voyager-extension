@@ -562,6 +562,7 @@ $('document').ready(function () {
   // ------------------------------
 
   $('.add-related').on('click', function () {
+    console.log(123);
     var related = $('#adv-related-autocomplete-' + $(this).data('field'));
     var relatedList = $('#adv-related-list-' + $(this).data('field'));
     var relatedObj = {

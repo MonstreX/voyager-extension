@@ -114,6 +114,7 @@ $('document').ready(function () {
     // Add new related item into the related list
     // ------------------------------
     $('.add-related').on('click', function () {
+        console.log(123);
         const related = $('#adv-related-autocomplete-' + $(this).data('field'))
         const relatedList = $('#adv-related-list-' + $(this).data('field'))
         const relatedObj = {
