@@ -295,7 +295,7 @@ public function categoryId()
 Represents of a sortable model records list. Uses autocomplete field to add new specified entries.  
 The model describes in details Bread field.   
 
-![Fields Group](/docs/images/fields-adv-related.png)
+![Fields Group](/docs/images/adv-related.png)
 
 ```json
 {
