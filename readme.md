@@ -72,6 +72,21 @@ Configure
 'legacy_edit_add_bread' => false,
 
 /*
+| Use original tools/bread/edit-add.blade.php or use extended one
+*/
+'legacy_bread_list' => false,
+
+/*
+| Use sticky action panel (if 'enabled' = true) instead the original action buttons.
+| If 'autohide' = true will show and hide automatically on mouse over/leave events.
+| Uses in edit-add.blade.php and tools/bread/edit-add.blade.php
+*/
+'sticky_action_panel' => [
+    'enabled' => true,
+    'autohide' => false,
+],
+
+/*
 | CLone Record parameters
 | @params: enabled - if action is available
 |          reset_types - A value of these bread type fields will be cleared
@@ -133,10 +148,22 @@ class Article extends Model implements HasMedia
 ```
 Also you can use any other advantages provided by [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) package.
 
-Usage
+Description and usage
 ---
 
-The package provide some new type fields.
+Design of the BREAD Builder was changed to make it more compact and handy (can be disabled by config):
+
+![BREAD Builder](/docs/images/bread-layout.png)
+
+Common extra details in BREAD Builder page:
+
+![BREAD Extra Options](/docs/images/bread-extra.png)
+
+New basic action buttons on the sticky panel for add-edit modes (can be disabled by config):
+
+![Sticky Action Panel](/docs/images/sticky-panel.png)
+
+The package also provide some new type fields.
 
 >### Field: VE Image
 
@@ -460,7 +487,23 @@ Sets width, align and font-size for the column in browse mode:
 
 ### Column order
 
-Now you can change the column order in a browse mode using this option:
+Set browse order you need in the Extra Options of BREAD Builder.
+
+```json
+{
+    "browse_order": [
+        "status",
+        "id",
+        "title",
+        "block_belongsto_block_region_relationship",
+        "urls",
+        "created_at"
+    ]
+}
+```
+>Notice: a voyager relation field should use their own naming convention like **block_belongsto_block_region_relationship**.
+
+Also you can change the column order in a browse mode using this option:
 ```json
 {
     "browse_order": 1
