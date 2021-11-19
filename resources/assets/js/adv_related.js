@@ -72,8 +72,8 @@ $('document').ready(function () {
                     where: 'like',
                     prefix: '%',
                     suffix: '%',
-                    search: related.data('search'),
-                    display: related.data('display-field'),
+                    search_field: related.data('search-field'),
+                    display_field: related.data('display-field'),
                     fields: related.data('fields')
                 }
 
@@ -86,7 +86,7 @@ $('document').ready(function () {
                         let suggestions = []
                         suggestions = response.data.data.map(function(item, index) {
                             return {
-                                value: item.display,
+                                value: item[related.data('display-field')],
                                 data: item
                             }
                         })
@@ -100,7 +100,7 @@ $('document').ready(function () {
             },
             onSelect: function (suggestion) {
                 const data = {
-                    display: suggestion.value,
+                    display_field: related.data('display-field'),
                     fields: suggestion.data
                 }
                 related.data('display', suggestion.value)
@@ -114,14 +114,15 @@ $('document').ready(function () {
     // Add new related item into the related list
     // ------------------------------
     $('.add-related').on('click', function () {
-        console.log(123);
         const related = $('#adv-related-autocomplete-' + $(this).data('field'))
         const relatedList = $('#adv-related-list-' + $(this).data('field'))
         const relatedObj = {
             field: related.data('field'),
             display: related.data('display'),
+            display_field: related.data('display-field'),
             data: related.data('data')
         }
+
         if (!relatedCheck(relatedObj)) {
             $("#adv-related-list-" + related.data('field')).append(relatedTemplate(relatedObj))
             collectRelatedItemsAndMakeJSON(relatedList)

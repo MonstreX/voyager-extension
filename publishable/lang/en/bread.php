@@ -66,4 +66,5 @@ return [
     'extra_details'           => 'Extra Options',
     'save_and_continue'       => 'Save and continue editing',
     'save_and_create'         => 'Save and create new',
+    'no_related_json_data'    => 'No JSON data for the related field',
 ];

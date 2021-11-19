@@ -9,16 +9,22 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 ## Features
 
 - Integration of v8 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
-- New field: VE Image, supports Title and Alt field.
-- New field: VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
-- New field: VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
-- New field: VE Fields Group. JSON kind group of fields inside the one model field.
-- New field: VE Sortable JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
-- New field: VE Page Layout. Allows to organize layout of widgets and content on a Page. Depends on Voyager Site package.
-- New extended Browse Bread appearance and options.
-- Custom Browse columns order.
-- Tabs Layout for an add-edit BREAD mode.
+- Basic action buttons in add-edit mode (Save) can be Sticky and Autohide now.  
+- Custom Browse columns order. Can be defined in two ways.
+- Tabs Layout for an add-edit bread mode.
 - Tree view mode for models have parent_id field.
+- New extended Browse Bread appearance and options.
+- New extended BREAD Builder appearance and options.
+- New basic actions for add-edit mode: Save and continue & Save and create.
+
+New custom fields:   
+- VE Image. Title and Alt field are supported.
+- VE Media Files (including images), supports Sorting and unlimited attached custom fields with different types.
+- VE Select Dropdown Tree. Dropdown selection for Tree type structures (with parent_id).
+- VE Fields Group. JSON kind group of fields inside the one model field.
+- VE Sortable JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
+- VE Related Models. Set of a related models list.
+- VE Page Layout. Allows organizing layout of blocks, forms, widgets and content on a Page. Depends on Voyager Site package.
 
 ## Package installation
 
@@ -284,6 +290,51 @@ public function categoryId()
 }
 ```
 
+>### Field: VE Related Models
+
+Represents of a sortable model records list. Uses autocomplete field to add new specified entries.  
+The model describes in details Bread field.   
+
+![Fields Group](/docs/images/fields-adv-related.png)
+
+```json
+{
+    "related_model": {
+        "source": "pages",
+        "search_field": "title",
+        "display_field": "title",
+        "fields": [
+            "title",
+            "slug",
+            "price"
+        ]
+    }
+}
+```
+Where:  
+**source:** a slug of the model  
+**search_field:** a field for search  
+**display_field:** a field to display as label/title,  
+**fields:** set of fields to store.  
+
+Predefined fields are: id and field mentioned in the display_field option.
+
+Stored JSON format:
+```json
+[
+    {
+        "display_field":"title",
+        "fields": {
+            "id":1,
+            "title":"Proin volutpat, eros sed semper hendrerit",
+            "slug":"proin-volutpat-eros-sed-semper-hendrerit",
+            "price": 500
+        }
+    },
+    ...
+]
+```
+
 >### Field: VE Page Layout
 
 The special content field type. Available only if [Voyager Site](https://github.com/MonstreX/voyager-site) package is installed.
@@ -451,7 +502,7 @@ Localizations
 ---
 
 New types of fields don't provide localization service used in Voyager.
-But you can use built-in localization helper and retrieve translated substring from a field content:
+However, you can use built-in localization helper and retrieve translated substring from a field content:
 
 ```php
 $field_data = '{{en}}English title {{ru}}Russian title';
@@ -464,23 +515,5 @@ $field_title_ru = str_trans($field_data,'ru');
 
 If you discover any security related issues, please email author email instead of using the issue tracker.
 
-## Credits
-
-- [author name][link-author]
-- [All Contributors][link-contributors]
-
-## License
-
-license. Please see the [license file](license.md) for more information.
-
-[ico-version]: https://img.shields.io/packagist/v/monstrex/testpackage.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/monstrex/testpackage.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/monstrex/testpackage/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
-
 [link-packagist]: https://packagist.org/packages/monstrex/testpackage
 [link-downloads]: https://packagist.org/packages/monstrex/testpackage
-[link-travis]: https://travis-ci.org/monstrex/testpackage
-[link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/monstrex
-[link-contributors]: ../../contributors

@@ -526,8 +526,8 @@ $('document').ready(function () {
           where: 'like',
           prefix: '%',
           suffix: '%',
-          search: related.data('search'),
-          display: related.data('display-field'),
+          search_field: related.data('search-field'),
+          display_field: related.data('display-field'),
           fields: related.data('fields')
         };
         $.get(related.data('url'), params, function (response) {
@@ -535,7 +535,7 @@ $('document').ready(function () {
             var suggestions = [];
             suggestions = response.data.data.map(function (item, index) {
               return {
-                value: item.display,
+                value: item[related.data('display-field')],
                 data: item
               };
             });
@@ -549,7 +549,7 @@ $('document').ready(function () {
       },
       onSelect: function onSelect(suggestion) {
         var data = {
-          display: suggestion.value,
+          display_field: related.data('display-field'),
           fields: suggestion.data
         };
         related.data('display', suggestion.value);
@@ -562,12 +562,12 @@ $('document').ready(function () {
   // ------------------------------
 
   $('.add-related').on('click', function () {
-    console.log(123);
     var related = $('#adv-related-autocomplete-' + $(this).data('field'));
     var relatedList = $('#adv-related-list-' + $(this).data('field'));
     var relatedObj = {
       field: related.data('field'),
       display: related.data('display'),
+      display_field: related.data('display-field'),
       data: related.data('data')
     };
 

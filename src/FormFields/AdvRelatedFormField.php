@@ -6,7 +6,7 @@ use TCG\Voyager\FormFields\AbstractHandler;
 
 class AdvRelatedFormField extends AbstractHandler
 {
-    protected $name = 'VE Related';
+    protected $name = 'VE Related Model';
     protected $codename = 'adv_related';
 
     /*

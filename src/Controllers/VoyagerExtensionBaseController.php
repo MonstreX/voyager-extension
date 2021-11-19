@@ -444,48 +444,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     /*
      *  Get multiple RecordS from model
      */
-    public function recordsGetBak(Request $request)
-    {
-
-        try {
-            $query = $request->get('query');
-            $slug = $request->get('slug');
-            $search = $request->get('search');
-            $display = $request->get('display');
-            $fields = explode(',', $request->get('fields'));
-
-            // GET THE DataType based on the slug
-            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-
-            // Load model and find record
-            $model = app($dataType->model_name);
-            $relatedRecords = $model::where($search, 'like', '%' . $query . '%')->get()->toArray();
-
-            $data = [];
-            foreach ($relatedRecords as $record) {
-                $fieldsData = [];
-                $fieldsData['id'] = $record['id'];
-                foreach ($fields as $field) {
-                    if ($field !== 'id') {
-                        $fieldsData[$field] = $record[$field];
-                    }
-                }
-                $data[] = ["value" => $record[$display], 'data' => $fieldsData];
-            }
-
-            // Check permission
-            $this->authorize('edit', $model);
-
-            return response()->json(["suggestions" => $data]);
-
-        } catch (Exception $e) {
-            return json_response_with_error(500, $e);
-        }
-    }
-
-    /*
-     *  Get multiple RecordS from model
-     */
     public function recordsGet(Request $request)
     {
         try {
@@ -494,8 +452,8 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
             $prefix = $request->get('prefix');
             $suffix = $request->get('suffix');
             $slug = $request->get('slug');
-            $search = $request->get('search');
-            $display = $request->get('display');
+            $searchField = $request->get('search_field');
+            $displayField = $request->get('display_field');
             $fields = explode(',', $request->get('fields'));
 
             // GET THE DataType based on the slug
@@ -503,15 +461,15 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
             // Load model and find record
             $model = app($dataType->model_name);
-            $relatedRecords = $model::where($search, $where, $prefix . $query . $suffix)->get()->toArray();
+            $relatedRecords = $model::where($searchField, $where, $prefix . $query . $suffix)->get()->toArray();
 
             $data = [];
             foreach ($relatedRecords as $record) {
                 $fieldsData = [];
                 $fieldsData['id'] = $record['id'];
-                $fieldsData['display'] = $record[$display];
+                $fieldsData[$displayField] = $record[$displayField];
                 foreach ($fields as $field) {
-                    if ($field !== 'id' && $field !== 'display') {
+                    if ($field !== 'id' && $field !== $displayField) {
                         $fieldsData[$field] = $record[$field];
                     }
                 }
