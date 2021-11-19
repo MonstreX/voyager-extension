@@ -268,8 +268,8 @@
                                     <label for="extra_details">{{ __('voyager-extension::bread.extra_details') }}</label>
                                     <div class="bread-list-details">
                                         <div class="bread-list-ace-container">
-                                            <div id="extra_details" class="code_editor">{{ $dataType->extra_details }}</div>
-                                            <textarea name="extra_details" id="extra_details_textarea" class="hidden">{{ $dataType->extra_details }}</textarea>
+                                            <div id="extra_details" class="code_editor">{{ isset($dataType->extra_details)? $dataType->extra_details : '{}' }}</div>
+                                            <textarea name="extra_details" id="extra_details_textarea" class="hidden">{{ isset($dataType->extra_details)? $dataType->extra_details : '{}' }}</textarea>
                                         </div>
                                         <div class="bread-list-collapse">
                                             <div class="icon voyager-double-up"></div>

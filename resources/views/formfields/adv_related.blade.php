@@ -3,7 +3,6 @@
     <div id="adv-related-list-{{$row->field}}" data-field="{{$row->field}}" class="adv-related-list">
     @if (!empty($dataTypeContent->{$row->field}))
         @foreach(json_decode($dataTypeContent->{$row->field}) as $item)
-
         <div class="adv-related-item" data-data="{{ json_encode($item) }}">
             <div class="adv-related-item__handle"><span></span><span></span><span></span></div>
             <div class="adv-related-item__title">{{ $item->fields->{$item->display_field} }}</div>
@@ -37,4 +36,3 @@
 @else
 <div class="adv-related-no-options">{{ __('voyager-extension::bread.no_related_json_data') }}: {{ $row->field }}</div>
 @endif
-
