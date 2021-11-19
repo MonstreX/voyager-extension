@@ -155,6 +155,8 @@ Design of the BREAD Builder was changed to make it more compact and handy (can b
 
 ![BREAD Builder](/docs/images/bread-layout.png)
 
+All JSON fields are collapsable now and collapsed by default. To expand json editors - just click on it.
+
 Common extra details in BREAD Builder page:
 
 ![BREAD Extra Options](/docs/images/bread-extra.png)
