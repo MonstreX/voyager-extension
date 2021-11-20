@@ -10,8 +10,6 @@
             $tabs[] = $row->details->tab_title;
         }
     }
-
-
 @endphp
 
 @extends('voyager::master')
@@ -49,7 +47,9 @@
                             {{ method_field("PUT") }}
                         @endif
 
-                        <input id="redirect-to" type="hidden" value="" name="redirect_to">
+                        <input id="redirect-to" type="hidden" name="redirect_to" value="" >
+                        <input type="hidden" name="model_name" value="{{ $dataType->model_name }}">
+                        <input type="hidden" name="model_id" value="{{ $dataTypeContent->id }}">
 
                         <!-- CSRF TOKEN -->
                         {{ csrf_field() }}

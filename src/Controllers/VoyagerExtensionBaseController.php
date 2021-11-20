@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Database\Schema\SchemaManager;
+use TCG\Voyager\Http\Controllers\ContentTypes\BaseType;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -16,6 +17,7 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvImageContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvMediaFilesContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvPageLayoutContentType;
+use MonstreX\VoyagerExtension\ContentTypes\AdvInlineSetContentType;
 
 use Session;
 use Str;
@@ -231,10 +233,36 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
     public function edit(Request $request, $id)
     {
-
         $slug = $this->getSlug($request);
-        View::share(['page_slug' => $slug, 'page_id' => $id]);
+
+        $inlineSet = $this->getInlineSet($request, $id);
+
+        View::share(['page_slug' => $slug, 'page_id' => $id, 'inline_set' => $inlineSet]);
         return parent::edit($request, $id);
+    }
+
+    private function getInlineSet(Request $request, $id)
+    {
+        $slug = $this->getSlug($request);
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+        $model = app($dataType->model_name);
+        $query = $model->query();
+        $dataTypeContent = call_user_func([$query, 'findOrFail'], $id);
+
+        $inlineSet = [];
+        foreach ($dataType->editRows as $key => $row) {
+            if ($row->type === 'adv_inline_set' && isset($row->details->inline_set->source)) {
+                $inlineIDs = explode(',', $dataTypeContent->{$row->field});
+                $inlineModel = app($row->details->inline_set->source);
+                $inlineSet[$row->field] = $inlineModel
+                    ->where('model_field', $row->field)
+                    ->whereIn('id', $row->details->inline_set->many? $inlineIDs : [$inlineIDs[0]])
+                    ->orderBy('order', 'ASC')
+                    ->get();
+            }
+        }
+
+        return $inlineSet;
     }
 
     public function store(Request $request)
@@ -268,6 +296,8 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                 return (new AdvMediaFilesContentType($request, $slug, $row, $options))->handle();
             case 'adv_fields_group':
                 return (new AdvFieldsGroupContentType($request, $slug, $row, $options))->handle();
+            case 'adv_inline_set':
+                return (new AdvInlineSetContentType($request, $slug, $row, $options))->handle();
             case 'adv_page_layout':
                 return (new AdvPageLayoutContentType($request, $slug, $row, $options))->handle();
             default:
@@ -396,7 +426,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     /*
      *  Get Record Field
      */
-    public function recordGet(Request $request)
+    public function getOneRecord(Request $request)
     {
         try {
 
@@ -444,7 +474,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     /*
      *  Get multiple RecordS from model
      */
-    public function recordsGet(Request $request)
+    public function getRecords(Request $request)
     {
         try {
             $query = $request->get('query');

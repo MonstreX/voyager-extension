@@ -593,3 +593,49 @@
 .float-action-edit .btn.btn-primary {
     margin-right: 5px;
 }
+
+
+/* ADV INLINE SET */
+.adv-inline-set-list {
+
+}
+.adv-inline-set-item {
+    position: relative;
+    display: flex;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 20px 15px;
+    margin-bottom: 10px;
+}
+
+.adv-inline-set-handle {
+    cursor: move;
+    display: flex;
+    flex-direction: column;
+    width: 35px;
+}
+
+.adv-inline-set-handle span {
+    display: block;
+    height: 1px;
+    width: 20px;
+    margin: 3px 0;
+    background-color: #777;
+}
+
+.adv-inline-set-holder {
+    position: relative;
+    width: 100%;
+}
+
+.adv-inline-set-delete {
+    cursor: pointer;
+    position: absolute;
+    font-size: 21px;
+    display: flex;
+    right: 5px;
+    top: 5px;
+    justify-content: center;
+    align-items: center;
+    color: #ef1212;
+}

@@ -21,7 +21,7 @@
         @elseif($field->type === 'textarea')
             <div class="form-group">
                 <label for="{{$row->field}}_{{$key_field}}">{{$field->label}}</label>
-                <textarea id="{{$row->field}}_{{$key_field}}" class="form-control" name="{{$key_field}}">{{ $value }}</textarea>
+                <textarea id="{{$row->field}}_{{$key_field}}" class="form-control" name="{{$row->field}}_{{$key_field}}">{{ $value }}</textarea>
             </div>
         @endif
     @endforeach

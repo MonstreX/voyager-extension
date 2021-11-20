@@ -487,7 +487,7 @@ $('document').ready(function () {
   // ------------------------------
 
 
-  function relatedCheck(relatedObj) {
+  function checkRelated(relatedObj) {
     var result = false;
     $('#adv-related-list-' + relatedObj.field + ' .adv-related-item').each(function () {
       var title = $(this).find('.adv-related-item__title').text();
@@ -571,7 +571,7 @@ $('document').ready(function () {
       data: related.data('data')
     };
 
-    if (!relatedCheck(relatedObj)) {
+    if (!checkRelated(relatedObj)) {
       $("#adv-related-list-" + related.data('field')).append(relatedTemplate(relatedObj));
       collectRelatedItemsAndMakeJSON(relatedList);
     }

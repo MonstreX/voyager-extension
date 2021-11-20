@@ -18,6 +18,7 @@ use MonstreX\VoyagerExtension\FormFields\AdvImageFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvMediaFilesFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvSelectDropdownTreeFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvFieldsGroupFormField;
+use MonstreX\VoyagerExtension\FormFields\AdvInlineSetFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvJsonFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvRelatedFormField;
 use MonstreX\VoyagerExtension\FormFields\AdvPageLayoutFormField;
@@ -217,6 +218,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         Voyager::addFormField(AdvFieldsGroupFormField::class);
         Voyager::addFormField(AdvJsonFormField::class);
         Voyager::addFormField(AdvRelatedFormField::class);
+        Voyager::addFormField(AdvInlineSetFormField::class);
 
         // This field depends on voyager-site package
         if (find_package('monstrex/voyager-site')) {
@@ -258,7 +260,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         try {
 
             $router->post( 'menu-items/{id}/record/update', $extensionVoyagerController . '@recordUpdate')->name('menu-items.ext-record-update');
-            $router->get( '/records', $extensionVoyagerController . '@recordsGet')->name('ext-records-get');
+            $router->get( '/records', $extensionVoyagerController . '@getRecords')->name('ext-records-get');
 
             foreach (Voyager::model('DataType')::all() as $dataType) {
                 $router->post($dataType->slug . '/sort/media', $extensionController . '@sort_media')->name($dataType->slug . '.ext-media.sort');
