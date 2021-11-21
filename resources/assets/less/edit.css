@@ -599,6 +599,7 @@
 .adv-inline-set-list {
 
 }
+
 .adv-inline-set-item {
     position: relative;
     display: flex;
@@ -606,6 +607,11 @@
     border-radius: 4px;
     padding: 20px 15px;
     margin-bottom: 10px;
+    transition: background-color .5s ease;
+}
+
+.adv-inline-set-item.inline-delete {
+    background-color: #ffcece;
 }
 
 .adv-inline-set-handle {
@@ -638,4 +644,35 @@
     justify-content: center;
     align-items: center;
     color: #ef1212;
+}
+
+.adv-inline-set-list label {
+    margin-bottom: 0;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.adv-inline-set-list .form-control {
+    height: 30px;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+.adv-inline-set-list textarea.form-control {
+    height: auto;
+    resize: vertical;
+    overflow: auto;
+}
+
+.adv-inline-set-list .form-group {
+    margin-bottom: 5px;
+}
+
+.adv-inline-set-delete {
+    border: none;
+    background-color: transparent;
+}
+
+.adv-inline-set-template {
+    display: none;
 }

@@ -11,45 +11,29 @@ if (isset($row->details->inline_set->source)) {
 
 @if(isset($row->details->inline_set->fields))
 
+    <div id="{{ $row->field }}_list" class="adv-inline-set-list" data-many="{{$row->details->inline_set->many}}">
     @if ($inlineSource && count($inlineSource) > 0)
-    <div class="adv-inline-set-list">
-        @foreach($inlineSource as $source_id => $source)
-        <div class="adv-inline-set-item">
-            <div class="adv-inline-set-handle">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="adv-inline-set-holder">
-                <input type="hidden" name="{{$row->field}}_id[]" value="{{ $source['id'] }}">
-                @foreach($row->details->inline_set->fields as $key_field => $field)
-                    {{-- FIELD TYPES --}}
-                    @if($field->type === 'text')
-                        <div class="form-group">
-                            <label for="{{$row->field}}_{{$key_field}}_{{$source_id}}">{{$field->label}}</label>
-                            <input type="text" id="{{$row->field}}_{{$key_field}}_{{$source_id}}" class="form-control" name="{{$row->field}}_{{$key_field}}[]" value="{{ $source[$key_field] }}">
-                        </div>
-                    @elseif($field->type === 'textarea')
-                        <div class="form-group">
-                            <label for="{{$row->field}}_{{$key_field}}_{{$source_id}}">{{$field->label}}</label>
-                            <textarea id="{{$row->field}}_{{$key_field}}_{{$source_id}}" class="form-control" name="{{$row->field}}_{{$key_field}}[]">{{ $source[$key_field] }}</textarea>
-                        </div>
-                    @endif
-                    {{-- FIELD TYPES END --}}
-                @endforeach
-            </div>
-            <div class="adv-inline-set-delete">
-                <i class="voyager-x"></i>
-            </div>
-        </div>
+        @foreach($inlineSource as $index => $source)
+            @include('voyager-extension::formfields.adv_inline_set_item', [
+                'index' => $index,
+                'source' => $source,
+                'row_field' => $row->field,
+                'inline_fields' => $row->details->inline_set->fields,
+            ])
         @endforeach
+    @endif
     </div>
 
-    @else
-        EMPTY SOURCE
-    @endif
+    @include('voyager-extension::formfields.adv_inline_set_item', [
+        'index' => null,
+        'source' => null,
+        'row_field' => $row->field,
+        'inline_fields' => $row->details->inline_set->fields,
+    ])
 
-    @if ($row->details->inline_set->many)
+    @if ($row->details->inline_set->many || !$inlineSource)
     <div class="adv-inline-set-actions">
-        <button type="submit" class="btn btn-success save">Add a new fields set</button>
+        <button type="button" class="btn btn-success add-inline-set">Add a new fields set</button>
     </div>
     @endif
 @else
