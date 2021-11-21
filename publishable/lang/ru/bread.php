@@ -67,4 +67,8 @@ return [
     'save_and_continue'       => 'Сохранить и продложить',
     'save_and_create'         => 'Сохранить и создать',
     'no_related_json_data'    => 'Не указаны JSON данные для поля',
+
+    'add_new_inline_set'      => 'Добавить набор полей',
+    'no_inline_set_data'      => 'Нет необходимых JSON данных для текущего поля',
+
 ];

@@ -9,11 +9,12 @@ class AdvInlineSetContentType extends BaseType
 {
     public function handle()
     {
+        $requestedIDs = $this->request->input($this->row->field.'_id');
+
         if (isset($this->options->inline_set->source)) {
             // Store inline set in the related storage model
             $inlineModel = app($this->options->inline_set->source);
             $inlineRowIDs = [];
-            $requestedIDs = $this->request->input($this->row->field.'_id');
 
             foreach ($requestedIDs as $index => $rowID) {
                 if ((int)$rowID === 0 && $this->request->input($this->row->field.'_delete')[$index] !== 'true') {
@@ -39,7 +40,17 @@ class AdvInlineSetContentType extends BaseType
             }
             return implode(',', $inlineRowIDs);
         } else {
-            return null;
+            // Store inline set in the local field
+            $inlineRows = [];
+            foreach ($requestedIDs as $index => $rowID) {
+                $model = (object)[];
+                $delete = $this->request->input($this->row->field.'_delete')[$index];
+                if ($delete !== 'true' && $rowID != null && (int) $rowID >= 0) {
+                    $model = $this->setModelFields($model, $index);
+                    $inlineRows[] = $model;
+                }
+            }
+            return json_encode($inlineRows);
         }
     }
 

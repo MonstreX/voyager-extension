@@ -1,12 +1,7 @@
 <div class="adv-inline-set-wrapper">
 @php
-if (isset($row->details->inline_set->source)) {
-    $inlineSource = $inline_set[$row->field]->toArray();
-} else {
-    $inlineSource = json_decode($dataTypeContent->{$row->field});
-}
-//dd($row, $dataType, $dataTypeContent, $inline_set);
-//dd($row->details);
+$localStorage = !isset($row->details->inline_set->source);
+$inlineSource = !$localStorage? $inline_set[$row->field]->toArray() : json_decode($dataTypeContent->{$row->field}, true);
 @endphp
 
 @if(isset($row->details->inline_set->fields))
@@ -15,8 +10,10 @@ if (isset($row->details->inline_set->source)) {
     @if ($inlineSource && count($inlineSource) > 0)
         @foreach($inlineSource as $index => $source)
             @include('voyager-extension::formfields.adv_inline_set_item', [
+                'columns' => isset($row->details->inline_set->columns)? $row->details->inline_set->columns : 1,
                 'index' => $index,
                 'source' => $source,
+                'local_storage' => $localStorage,
                 'row_field' => $row->field,
                 'inline_fields' => $row->details->inline_set->fields,
             ])
@@ -25,18 +22,22 @@ if (isset($row->details->inline_set->source)) {
     </div>
 
     @include('voyager-extension::formfields.adv_inline_set_item', [
+        'columns' => isset($row->details->inline_set->columns)? $row->details->inline_set->columns : 1,
         'index' => null,
         'source' => null,
+        'local_storage' => $localStorage,
         'row_field' => $row->field,
         'inline_fields' => $row->details->inline_set->fields,
     ])
 
     @if ($row->details->inline_set->many || !$inlineSource)
     <div class="adv-inline-set-actions">
-        <button type="button" class="btn btn-success add-inline-set">Add a new fields set</button>
+        <button type="button" class="btn btn-success add-inline-set">
+            {{ __('voyager-extension::bread.add_new_inline_set') }}
+        </button>
     </div>
     @endif
 @else
-    NO JSON OPTIONS FOUND
+    {{ __('voyager-extension::bread.no_inline_set_data') }}
 @endif
 </div>
