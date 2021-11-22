@@ -1593,6 +1593,10 @@ span.CodeMirror-selectedtext { background: none; }
     display: none;
 }
 
+.voyager .adv-inline-set-item input[type=file] {
+    padding: 0;
+    background-color: transparent;
+}
 
 /* JS PLUGINS FIXES */
 .app-container .content-container .side-menu {

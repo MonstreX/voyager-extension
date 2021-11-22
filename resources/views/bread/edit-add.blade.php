@@ -38,6 +38,7 @@
                     <form role="form"
                             id="form-edit-add"
                             class="form-edit-add"
+                            data-edit="{{ $edit }}"
                             data-url="{{ Request::url() }}"
                             data-url-create="{{ route('voyager.'.$dataType->slug.'.create') }}"
                             action="{{ $edit ? route('voyager.'.$dataType->slug.'.update', $dataTypeContent->getKey()) : route('voyager.'.$dataType->slug.'.store') }}"
@@ -159,7 +160,9 @@
                                     <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
                                 @stop
                                 @yield('submit-buttons')
+                                @if ($edit)
                                 <button type="button" class="btn btn-save-and-continue btn-success">{{ __('voyager-extension::bread.save_and_continue') }}</button>
+                                @endif
                                 <button type="button" class="btn btn-save-and-create btn-warning">{{ __('voyager-extension::bread.save_and_create') }}</button>
                             </div>
                         @endif

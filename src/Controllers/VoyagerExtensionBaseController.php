@@ -320,6 +320,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         // Check through all our new field types
         foreach ($rows as $row) {
 
+
             // Bind Single Image to $data record
             if ($row->type == 'adv_image' && $request->hasFile($row->field)) {
 
@@ -360,6 +361,20 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                         ->setFileName($this->getFileName($file))
                         ->toMediaCollection($row->field);
                 }
+            } elseif ($row->type == 'adv_inline_set') {
+                // On CREATE new RECORD - Store Master ID into Related Inline models
+                if (!$request->model_id && !empty($data->{$row->field}) && isset($row->details->inline_set->source)) {
+                    $inlineModel = app($row->details->inline_set->source);
+                    $inlineIDs = explode(',', $data->{$row->field});
+                    foreach ($inlineIDs as $inlineID) {
+                        if (!empty($inlineID)) {
+                            $model = $inlineModel->findOrFail((int)$inlineID);
+                            $model->model_id = $data->id;
+                            $model->save();
+                        }
+                    }
+                }
+
             }
 
         }

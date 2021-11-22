@@ -58,7 +58,7 @@ $('document').ready(function () {
 
   function getNextInlineID(elInlineList) {
     var elInlineItems = elInlineList.find('.adv-inline-set-item');
-    var maxID = $(elInlineItems[0]).data('index');
+    var maxID = 0;
     elInlineItems.each(function (idx, item) {
       var index = $(item).data('index');
 
@@ -76,15 +76,19 @@ $('document').ready(function () {
     var elWrapper = $(this).closest('.adv-inline-set-wrapper');
     var elInlineList = elWrapper.find('.adv-inline-set-list');
     var elNewInlineItem = elWrapper.find('.adv-inline-set-template').clone(true);
+    var localStorage = elInlineList.data('local-storage');
     var newIndex = getNextInlineID(elInlineList);
     elNewInlineItem.removeClass('adv-inline-set-template');
     elNewInlineItem.data('index', newIndex);
-    elNewInlineItem.find('.adv-inline-set-index').val(0);
+    elNewInlineItem.data('row-id', localStorage ? newIndex : 0);
+    elNewInlineItem.find('.adv-inline-set-index').val(localStorage ? newIndex : 0);
     elNewInlineItem.find('.form-group').each(function (idx, item) {
       var elLabel = $(item).find('label');
       var elField = $(item).find('.form-control');
+      var elName = $(item).find('.adv-inline-change-name');
       elLabel.attr('for', elLabel.attr('for') + newIndex);
       elField.attr('id', elField.attr('id') + newIndex);
+      elName.attr('name', elName.attr('name') + newIndex);
     });
     elInlineList.append(elNewInlineItem);
 

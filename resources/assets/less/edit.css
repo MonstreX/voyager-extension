@@ -705,3 +705,7 @@
     display: none;
 }
 
+.voyager .adv-inline-set-item input[type=file] {
+    padding: 0;
+    background-color: transparent;
+}

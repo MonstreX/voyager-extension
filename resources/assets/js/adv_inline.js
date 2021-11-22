@@ -33,7 +33,7 @@ $('document').ready(function () {
 
     function getNextInlineID(elInlineList) {
         const elInlineItems = elInlineList.find('.adv-inline-set-item')
-        let maxID = $(elInlineItems[0]).data('index')
+        let maxID = 0
         elInlineItems.each(function(idx, item) {
             const index = $(item).data('index')
             if (index > maxID ) {
@@ -50,18 +50,22 @@ $('document').ready(function () {
         const elWrapper = $(this).closest('.adv-inline-set-wrapper')
         const elInlineList = elWrapper.find('.adv-inline-set-list')
         const elNewInlineItem = elWrapper.find('.adv-inline-set-template').clone(true)
+        const localStorage = elInlineList.data('local-storage')
 
         const newIndex = getNextInlineID(elInlineList)
 
         elNewInlineItem.removeClass('adv-inline-set-template')
         elNewInlineItem.data('index', newIndex)
-        elNewInlineItem.find('.adv-inline-set-index').val(0)
+        elNewInlineItem.data('row-id', localStorage? newIndex : 0)
+        elNewInlineItem.find('.adv-inline-set-index').val(localStorage? newIndex : 0)
 
         elNewInlineItem.find('.form-group').each(function(idx, item) {
             const elLabel = $(item).find('label')
             const elField = $(item).find('.form-control')
+            const elName =  $(item).find('.adv-inline-change-name')
             elLabel.attr('for', elLabel.attr('for') + newIndex)
             elField.attr('id', elField.attr('id') + newIndex)
+            elName.attr('name', elName.attr('name') + newIndex)
         })
 
         elInlineList.append(elNewInlineItem)
