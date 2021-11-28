@@ -28,8 +28,22 @@ $('document').ready(function () {
 
 $('document').ready(function () {
   var inlineItemsList = $('.adv-inline-set-list'); // ------------------------------
+  // Init Rich Text Box
+  // ------------------------------
+
+  $('.inlineSetRichTextBox').each(function (index, elem) {
+    addRichTextBox($(elem));
+  });
+
+  function addRichTextBox(elRich) {
+    var additionalConfig = {
+      selector: 'textarea.inlineSetRichTextBox[name="' + elRich.attr('name') + '"]'
+    };
+    tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig));
+  } // ------------------------------
   // Sorting rows
   // ------------------------------
+
 
   var elNavPanels = $('.navbar-top, .float-action-panel');
   inlineItemsList.each(function (index, elem) {
@@ -44,10 +58,15 @@ $('document').ready(function () {
       onStart: function onStart(evt) {
         elNavPanels.css('pointer-events', 'none');
       },
-      onEnd: function onEnd(
-      /**Event*/
-      evt) {
-        elNavPanels.css('pointer-events', 'auto');
+      onEnd: function onEnd(evt) {
+        elNavPanels.css('pointer-events', 'auto'); // Remove and add TinyMCE, otherwise won't work after drag and drop
+
+        var elRichEditors = $(evt.item).find('.inlineSetRichTextBox');
+        elRichEditors.each(function (idx, item) {
+          console.log($(item).attr('id'));
+          tinymce.remove("#" + $(item).attr('id'));
+          addRichTextBox($(item));
+        });
       }
     });
   });
@@ -129,7 +148,7 @@ $('document').ready(function () {
     el.find('.adv-inline-set-row-ids').val(row_ids);
     el.find('.adv-inline-set-ids').val(ids);
   } // ------------------------------
-  // Mark for delete on save
+  // Remove Inline Item
   // ------------------------------
 
 
@@ -183,6 +202,7 @@ $('document').ready(function () {
     elNewInlineItem.removeClass('adv-inline-set-template');
     elNewInlineItem.data('row-id', newIndex);
     elNewInlineItem.find('.adv-inline-set-index').val(localStorage ? newIndex : 0);
+    var richTextList = [];
     elNewInlineItem.find('.form-group').each(function (idx, item) {
       var elLabel = $(item).find('label');
       var elField = $(item).find('.form-control');
@@ -190,8 +210,15 @@ $('document').ready(function () {
       elField.attr('id', elField.attr('id') + newIndex);
       var newName = elField.data('field-type') === 'media' ? elField.attr('name').slice(0, -2) + newIndex + '[]' : elField.attr('name') + newIndex;
       elField.attr('name', newName);
+
+      if (elField.data('field-type') === 'richtext') {
+        richTextList.push(elField.attr('name'));
+      }
     });
-    elInlineList.append(elNewInlineItem); // Remove ADD button if we have a only Single Item
+    elInlineList.append(elNewInlineItem);
+    richTextList.forEach(function (element) {
+      addRichTextBox($("[name='".concat(element, "']")));
+    }); // Remove ADD button if we have a only Single Item
 
     if (elInlineList.data('many') !== 1) {
       elWrapper.find('.adv-inline-set-actions').remove();

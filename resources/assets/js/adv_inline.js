@@ -3,6 +3,20 @@ $('document').ready(function () {
     const inlineItemsList = $('.adv-inline-set-list')
 
     // ------------------------------
+    // Init Rich Text Box
+    // ------------------------------
+    $('.inlineSetRichTextBox').each(function(index, elem) {
+        addRichTextBox($(elem))
+    })
+
+    function addRichTextBox(elRich) {
+        const additionalConfig = {
+            selector: 'textarea.inlineSetRichTextBox[name="' + elRich.attr('name') +'"]',
+        }
+        tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig))
+    }
+
+    // ------------------------------
     // Sorting rows
     // ------------------------------
     const elNavPanels = $('.navbar-top, .float-action-panel' )
@@ -13,17 +27,23 @@ $('document').ready(function () {
             scroll: true,
             handle: ".adv-inline-set-handle",
             onSort: function (evt) {
-                setInlineIDsItems($(elem));
+                setInlineIDsItems($(elem))
             },
             onStart: function (evt) {
                 elNavPanels.css('pointer-events', 'none')
             },
-            onEnd: function (/**Event*/evt) {
+            onEnd: function (evt) {
                 elNavPanels.css('pointer-events', 'auto')
+                // Remove and add TinyMCE, otherwise won't work after drag and drop
+                const elRichEditors = $(evt.item).find('.inlineSetRichTextBox')
+                elRichEditors.each(function(idx, item) {
+                    console.log($(item).attr('id'))
+                    tinymce.remove("#" + $(item).attr('id'))
+                    addRichTextBox($(item))
+                })
             },
-        });
-    });
-
+        })
+    })
 
     $('.adv-inline-set-media-list').each(function(index, elem) {
         Sortable.create( document.getElementById($(elem).attr('id')), {
@@ -33,7 +53,7 @@ $('document').ready(function () {
             onSort: function (evt) {
                 const elList = $(evt.item.closest('.adv-inline-set-media-list'))
                 const newOrderList = elList.find('.adv-inline-set-media-item').map(function(){
-                    return $(this).data('media-id');
+                    return $(this).data('media-id')
                 }).toArray()
 
                 const params = {
@@ -43,16 +63,15 @@ $('document').ready(function () {
 
                 $.post(vext_routes.ext_media_sort, params, function (response) {
                     if (response && response.data && response.data.status && response.data.status == 200) {
-                        toastr.success(response.data.message);
+                        toastr.success(response.data.message)
                     } else {
                         toastr.error(vext.trans('bread.error_sorting_media'))
                     }
                 })
 
             }
-        });
-    });
-
+        })
+    })
 
     // ------------------------------
     // Start Timer to Remove Media Item
@@ -90,7 +109,7 @@ $('document').ready(function () {
                 })
                 elMedia.remove()
             }
-        }, removeTimerTick);
+        }, removeTimerTick)
 
         elMedia.data('remove-interval-id', intDeleteMedia)
     })
@@ -119,7 +138,7 @@ $('document').ready(function () {
     }
 
     // ------------------------------
-    // Mark for delete on save
+    // Remove Inline Item
     // ------------------------------
     inlineItemsList.on('click', '.adv-inline-set-delete', function () {
         const elItem = $(this).closest('.adv-inline-set-item')
@@ -170,11 +189,13 @@ $('document').ready(function () {
         const localStorage = elInlineList.data('local-storage')
         const newIndex = getNextInlineID(elInlineList)
 
-        const elNewInlineItem = $($('#template_' + elInlineList.data('field')).prop('content')).find('.adv-inline-set-item').clone();
+        const elNewInlineItem = $($('#template_' + elInlineList.data('field')).prop('content')).find('.adv-inline-set-item').clone()
 
         elNewInlineItem.removeClass('adv-inline-set-template')
         elNewInlineItem.data('row-id', newIndex)
         elNewInlineItem.find('.adv-inline-set-index').val(localStorage? newIndex : 0)
+
+        const richTextList = []
 
         elNewInlineItem.find('.form-group').each(function(idx, item) {
             const elLabel = $(item).find('label')
@@ -184,16 +205,24 @@ $('document').ready(function () {
 
             const newName = elField.data('field-type') === 'media'? elField.attr('name').slice(0,-2) + newIndex + '[]' : elField.attr('name') + newIndex
             elField.attr('name', newName)
+
+            if (elField.data('field-type') === 'richtext') {
+                richTextList.push(elField.attr('name'))
+            }
         })
 
         elInlineList.append(elNewInlineItem)
+
+        richTextList.forEach(element => {
+            addRichTextBox($(`[name='${element}']`))
+        })
 
         // Remove ADD button if we have a only Single Item
         if(elInlineList.data('many') !== 1) {
             elWrapper.find('.adv-inline-set-actions').remove()
         }
 
-        setInlineIDsItems(elInlineList);
+        setInlineIDsItems(elInlineList)
     })
 
 
