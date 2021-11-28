@@ -194,12 +194,12 @@
 
             // Manage sticky action panel
             @if(config('voyager-extension.sticky_action_panel.autohide'))
-            const elFloatPanel = $('.float-action-panel');
+            const elFloatPanel = $('.float-action-panel')
             elFloatPanel.on("mouseover", function () {
-                $(this).css("bottom","0");
+                $(this).css("bottom","0")
             });
             elFloatPanel.on("mouseleave", function () {
-                $(this).css("bottom","-40px");
+                $(this).css("bottom","-40px")
             });
             @endif
 
@@ -207,16 +207,16 @@
             const elForm = $('#form-edit-add')
             const elRedirect = $('#redirect-to')
             $('.btn-save-and-continue').on('click', function(){
-                elRedirect.val(elForm.data('url'));
-                elForm.submit();
-            });
+                elRedirect.val(elForm.data('url'))
+                $('.save').click()
+            })
 
             $('.btn-save-and-create').on('click', function(){
-                elRedirect.val(elForm.data('url-create'));
-                elForm.submit();
-            });
+                elRedirect.val(elForm.data('url-create'))
+                elForm.submit()
+            })
 
-            $('.toggleswitch').bootstrapToggle();
+            $('.toggleswitch').bootstrapToggle()
 
             //Init datepicker for date fields if data-datepicker attribute defined
             //or if browser does not handle date inputs

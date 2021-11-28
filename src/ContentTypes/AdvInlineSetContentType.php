@@ -16,8 +16,21 @@ class AdvInlineSetContentType extends BaseType
 
         $this->model_name = $this->request->model_name;
         $this->model_id = $this->request->model_id;
+        $inlineModel = isset($this->options->inline_set->source)? app($this->options->inline_set->source) : null;
 
-        if (!$requestedIDs = $this->request->input($this->row->field.'_id')) {
+        $requestedRowIDs = explode(',', $this->request->input($this->row->field.'_row_ids'));
+        $requestedIDs = explode(',', $this->request->input($this->row->field.'_ids'));
+        $requestedDeletedIDs = explode(',', $this->request->input($this->row->field.'_deleted_ids'));
+
+        // Remove deleted Rows
+        if (count($requestedDeletedIDs) > 0 && !empty($requestedDeletedIDs[0])) {
+            foreach ($requestedDeletedIDs as $deletedID) {
+                $model = $inlineModel->findOrFail($deletedID);
+                $model->delete();
+            }
+        }
+
+        if (count($requestedRowIDs) === 0 || empty($requestedRowIDs[0])) {
             return null;
         }
 
@@ -26,79 +39,53 @@ class AdvInlineSetContentType extends BaseType
         // ----------------------------------------------
         if (isset($this->options->inline_set->source)) {
             $inlineModel = app($this->options->inline_set->source);
-            $inlineRowIDs = [];
-            foreach ($requestedIDs as $index => $rowID) {
-                if ((int)$rowID === 0 && $this->request->input($this->row->field.'_delete')[$index] !== 'true') {
+            $storedIDs = [];
+            foreach ($requestedRowIDs as $rowIndex => $rowID) {
+                if ((int)$requestedIDs[$rowIndex] === 0) {
                     // Create a NEW ROW
                     $model = new $inlineModel;
                     $model->model = $this->model_name;
                     $model->model_id = $this->model_id;
                     $model->model_field = $this->row->field;
-                    $model = $this->setModelFields($model, $index, $rowID);
+                    $model->row_id = $rowID;
+                    $model = $this->setModelFields($model, $rowIndex, $rowID);
                     $model->save();
-                    $inlineRowIDs[] = $model->id;
-                } else if ((int)$rowID > 0) {
+                    $storedIDs[] = $model->id;
+                } else {
                     // Update EXISTED ROWs (or delete)
-                    $model = $inlineModel->findOrFail($rowID);
-                    if ($this->request->input($this->row->field.'_delete')[$index] === 'true') {
-                        $model->delete();
-                    } else {
-                        $model = $this->setModelFields($model, $index, $rowID);
-                        $model->save();
-                        $inlineRowIDs[] = $model->id;
-                    }
+                    $model = $inlineModel->findOrFail($requestedIDs[$rowIndex]);
+                    $model = $this->setModelFields($model, $rowIndex, $rowID);
+                    $model->save();
                 }
             }
-            return implode(',', $inlineRowIDs);
+
+            return implode(',', $storedIDs);
 
         // ----------------------------------------------
         // Store inline set in the local field
         // ----------------------------------------------
         } else {
             $inlineRows = [];
-            foreach ($requestedIDs as $index => $rowID) {
+            foreach ($requestedRowIDs as $rowIndex => $rowID) {
                 $model = (object)[];
-                $model->id = $rowID;
-                $model->order = $index;
-                $delete = $this->request->input($this->row->field.'_delete')[$index];
-                if ($delete !== 'true' && $rowID != null && (int) $rowID >= 0) {
-                    $model = $this->setModelFields($model, $index, $rowID);
-                    $inlineRows[] = $model;
-                }
+                $model = $this->setModelFields($model, $rowIndex, $rowID);
+                $inlineRows[] = $model;
             }
             return json_encode($inlineRows);
         }
     }
 
-    private function setModelFields($model, $requestIndex, $rowID = null)
+    private function setModelFields($model, $rowIndex, $rowID = null)
     {
+        $model->row_id = $rowID;
+        $model->order = $rowIndex;
         foreach ($this->options->inline_set->fields as $field_name => $field_data) {
-
             if ($field_data->type === 'media') {
-                $value = $this->request->input($this->row->field.'_'.$field_name.'_media_'.$rowID);
-
-                if ($value) {
-                    $model->{$field_name} = $value;
-                } else {
-                    // Check for the new media files in the Request
-                    $mediaLibraryName = $this->row->field.'_'.$field_name.'_'.$rowID;
-                    if ($this->request->{$mediaLibraryName}) {
-                        $model->{$field_name} = $mediaLibraryName;
-                    }
-                }
-
-//                if ($mediaFiles = $this->request->{$this->row->field.'_'.$field_name.'_'.$index}) {
-//                    foreach ($mediaFiles as $mediaFile) {
-//                        // dd($this->request);
-//                    }
-//                }
+                $model->{$field_name} = $this->row->field.'_'.$field_name.'_'.$rowID;
             } else {
-                $model->{$field_name} = $this->request->input($this->row->field.'_'.$field_name)[$requestIndex];
+                $model->{$field_name} = $this->request->input($this->row->field.'_'.$field_name.'_'.$rowID);
             }
-
         }
-        $model->order = $requestIndex;
-
         return $model;
     }
 

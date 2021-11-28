@@ -1,23 +1,30 @@
 @php
 $localStorage = !isset($row->details->inline_set->source);
-if (isset($inline_set)) {
-    $inlineSource = !$localStorage? $inline_set[$row->field]->toArray() : json_decode($dataTypeContent->{$row->field}, true);
-} else {
-    $inlineSource = [];
-}
+$inlineSource = isset($inline_set)? $inline_set[$row->field] : [];
 @endphp
 
 <div class="adv-inline-set-wrapper">
     @if(isset($row->details->inline_set->fields))
 
         <div id="{{ $row->field }}_list" class="adv-inline-set-list"
-             data-many="{{$row->details->inline_set->many}}"
-             data-local-storage="{{ $localStorage }}">
+            data-field="{{ $row->field }}"
+            data-deleted=""
+            data-many="{{$row->details->inline_set->many}}"
+            data-local-storage="{{ $localStorage }}">
+
+            <input class="adv-inline-set-row-ids" type="hidden" name="{{ $row->field }}_row_ids"
+                   value="{{ implode(',', collect($inlineSource)->map(function ($item, $key) { return $item['row_id']; })->toArray()) }}">
+            <input class="adv-inline-set-ids" type="hidden" name="{{ $row->field }}_ids"
+                   value="{{ implode(',', collect($inlineSource)->map(function ($item, $key) { return isset($item['id'])? $item['id'] : 0; })->toArray()) }}">
+            <input class="adv-inline-set-deleted-ids" type="hidden" name="{{ $row->field }}_deleted_ids" value="">
+            <input class="adv-inline-set-deleted-media" type="hidden" name="{{ $row->field }}_deleted_media" value="">
+
             @if ($inlineSource && count($inlineSource) > 0)
                 @foreach($inlineSource as $key => $source)
                     @include('voyager-extension::formfields.adv_inline_set_item', [
                         'columns' => isset($row->details->inline_set->columns)? $row->details->inline_set->columns : 1,
-                        'row_id' => isset($source['id'])? $source['id'] : 0,
+                        'id' => isset($source['id'])? $source['id'] : 0,
+                        'row_id' => $source['row_id'],
                         'source' => $source,
                         'local_storage' => $localStorage,
                         'row_field' => $row->field,
@@ -25,10 +32,12 @@ if (isset($inline_set)) {
                     ])
                 @endforeach
             @endif
+
         </div>
 
         @include('voyager-extension::formfields.adv_inline_set_item', [
             'columns' => isset($row->details->inline_set->columns)? $row->details->inline_set->columns : 1,
+            'id' => 0,
             'row_id' => null,
             'source' => null,
             'local_storage' => $localStorage,

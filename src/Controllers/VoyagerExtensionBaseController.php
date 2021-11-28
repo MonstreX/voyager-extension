@@ -2,12 +2,14 @@
 
 namespace MonstreX\VoyagerExtension\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Database\Schema\SchemaManager;
-use TCG\Voyager\Http\Controllers\ContentTypes\BaseType;
+use Session;
+use Str;
+
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -19,8 +21,8 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvFieldsGroupContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvPageLayoutContentType;
 use MonstreX\VoyagerExtension\ContentTypes\AdvInlineSetContentType;
 
-use Session;
-use Str;
+use MonstreX\VoyagerExtension\ContentTypes\Services\AdvInlineSetService;
+
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
@@ -235,34 +237,10 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
     {
         $slug = $this->getSlug($request);
 
-        $inlineSet = $this->getInlineSet($request, $id);
+        $inlineSet = (new AdvInlineSetService)->getAllInlineDataRows($slug, $id);
 
         View::share(['page_slug' => $slug, 'page_id' => $id, 'inline_set' => $inlineSet]);
         return parent::edit($request, $id);
-    }
-
-    private function getInlineSet(Request $request, $id)
-    {
-        $slug = $this->getSlug($request);
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-        $model = app($dataType->model_name);
-        $query = $model->query();
-        $dataTypeContent = call_user_func([$query, 'findOrFail'], $id);
-
-        $inlineSet = [];
-        foreach ($dataType->editRows as $key => $row) {
-            if ($row->type === 'adv_inline_set' && isset($row->details->inline_set->source)) {
-                $inlineIDs = explode(',', $dataTypeContent->{$row->field});
-                $inlineModel = app($row->details->inline_set->source);
-                $inlineSet[$row->field] = $inlineModel
-                    ->where('model_field', $row->field)
-                    ->whereIn('id', $row->details->inline_set->many? $inlineIDs : [$inlineIDs[0]])
-                    ->orderBy('order', 'ASC')
-                    ->get();
-            }
-        }
-
-        return $inlineSet;
     }
 
     public function store(Request $request)
@@ -313,7 +291,6 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
      */
     public function insertUpdateData($request, $slug, $rows, $data)
     {
-
         // we need to create a record (in an usual way) before associate image to the actual model record
         $result = VoyagerBaseController::insertUpdateData($request, $slug, $rows, $data);
 
@@ -343,6 +320,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
 
                 // Bind Multiple Images to $data record
                 $files = $request->file($row->field);
+
                 foreach ($files as $file) {
                     if (!$file->isValid()) {
                         continue;
@@ -362,19 +340,10 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                         ->toMediaCollection($row->field);
                 }
             } elseif ($row->type == 'adv_inline_set') {
-                // On CREATE new RECORD - Store Master ID into Related Inline models
-                if (!$request->model_id && !empty($data->{$row->field}) && isset($row->details->inline_set->source)) {
-                    $inlineModel = app($row->details->inline_set->source);
-                    $inlineIDs = explode(',', $data->{$row->field});
-                    foreach ($inlineIDs as $inlineID) {
-                        if (!empty($inlineID)) {
-                            $model = $inlineModel->findOrFail((int)$inlineID);
-                            $model->model_id = $data->id;
-                            $model->save();
-                        }
-                    }
-                }
-
+                $advInlineSet = app(AdvInlineSetService::class);
+                $advInlineSet->setMasterIDOnSource($request, $data, $row);
+                $advInlineSet->checkAndSaveMediaFiles($request, $data, $row);
+                $advInlineSet->checkAndDeleteMediaFiles($request, $data, $row);
             }
 
         }

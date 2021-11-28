@@ -31,36 +31,122 @@ $('document').ready(function () {
   // Sorting rows
   // ------------------------------
 
+  var elNavPanels = $('.navbar-top, .float-action-panel');
   inlineItemsList.each(function (index, elem) {
     Sortable.create(document.getElementById($(elem).attr('id')), {
       animation: 200,
       sort: true,
       scroll: true,
       handle: ".adv-inline-set-handle",
+      onSort: function onSort(evt) {
+        setInlineIDsItems($(elem));
+      },
+      onStart: function onStart(evt) {
+        elNavPanels.css('pointer-events', 'none');
+      },
+      onEnd: function onEnd(
+      /**Event*/
+      evt) {
+        elNavPanels.css('pointer-events', 'auto');
+      }
+    });
+  });
+  $('.adv-inline-set-media-list').each(function (index, elem) {
+    Sortable.create(document.getElementById($(elem).attr('id')), {
+      animation: 200,
+      sort: true,
+      scroll: true,
       onSort: function onSort(evt) {//
       }
     });
   }); // ------------------------------
+  // Start Timer to Remove Media Item
+  // ------------------------------
+
+  inlineItemsList.on('click', '.adv-inline-set-media-delete', function () {
+    var elMedia = $(this).closest('.adv-inline-set-media-item');
+    var elRemoveHolder = elMedia.find('.adv-inline-set-media-removing');
+    var elRemoveBar = elMedia.find('.removing-bar');
+    elRemoveHolder.css('display', 'flex');
+    elRemoveBar.css('width', '0%');
+    var removeCounter = 0;
+    var intDeleteMedia = setInterval(function () {
+      elMedia.data('remove-counter', removeCounter);
+      removeCounter++;
+      elRemoveBar.css('width', removeCounter + '%');
+
+      if (removeCounter >= 100) {
+        clearInterval(intDeleteMedia);
+        var params = {
+          media_ids: [elMedia.data('media-id')],
+          _token: csrf_token
+        };
+        $.post(vext_routes.ext_media_remove, params, function (response) {
+          if (response && response.data && response.data.status == 200) {
+            toastr.success(response.data.message);
+          } else {
+            toastr.error(vext.trans('bread.error_removing_media'));
+          }
+        });
+        elMedia.remove();
+      }
+    }, 20);
+    elMedia.data('remove-interval-id', intDeleteMedia);
+  }); // ------------------------------
+  // Cancel Remove Media Item
+  // ------------------------------
+
+  inlineItemsList.on('click', '.adv-inline-set-media-removing', function () {
+    var elMedia = $(this).closest('.adv-inline-set-media-item');
+    var elRemoveHolder = elMedia.find('.adv-inline-set-media-removing');
+    clearInterval(elMedia.data('remove-interval-id'));
+    elRemoveHolder.css('display', 'none');
+  });
+
+  function setInlineIDsItems(el) {
+    var row_ids = [];
+    var ids = [];
+    el.find('.adv-inline-set-item').each(function (idx, item) {
+      ids.push($(item).data('id'));
+      row_ids.push($(item).data('row-id')); //console.log(item)
+    });
+    el.find('.adv-inline-set-row-ids').val(row_ids);
+    el.find('.adv-inline-set-ids').val(ids);
+  } // ------------------------------
   // Mark for delete on save
   // ------------------------------
 
+
   inlineItemsList.on('click', '.adv-inline-set-delete', function () {
     var elItem = $(this).closest('.adv-inline-set-item');
-    var elDeleteInput = elItem.find('.adv-inline-set-delete-input');
-    elItem.toggleClass('inline-delete');
+    var elInlineList = $(this).closest('.adv-inline-set-list');
+    var elDeletedIds = elInlineList.find('.adv-inline-set-deleted-ids');
+    var elDeletedMedia = elInlineList.find('.adv-inline-set-deleted-media'); // Manage source IDs list which will be deleted after Submit
 
-    if (elItem.hasClass('inline-delete')) {
-      elDeleteInput.val(true);
-    } else {
-      elDeleteInput.val(false);
-    }
+    if (!elItem.data('new') && !elInlineList.data('local-storage')) {
+      addInlineItemInArray(elDeletedIds, elItem.data('id'));
+    } // Manage Media-Library collections list which will be deleted after Submit
+
+
+    elItem.find('.media-library').each(function (idx, item) {
+      addInlineItemInArray(elDeletedMedia, $(item).attr('name').slice(0, -2));
+    });
+    elItem.remove();
+    setInlineIDsItems(elInlineList);
   });
+
+  function addInlineItemInArray(elInput, addValue) {
+    var oldValues = elInput.val().split(',');
+    oldValues = oldValues[0] === '' ? [] : oldValues;
+    oldValues.push(addValue);
+    elInput.val(oldValues.join(','));
+  }
 
   function getNextInlineID(elInlineList) {
     var elInlineItems = elInlineList.find('.adv-inline-set-item');
     var maxID = 0;
     elInlineItems.each(function (idx, item) {
-      var index = $(item).data('index');
+      var index = $(item).data('row-id');
 
       if (index > maxID) {
         maxID = index;
@@ -75,26 +161,27 @@ $('document').ready(function () {
   $('.add-inline-set').on('click', function () {
     var elWrapper = $(this).closest('.adv-inline-set-wrapper');
     var elInlineList = elWrapper.find('.adv-inline-set-list');
-    var elNewInlineItem = elWrapper.find('.adv-inline-set-template').clone(true);
     var localStorage = elInlineList.data('local-storage');
     var newIndex = getNextInlineID(elInlineList);
+    var elNewInlineItem = $($('#template_' + elInlineList.data('field')).prop('content')).find('.adv-inline-set-item').clone();
     elNewInlineItem.removeClass('adv-inline-set-template');
-    elNewInlineItem.data('index', newIndex);
-    elNewInlineItem.data('row-id', localStorage ? newIndex : 0);
+    elNewInlineItem.data('row-id', newIndex);
     elNewInlineItem.find('.adv-inline-set-index').val(localStorage ? newIndex : 0);
     elNewInlineItem.find('.form-group').each(function (idx, item) {
       var elLabel = $(item).find('label');
       var elField = $(item).find('.form-control');
-      var elName = $(item).find('.adv-inline-change-name');
       elLabel.attr('for', elLabel.attr('for') + newIndex);
       elField.attr('id', elField.attr('id') + newIndex);
-      elName.attr('name', elName.attr('name') + newIndex);
+      var newName = elField.data('field-type') === 'media' ? elField.attr('name').slice(0, -2) + newIndex + '[]' : elField.attr('name') + newIndex;
+      elField.attr('name', newName);
     });
-    elInlineList.append(elNewInlineItem);
+    elInlineList.append(elNewInlineItem); // Remove ADD button if we have a only Single Item
 
     if (elInlineList.data('many') !== 1) {
       elWrapper.find('.adv-inline-set-actions').remove();
     }
+
+    setInlineIDsItems(elInlineList);
   });
 });
 
