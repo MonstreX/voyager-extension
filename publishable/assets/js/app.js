@@ -56,7 +56,22 @@ $('document').ready(function () {
       animation: 200,
       sort: true,
       scroll: true,
-      onSort: function onSort(evt) {//
+      onSort: function onSort(evt) {
+        var elList = $(evt.item.closest('.adv-inline-set-media-list'));
+        var newOrderList = elList.find('.adv-inline-set-media-item').map(function () {
+          return $(this).data('media-id');
+        }).toArray();
+        var params = {
+          files_ids_order: newOrderList,
+          _token: csrf_token
+        };
+        $.post(vext_routes.ext_media_sort, params, function (response) {
+          if (response && response.data && response.data.status && response.data.status == 200) {
+            toastr.success(response.data.message);
+          } else {
+            toastr.error(vext.trans('bread.error_sorting_media'));
+          }
+        });
       }
     });
   }); // ------------------------------
@@ -70,10 +85,11 @@ $('document').ready(function () {
     elRemoveHolder.css('display', 'flex');
     elRemoveBar.css('width', '0%');
     var removeCounter = 0;
+    var removeTimerTick = parseInt(elMedia.data('remove-delay')) / 100;
     var intDeleteMedia = setInterval(function () {
       elMedia.data('remove-counter', removeCounter);
-      removeCounter++;
       elRemoveBar.css('width', removeCounter + '%');
+      removeCounter++;
 
       if (removeCounter >= 100) {
         clearInterval(intDeleteMedia);
@@ -90,7 +106,7 @@ $('document').ready(function () {
         });
         elMedia.remove();
       }
-    }, 20);
+    }, removeTimerTick);
     elMedia.data('remove-interval-id', intDeleteMedia);
   }); // ------------------------------
   // Cancel Remove Media Item

@@ -243,7 +243,6 @@ class VoyagerExtensionController extends BaseController
      */
     public function sort_media(Request $request)
     {
-
         $files_ids_order = $request->get('files_ids_order');
 
         try {
@@ -262,13 +261,11 @@ class VoyagerExtensionController extends BaseController
      */
     public function assets(Request $request)
     {
-
         try {
             $path = dirname(__DIR__, 3) . '/voyager-extension/publishable/assets/' . Util::normalizeRelativePath(urldecode($request->path));
         } catch (\LogicException $e) {
             abort(404);
         }
-
         return $this->assets_file($path);
     }
 
@@ -279,13 +276,11 @@ class VoyagerExtensionController extends BaseController
      */
     public function assets_regular(Request $request)
     {
-
         try {
             $path = dirname(__DIR__, 3) . '/voyager-extension/publishable/assets/' . str_replace('/admin/voyager-extension/','',urldecode($request->getPathInfo()));
         } catch (\LogicException $e) {
             abort(404);
         }
-
         return $this->assets_file($path);
     }
 

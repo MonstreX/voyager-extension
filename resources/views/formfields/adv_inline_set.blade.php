@@ -32,7 +32,6 @@ $inlineSource = isset($inline_set)? $inline_set[$row->field] : [];
                     ])
                 @endforeach
             @endif
-
         </div>
 
         @include('voyager-extension::formfields.adv_inline_set_item', [
