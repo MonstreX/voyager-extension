@@ -41,6 +41,34 @@ $('document').ready(function () {
     };
     tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig));
   } // ------------------------------
+  // Init Ace Code Editor
+  // ------------------------------
+
+
+  $('.inline-code-editor').each(function () {
+    var codeEditor = ace.edit(this);
+    initCodeEditor(codeEditor);
+  });
+
+  function initCodeEditor(elEditor) {
+    var _field$data, _field$data2, _field$data3, _field$data4;
+
+    var field = $(elEditor);
+    var mode = (_field$data = field.data('mode')) !== null && _field$data !== void 0 ? _field$data : 'html';
+    var theme = (_field$data2 = field.data('theme')) !== null && _field$data2 !== void 0 ? _field$data2 : 'github';
+    var minLines = (_field$data3 = field.data('minlines')) !== null && _field$data3 !== void 0 ? _field$data3 : 4;
+    var maxLines = (_field$data4 = field.data('maxlines')) !== null && _field$data4 !== void 0 ? _field$data4 : 100;
+    elEditor.session.setMode("ace/mode/" + mode);
+    elEditor.setTheme("ace/theme/" + theme);
+    elEditor.setOption("maxLines", maxLines);
+    elEditor.setOption("minLines", minLines);
+    elEditor.on('change', function (event, el) {
+      ace_editor_id = el.container.id;
+      ace_editor_textarea = document.getElementById($(el.container).data('textarea-id'));
+      ace_editor_instance = ace.edit(ace_editor_id);
+      ace_editor_textarea.value = ace_editor_instance.getValue();
+    });
+  } // ------------------------------
   // Sorting rows
   // ------------------------------
 
@@ -203,21 +231,53 @@ $('document').ready(function () {
     elNewInlineItem.data('row-id', newIndex);
     elNewInlineItem.find('.adv-inline-set-index').val(localStorage ? newIndex : 0);
     var richTextList = [];
+    var codeList = [];
     elNewInlineItem.find('.form-group').each(function (idx, item) {
       var elLabel = $(item).find('label');
       var elField = $(item).find('.form-control');
-      elLabel.attr('for', elLabel.attr('for') + newIndex);
-      elField.attr('id', elField.attr('id') + newIndex);
-      var newName = elField.data('field-type') === 'media' ? elField.attr('name').slice(0, -2) + newIndex + '[]' : elField.attr('name') + newIndex;
-      elField.attr('name', newName);
+      var fieldType = elField.data('field-type');
+      elLabel.attr('for', elLabel.attr('for').replace('%id%', newIndex));
+      elField.each(function (i, field) {
+        var elField = $(field);
+        elField.attr('id', elField.attr('id').replace('%id%', newIndex));
 
-      if (elField.data('field-type') === 'richtext') {
-        richTextList.push(elField.attr('name'));
-      }
+        if (elField.attr('name')) {
+          elField.attr('name', elField.attr('name').replace('%id%', newIndex));
+        }
+
+        if (fieldType === 'code') {
+          if (elField.data('textarea-id')) {
+            elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex));
+            codeList.push(elField.attr('id'));
+          }
+        }
+
+        if (fieldType === 'richtext') {
+          richTextList.push(elField.attr('name'));
+        }
+      }); // elField.attr('id', elField.attr('id').replace('%id%', newIndex))
+      //
+      // if (elField.attr('name')) {
+      //     elField.attr('name', elField.attr('name').replace('%id%', newIndex))
+      // }
+      //
+      // if (fieldType === 'code') {
+      //     if (elField.data('textarea-id')) {
+      //         elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex) )
+      //     }
+      // }
+      //
+      // if (fieldType === 'richtext') {
+      //     richTextList.push(elField.attr('name'))
+      // }
     });
     elInlineList.append(elNewInlineItem);
     richTextList.forEach(function (element) {
       addRichTextBox($("[name='".concat(element, "']")));
+    });
+    codeList.forEach(function (element) {
+      var codeEditor = ace.edit(document.getElementById(element));
+      initCodeEditor(codeEditor);
     }); // Remove ADD button if we have a only Single Item
 
     if (elInlineList.data('many') !== 1) {

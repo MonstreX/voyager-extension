@@ -17,6 +17,35 @@ $('document').ready(function () {
     }
 
     // ------------------------------
+    // Init Ace Code Editor
+    // ------------------------------
+    $('.inline-code-editor').each(function () {
+        let codeEditor = ace.edit(this);
+        initCodeEditor(codeEditor)
+    })
+
+    function initCodeEditor(elEditor) {
+
+        const field = $(elEditor)
+        const mode = field.data('mode')?? 'html'
+        const theme = field.data('theme')?? 'github'
+        const minLines = field.data('minlines')?? 4
+        const maxLines = field.data('maxlines')?? 100
+
+        elEditor.session.setMode("ace/mode/" + mode)
+        elEditor.setTheme("ace/theme/" + theme)
+        elEditor.setOption("maxLines", maxLines)
+        elEditor.setOption("minLines", minLines)
+
+        elEditor.on('change', function(event, el) {
+            ace_editor_id = el.container.id
+            ace_editor_textarea = document.getElementById($(el.container).data('textarea-id'))
+            ace_editor_instance = ace.edit(ace_editor_id)
+            ace_editor_textarea.value = ace_editor_instance.getValue()
+        });
+    }
+
+    // ------------------------------
     // Sorting rows
     // ------------------------------
     const elNavPanels = $('.navbar-top, .float-action-panel' )
@@ -196,25 +225,69 @@ $('document').ready(function () {
         elNewInlineItem.find('.adv-inline-set-index').val(localStorage? newIndex : 0)
 
         const richTextList = []
+        const codeList = []
 
         elNewInlineItem.find('.form-group').each(function(idx, item) {
             const elLabel = $(item).find('label')
             const elField = $(item).find('.form-control')
-            elLabel.attr('for', elLabel.attr('for') + newIndex)
-            elField.attr('id', elField.attr('id') + newIndex)
+            const fieldType = elField.data('field-type')
 
-            const newName = elField.data('field-type') === 'media'? elField.attr('name').slice(0,-2) + newIndex + '[]' : elField.attr('name') + newIndex
-            elField.attr('name', newName)
+            elLabel.attr('for', elLabel.attr('for').replace('%id%', newIndex))
 
-            if (elField.data('field-type') === 'richtext') {
-                richTextList.push(elField.attr('name'))
-            }
+            elField.each(function(i, field) {
+
+                let elField = $(field)
+
+                elField.attr('id', elField.attr('id').replace('%id%', newIndex))
+
+                if (elField.attr('name')) {
+                    elField.attr('name', elField.attr('name').replace('%id%', newIndex))
+                }
+
+                if (fieldType === 'code') {
+                    if (elField.data('textarea-id')) {
+                        elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex) )
+                        codeList.push(elField.attr('id'))
+                    }
+                }
+
+                if (fieldType === 'richtext') {
+                    richTextList.push(elField.attr('name'))
+                }
+            })
+
+
+
+
+            // elField.attr('id', elField.attr('id').replace('%id%', newIndex))
+            //
+            // if (elField.attr('name')) {
+            //     elField.attr('name', elField.attr('name').replace('%id%', newIndex))
+            // }
+            //
+            // if (fieldType === 'code') {
+            //     if (elField.data('textarea-id')) {
+            //         elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex) )
+            //     }
+            // }
+            //
+            // if (fieldType === 'richtext') {
+            //     richTextList.push(elField.attr('name'))
+            // }
+
+
+
         })
 
         elInlineList.append(elNewInlineItem)
 
         richTextList.forEach(element => {
             addRichTextBox($(`[name='${element}']`))
+        })
+
+        codeList.forEach(element => {
+            const codeEditor = ace.edit(document.getElementById(element))
+            initCodeEditor(codeEditor)
         })
 
         // Remove ADD button if we have a only Single Item

@@ -23,10 +23,10 @@
     @endif
 @endif
 
-<input id="{{$row_field}}_{{$key_field}}_{{$row_id}}"
+<input id="{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}"
        class="form-control media-library"
        data-field-type="{{$field->type}}"
-       name="{{$row_field}}_{{$key_field}}_{{$row_id}}[]"
+       name="{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}[]"
        type="file"
        multiple="multiple"
        accept="{{isset($field->accept)? $field->accept : "image/*" }}"

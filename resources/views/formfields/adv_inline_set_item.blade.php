@@ -10,7 +10,7 @@
         <div class="row">
             @foreach($inline_fields as $key_field => $field)
             <div class="form-group {{ isset($field->class)? $field->class : 'col-md-12' }}">
-                <label for="{{$row_field}}_{{$key_field}}_{{$row_id}}">{{$field->label}}</label>
+                <label for="{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}">{{$field->label}}</label>
                 @include('voyager-extension::formfields.advinlinesetitem.'.$field->type)
             </div>
             @endforeach
