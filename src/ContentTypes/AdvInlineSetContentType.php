@@ -81,7 +81,9 @@ class AdvInlineSetContentType extends BaseType
         $model->order = $rowIndex;
         foreach ($this->options->inline_set->fields as $field_name => $field_data) {
             if ($field_data->type === 'media') {
-                $model->{$field_name} = $this->row->field.'_'.$field_name.'_'.$rowID;
+                $model->{$field_name} = $this->row->field . '_' . $field_name . '_' . $rowID;
+            } elseif ($field_data->type === 'checkbox') {
+                $model->{$field_name} = $this->request->input($this->row->field.'_'.$field_name.'_'.$rowID) === 'on'? 1 : 0;
             } else {
                 $model->{$field_name} = $this->request->input($this->row->field.'_'.$field_name.'_'.$rowID);
             }

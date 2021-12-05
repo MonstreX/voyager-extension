@@ -21,23 +21,24 @@ $('document').ready(function () {
     // ------------------------------
     $('.inline-code-editor').each(function () {
         let codeEditor = ace.edit(this);
-        initCodeEditor(codeEditor)
+        initCodeEditor(codeEditor, this)
     })
 
-    function initCodeEditor(elEditor) {
+    function initCodeEditor(codeEditor, elEditor) {
 
         const field = $(elEditor)
         const mode = field.data('mode')?? 'html'
         const theme = field.data('theme')?? 'github'
+
         const minLines = field.data('minlines')?? 4
         const maxLines = field.data('maxlines')?? 100
 
-        elEditor.session.setMode("ace/mode/" + mode)
-        elEditor.setTheme("ace/theme/" + theme)
-        elEditor.setOption("maxLines", maxLines)
-        elEditor.setOption("minLines", minLines)
+        codeEditor.session.setMode("ace/mode/" + mode)
+        codeEditor.setTheme("ace/theme/" + theme)
+        codeEditor.setOption("maxLines", maxLines)
+        codeEditor.setOption("minLines", minLines)
 
-        elEditor.on('change', function(event, el) {
+        codeEditor.on('change', function(event, el) {
             ace_editor_id = el.container.id
             ace_editor_textarea = document.getElementById($(el.container).data('textarea-id'))
             ace_editor_instance = ace.edit(ace_editor_id)
@@ -74,6 +75,9 @@ $('document').ready(function () {
         })
     })
 
+    // ------------------------------
+    // Sorting media
+    // ------------------------------
     $('.adv-inline-set-media-list').each(function(index, elem) {
         Sortable.create( document.getElementById($(elem).attr('id')), {
             animation: 200,
@@ -227,12 +231,16 @@ $('document').ready(function () {
         const richTextList = []
         const codeList = []
 
+        // Set new FOR, ID and NAME attrs for a new item
         elNewInlineItem.find('.form-group').each(function(idx, item) {
             const elLabel = $(item).find('label')
-            const elField = $(item).find('.form-control')
+            const elField = $(item).find('.adv-form-control')
             const fieldType = elField.data('field-type')
 
-            elLabel.attr('for', elLabel.attr('for').replace('%id%', newIndex))
+            elLabel.each(function(i, field) {
+                let label = $(field)
+                label.attr('for', label.attr('for').replace('%id%', newIndex))
+            })
 
             elField.each(function(i, field) {
 
@@ -254,43 +262,33 @@ $('document').ready(function () {
                 if (fieldType === 'richtext') {
                     richTextList.push(elField.attr('name'))
                 }
+
             })
-
-
-
-
-            // elField.attr('id', elField.attr('id').replace('%id%', newIndex))
-            //
-            // if (elField.attr('name')) {
-            //     elField.attr('name', elField.attr('name').replace('%id%', newIndex))
-            // }
-            //
-            // if (fieldType === 'code') {
-            //     if (elField.data('textarea-id')) {
-            //         elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex) )
-            //     }
-            // }
-            //
-            // if (fieldType === 'richtext') {
-            //     richTextList.push(elField.attr('name'))
-            // }
-
-
 
         })
 
         elInlineList.append(elNewInlineItem)
 
+        // Inint new Tiny toggles
+        const toggleList = elInlineList.find('.tiny-toggle')
+        toggleList.each(function(idx, item) {
+            if (!$(item).parent().hasClass('tt')) {
+                $(item).tinyToggle()
+            }
+        })
+
+        // Inint new Tinymce Editors
         richTextList.forEach(element => {
             addRichTextBox($(`[name='${element}']`))
         })
 
+        // Inint new Ace Editors
         codeList.forEach(element => {
             const codeEditor = ace.edit(document.getElementById(element))
-            initCodeEditor(codeEditor)
+            initCodeEditor(codeEditor, document.getElementById(element))
         })
 
-        // Remove ADD button if we have a only Single Item
+        // Remove ADD button if we have only Single Item
         if(elInlineList.data('many') !== 1) {
             elWrapper.find('.adv-inline-set-actions').remove()
         }

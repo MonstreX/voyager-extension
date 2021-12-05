@@ -814,3 +814,30 @@
     height: auto;
     border: none;
 }
+
+.adv-inline-set-wrapper .tt {
+    display: flex;
+    align-items: center;
+}
+
+.adv-inline-set-wrapper .tt-label {
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.adv-inline-set-radio {
+    display: flex;
+    align-items: center;
+}
+
+.adv-inline-set-radio input[type=radio] {
+    margin-top: 0;
+}
+
+.adv-inline-set-radio label {
+    text-transform: none;
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 7px;
+    color: #76838f;
+}

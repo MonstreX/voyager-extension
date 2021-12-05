@@ -16,6 +16,7 @@
 
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ voyager_extension_asset('js/tinytoggle/css/tinytoggle.min.css') }}">
 @stop
 
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
@@ -188,9 +189,13 @@
 
 @section('javascript')
     <script src="{{ voyager_extension_asset('js/jquery-autocomplete/jquery.autocomplete.min.js') }}"></script>
+    <script src="{{ voyager_extension_asset('js/tinytoggle/jquery.tinytoggle.min.js') }}"></script>
     <script>
 
         $('document').ready(function () {
+
+            // Apply TinyToggles
+            $(".tiny-toggle").tinyToggle()
 
             // Manage sticky action panel
             @if(config('voyager-extension.sticky_action_panel.autohide'))

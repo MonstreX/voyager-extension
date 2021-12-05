@@ -47,10 +47,10 @@ $('document').ready(function () {
 
   $('.inline-code-editor').each(function () {
     var codeEditor = ace.edit(this);
-    initCodeEditor(codeEditor);
+    initCodeEditor(codeEditor, this);
   });
 
-  function initCodeEditor(elEditor) {
+  function initCodeEditor(codeEditor, elEditor) {
     var _field$data, _field$data2, _field$data3, _field$data4;
 
     var field = $(elEditor);
@@ -58,11 +58,11 @@ $('document').ready(function () {
     var theme = (_field$data2 = field.data('theme')) !== null && _field$data2 !== void 0 ? _field$data2 : 'github';
     var minLines = (_field$data3 = field.data('minlines')) !== null && _field$data3 !== void 0 ? _field$data3 : 4;
     var maxLines = (_field$data4 = field.data('maxlines')) !== null && _field$data4 !== void 0 ? _field$data4 : 100;
-    elEditor.session.setMode("ace/mode/" + mode);
-    elEditor.setTheme("ace/theme/" + theme);
-    elEditor.setOption("maxLines", maxLines);
-    elEditor.setOption("minLines", minLines);
-    elEditor.on('change', function (event, el) {
+    codeEditor.session.setMode("ace/mode/" + mode);
+    codeEditor.setTheme("ace/theme/" + theme);
+    codeEditor.setOption("maxLines", maxLines);
+    codeEditor.setOption("minLines", minLines);
+    codeEditor.on('change', function (event, el) {
       ace_editor_id = el.container.id;
       ace_editor_textarea = document.getElementById($(el.container).data('textarea-id'));
       ace_editor_instance = ace.edit(ace_editor_id);
@@ -97,7 +97,10 @@ $('document').ready(function () {
         });
       }
     });
-  });
+  }); // ------------------------------
+  // Sorting media
+  // ------------------------------
+
   $('.adv-inline-set-media-list').each(function (index, elem) {
     Sortable.create(document.getElementById($(elem).attr('id')), {
       animation: 200,
@@ -231,12 +234,16 @@ $('document').ready(function () {
     elNewInlineItem.data('row-id', newIndex);
     elNewInlineItem.find('.adv-inline-set-index').val(localStorage ? newIndex : 0);
     var richTextList = [];
-    var codeList = [];
+    var codeList = []; // Set new FOR, ID and NAME attrs for a new item
+
     elNewInlineItem.find('.form-group').each(function (idx, item) {
       var elLabel = $(item).find('label');
-      var elField = $(item).find('.form-control');
+      var elField = $(item).find('.adv-form-control');
       var fieldType = elField.data('field-type');
-      elLabel.attr('for', elLabel.attr('for').replace('%id%', newIndex));
+      elLabel.each(function (i, field) {
+        var label = $(field);
+        label.attr('for', label.attr('for').replace('%id%', newIndex));
+      });
       elField.each(function (i, field) {
         var elField = $(field);
         elField.attr('id', elField.attr('id').replace('%id%', newIndex));
@@ -255,30 +262,25 @@ $('document').ready(function () {
         if (fieldType === 'richtext') {
           richTextList.push(elField.attr('name'));
         }
-      }); // elField.attr('id', elField.attr('id').replace('%id%', newIndex))
-      //
-      // if (elField.attr('name')) {
-      //     elField.attr('name', elField.attr('name').replace('%id%', newIndex))
-      // }
-      //
-      // if (fieldType === 'code') {
-      //     if (elField.data('textarea-id')) {
-      //         elField.data('textarea-id', elField.data('textarea-id').replace('%id%', newIndex) )
-      //     }
-      // }
-      //
-      // if (fieldType === 'richtext') {
-      //     richTextList.push(elField.attr('name'))
-      // }
+      });
     });
-    elInlineList.append(elNewInlineItem);
+    elInlineList.append(elNewInlineItem); // Inint new Tiny toggles
+
+    var toggleList = elInlineList.find('.tiny-toggle');
+    toggleList.each(function (idx, item) {
+      if (!$(item).parent().hasClass('tt')) {
+        $(item).tinyToggle();
+      }
+    }); // Inint new Tinymce Editors
+
     richTextList.forEach(function (element) {
       addRichTextBox($("[name='".concat(element, "']")));
-    });
+    }); // Inint new Ace Editors
+
     codeList.forEach(function (element) {
       var codeEditor = ace.edit(document.getElementById(element));
-      initCodeEditor(codeEditor);
-    }); // Remove ADD button if we have a only Single Item
+      initCodeEditor(codeEditor, document.getElementById(element));
+    }); // Remove ADD button if we have only Single Item
 
     if (elInlineList.data('many') !== 1) {
       elWrapper.find('.adv-inline-set-actions').remove();
