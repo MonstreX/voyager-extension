@@ -9,9 +9,10 @@
                type="radio"
                id="{{$value}}_{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}"
                name="{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}"
+               data-field-type="{{$field->type}}"
                value="{{$value}}"
                {{ $checked }}
-               >
+               @include('voyager-extension::formfields.advinlinesetitem.attr')>
         <label for="{{$value}}_{{$row_field}}_{{$key_field}}_{{$row_id?? '%id%'}}">{{$label}}</label>
     </div>
 @endforeach
