@@ -70,4 +70,5 @@ return [
 
     'add_new_inline_set'      => 'Add a new fields set',
     'no_inline_set_data'      => 'No required JSON data for the related field',
+    'no_data_can_be_displayed' => 'No data can be displayed',
 ];

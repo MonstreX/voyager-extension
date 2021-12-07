@@ -886,6 +886,10 @@ span.CodeMirror-selectedtext { background: none; }
     max-width: 100%;
 }
 
+.page-title span {
+    top: -2px !important;
+}
+
 /* GENERAL */
 .control-label {
     cursor: help;
@@ -1569,12 +1573,14 @@ span.CodeMirror-selectedtext { background: none; }
     font-size: 10px;
     text-transform: uppercase;
 }
+
 .adv-inline-set-list .form-control {
     height: 30px;
     padding: 5px 8px;
     border-radius: 3px;
     font-size: 13px;
 }
+
 .adv-inline-set-list textarea.form-control {
     height: auto;
     resize: vertical;
@@ -1690,6 +1696,26 @@ span.CodeMirror-selectedtext { background: none; }
 .adv-inline-set-media-item.columns-6 {
     width: calc(100%/6 - 4px);
 }
+.adv-inline-set-media-item.columns-7 {
+    width: calc(100%/7 - 4px);
+}
+.adv-inline-set-media-item.columns-8 {
+    width: calc(100%/8 - 4px);
+}
+.adv-inline-set-media-item.columns-9 {
+    width: calc(100%/9 - 4px);
+}
+.adv-inline-set-media-item.columns-10 {
+    width: calc(100%/10 - 4px);
+}
+.adv-inline-set-media-item.columns-11 {
+    width: calc(100%/11 - 4px);
+}
+.adv-inline-set-media-item.columns-12 {
+    width: calc(100%/12 - 4px);
+}
+
+
 
 .adv-inline-set-media-item img {
     display: block;
@@ -2038,9 +2064,9 @@ a.btn-setting-route {
     background: #ffffffc2;
     border-top-left-radius: 3px;
     padding: 7px 7px 7px 4px;
-    z-index: 5;
     box-shadow: 0 0 14px 0 rgba(0,0,0,0.17);
     transition: all .2s ease;
+    z-index: 10;
 }
 
 .float-action-panel.locked {

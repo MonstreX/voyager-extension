@@ -67,7 +67,6 @@ class AdvInlineSetService
                 }
             }
         }
-
         return $mediaNames;
     }
 
@@ -113,7 +112,24 @@ class AdvInlineSetService
             $fieldsData = json_decode($data->{$row->field}, true);
         }
 
-        return $fieldsData;
+        return $fieldsData?? [];
+    }
+
+    /**
+     * Remove ALL Related Source Data
+     * @param $model
+     */
+    public function removeRelatedSourceData($model)
+    {
+        $masterModel = get_class($model);
+        $dataType = Voyager::model('DataType')->where('model_name', '=', $masterModel)->first();
+
+        foreach ($dataType->rows as $row) {
+            if ($row->type === 'adv_inline_set' && isset($row->details->inline_set->source)) {
+                $source = app($row->details->inline_set->source);
+                $source->where('model', $masterModel)->where('model_id', $model->id)->delete();
+            }
+        }
     }
 
     private function getFileName($file)

@@ -306,10 +306,10 @@ a.btn-setting-route {
     background: #ffffffc2;
     border-top-left-radius: 3px;
     padding: 7px 7px 7px 4px;
-    z-index: 5;
     -webkit-box-shadow: 0 0 14px 0 rgba(0,0,0,0.17);
     box-shadow: 0 0 14px 0 rgba(0,0,0,0.17);
     transition: all .2s ease;
+    z-index: 10;
 }
 
 .float-action-panel.locked {

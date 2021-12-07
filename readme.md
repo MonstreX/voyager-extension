@@ -1,9 +1,4 @@
 # Voyager Extension
-
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-
 The package extends the original [Voyager Admin Panel](https://github.com/the-control-group/voyager) with some new advantages and features.
 
 ## Features
@@ -25,6 +20,7 @@ New custom fields:
 - VE Sortable JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
 - VE Related Models. Set of a related models list.
 - VE Page Layout. Allows organizing layout of blocks, forms, widgets and content on a Page. Depends on Voyager Site package.
+- VE Inline Set. The complex combined field. Each field can store multiple rows (or only one) each of them may hold multiple type custom fields. 
 
 ## Package installation
 

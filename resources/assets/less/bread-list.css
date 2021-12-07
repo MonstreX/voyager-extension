@@ -81,3 +81,7 @@
 .bread-description-text {
     max-width: 100%;
 }
+
+.page-title span {
+    top: -2px !important;
+}

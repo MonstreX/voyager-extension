@@ -431,7 +431,8 @@
                                                             <button data-name="{{$row->field}}" class="group-inline-edit" type="button" title="@lang('voyager-extension::bread.inline_edit')"><i class="voyager-edit"></i></button>
                                                         @endif
                                                     </div>
-
+                                                @elseif($row->type == 'adv_json' || $row->type == 'adv_related' || $row->type == 'adv_page_layout' || $row->type == 'adv_inline_set')
+                                                    <span>@lang('voyager-extension::bread.no_data_can_be_displayed')</span>
                                                 {{-- FIELD OTHER TYPES --}}
                                                 @else
                                                     @include('voyager::multilingual.input-hidden-bread-browse')

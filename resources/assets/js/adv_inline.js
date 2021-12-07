@@ -10,10 +10,16 @@ $('document').ready(function () {
     })
 
     function addRichTextBox(elRich) {
+        const id = elRich.attr('id')
+        const min_height = elRich.data('min-height')?? 100
+
         const additionalConfig = {
             selector: 'textarea.inlineSetRichTextBox[name="' + elRich.attr('name') +'"]',
         }
+
         tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig))
+        const editor = tinymce.get(id)
+        editor.settings.min_height = min_height
     }
 
     // ------------------------------

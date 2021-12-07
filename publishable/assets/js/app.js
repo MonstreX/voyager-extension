@@ -36,10 +36,16 @@ $('document').ready(function () {
   });
 
   function addRichTextBox(elRich) {
+    var _elRich$data;
+
+    var id = elRich.attr('id');
+    var min_height = (_elRich$data = elRich.data('min-height')) !== null && _elRich$data !== void 0 ? _elRich$data : 100;
     var additionalConfig = {
       selector: 'textarea.inlineSetRichTextBox[name="' + elRich.attr('name') + '"]'
     };
     tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig));
+    var editor = tinymce.get(id);
+    editor.settings.min_height = min_height;
   } // ------------------------------
   // Init Ace Code Editor
   // ------------------------------

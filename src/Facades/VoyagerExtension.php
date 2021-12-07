@@ -8,6 +8,6 @@ class VoyagerExtension extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'vext';
+        return 've';
     }
 }

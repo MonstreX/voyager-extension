@@ -39,9 +39,9 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
     public function register()
     {
         $loader = AliasLoader::getInstance();
-        $loader->alias('Vext', Facades\VoyagerExtension::class);
+        $loader->alias('VE', Facades\VoyagerExtension::class);
 
-        $this->app->singleton('vext', function () {
+        $this->app->singleton('ve', function () {
             return new VoyagerExtension();
         });
 
@@ -151,7 +151,6 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             array_merge(config('voyager.additional_js'), [voyager_extension_asset('js/app.js')])
         );
     }
-
 
     /**
      * Register Views
