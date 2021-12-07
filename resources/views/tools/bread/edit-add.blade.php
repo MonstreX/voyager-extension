@@ -422,7 +422,9 @@
                         <div class="btn btn-new-relationship">
                             <i class="voyager-heart"></i><span>{{ __('voyager::database.relationship.create') }}</span>
                         </div>
-                        <button type="button" class="btn btn-save-and-continue btn-success">{{ __('voyager-extension::bread.save_and_continue') }}</button>
+                        @if (isset($dataType->id))
+                            <button type="button" class="btn btn-save-and-continue btn-success">{{ __('voyager-extension::bread.save_and_continue') }}</button>
+                        @endif
                         <button type="submit" class="btn btn-primary">{{ __('voyager::generic.submit') }}</button>
                     </div>
                     @endif
