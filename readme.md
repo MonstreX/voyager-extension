@@ -365,6 +365,8 @@ Stored JSON format:
 The complex combined field. Represent groups of built in internal custom fields. 10 Internal field types supported.
 Fields data can be stored as in your current model field and also as a specified table data.  
 
+![Inline Set](/docs/images/adv-inline-set.png)
+
 Row details data for the field:
 ```json
 {
@@ -461,7 +463,7 @@ Storage model should have next fields:
 *model* - master model name.  
 *model_id* - master model id.  
 *model_field* - master model related field.  
-*order* - sorting field, keeps row order.  
+*order* - a sorting field, keeps row order.  
 
 Also, all custom inline fields you need with specific types.
 
@@ -478,8 +480,9 @@ Allowed fields:
 *select* - stored as varchar, supported options: see the example above     
 
 Each field also can have additional common options:  
-*class* - wrapper class, to organize layout inside the set.
-*attrs* - list of any you need html attributes for the field. 
+*class* - a wrapper class, to organize the layout inside the set.
+*attrs* - a list of any you need html attributes for the field. 
+
 
 >### Field: VE Page Layout
 
