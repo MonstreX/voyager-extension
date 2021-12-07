@@ -19,8 +19,8 @@ New custom fields:
 - VE Fields Group. JSON kind group of fields inside the one model field.
 - VE Sortable JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
 - VE Related Models. Set of a related models list.
+- VE Inline Set. The complex combined field. Each field can store multiple rows (or only one) each of them may hold multiple type custom fields.
 - VE Page Layout. Allows organizing layout of blocks, forms, widgets and content on a Page. Depends on Voyager Site package.
-- VE Inline Set. The complex combined field. Each field can store multiple rows (or only one) each of them may hold multiple type custom fields. 
 
 ## Package installation
 
@@ -359,6 +359,127 @@ Stored JSON format:
     ...
 ]
 ```
+
+>### Field: VE Inline Set
+
+The complex combined field. Represent groups of built in internal custom fields. 10 Internal field types supported.
+Fields data can be stored as in your current model field and also as a specified table data.  
+
+Row details data for the field:
+```json
+{
+    "inline_set": {
+        "source": "App\\Models\\Meta",
+        "many": true,
+        "columns": 2,
+        "fields": {
+            "date": {
+                "label": "Date",
+                "type": "date"
+            },
+            "select": {
+                "label": "Select",
+                "type": "select",
+                "options": {
+                    "val1": "Option One",
+                    "val2": "Option Two",
+                    "val3": "Option Three"
+                },
+                "default": "val3"
+            },
+            "number": {
+                "label": "Number",
+                "type": "number",
+                "attrs": {
+                    "required": true
+                }                
+            },
+            "checkbox": {
+                "label": "Checkbox",
+                "type": "checkbox",
+                "on": "Enabled",
+                "off": "Disabled",
+                "default": "on"
+            },
+            "radio": {
+                "label": "Radio",
+                "type": "radio",
+                "options": {
+                    "center": "Center",
+                    "left": "Left",
+                    "right": "Right"
+                },
+                "default": "left"
+            },
+            "image": {
+                "label": "Image",
+                "type": "media",
+                "remove_delay": 5000
+            },
+            "rich_text": {
+                "label": "Rich Text Box",
+                "type": "richtext",
+                "min_height": 150
+            },
+            "code": {
+                "label": "Ace Editor",
+                "type": "code",
+                "mode": "html",
+                "theme": "monokai",
+                "minlines": 3,
+                "maxlines": 20
+            },
+            "seo_title": {
+                "label": "Title",
+                "type": "text",
+                "class": "col-md-12",
+                "attrs": {
+                    "required": true     
+                }
+            },
+            "meta_description": {
+                "label": "Description",
+                "type": "textarea",
+                "class": "col-md-6"
+            },
+            "meta_keywords": {
+                "label": "Keywords",
+                "type": "textarea",
+                "class": "col-md-6"
+            }
+        }
+    }
+}
+```
+
+Where:  
+*many:* Many rows allowed if true.
+*columns:* Number of columns for fields set separation (many sets in one row). The values are: 1 - 6.   
+*source:* Model name (class) for the data storage. If not present used local model field.  
+Storage model should have next fields:  
+*row_id* - keeps local inline set row id.
+*model* - master model name.  
+*model_id* - master model id.  
+*model_field* - master model related field.  
+*order* - sorting field, keeps row order.  
+
+Also, all custom inline fields you need with specific types.
+
+Allowed fields:  
+*number* - stored as number    
+*text* - stored as varchar  
+*textarea* - stored as text  
+*richtext* - stored as text, supported option: min_height   
+*code* - stored as text, supported options: *mode*, *theme*, *minlines* and *maxlines*    
+*media* - stored as text (handles for media-library), can hold multiple media files with sorting. Supported options: *remove_delay* - pause in ms before media file will be removed (after clicking remove button).     
+*date* - sored as date  
+*checkbox* - stored as varchar, supported options: see the example above  
+*radio* - stored as varchar, supported options: see the example above  
+*select* - stored as varchar, supported options: see the example above     
+
+Each field also can have additional common options:  
+*class* - wrapper class, to organize layout inside the set.
+*attrs* - list of any you need html attributes for the field. 
 
 >### Field: VE Page Layout
 
