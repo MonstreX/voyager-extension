@@ -70,5 +70,6 @@ return [
 
     'add_new_inline_set'      => 'Добавить набор полей',
     'no_inline_set_data'      => 'Нет необходимых JSON данных для текущего поля',
+    'no_data_can_be_displayed' => 'Нет данных для отображения',
 
 ];

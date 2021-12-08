@@ -5,11 +5,19 @@ namespace MonstreX\VoyagerExtension\ContentTypes\Services;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
 use Str;
 
 class AdvInlineSetService
 {
-
+    /**
+     * Store master record ID on the source rows
+     * @param Request $request
+     * @param Model $data
+     * @param object $row
+     */
     public function setMasterIDOnSource(Request $request, Model $data, object $row)
     {
         if (!$request->model_id && !empty($data->{$row->field}) && isset($row->details->inline_set->source)) {
@@ -26,6 +34,11 @@ class AdvInlineSetService
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Model $data
+     * @param object $row
+     */
     public function checkAndDeleteMediaFiles(Request $request, Model $data, object $row)
     {
         $mediaNames = explode(',', $request->input($row->field.'_deleted_media'));
@@ -37,6 +50,12 @@ class AdvInlineSetService
         }
     }
 
+    /**
+     * Check if media files are presents in the request and save them
+     * @param Request $request
+     * @param Model $data
+     * @param object $row
+     */
     public function checkAndSaveMediaFiles(Request $request, Model $data, object $row)
     {
         $mediaNames = $this->getAllMediaLibraryNames($request, $data, $row);
@@ -54,6 +73,13 @@ class AdvInlineSetService
         }
     }
 
+    /**
+     * Get all media library names
+     * @param Request $request
+     * @param Model $data
+     * @param object $row
+     * @return array
+     */
     private function getAllMediaLibraryNames(Request $request, Model $data, object $row)
     {
         $fields = $row->details->inline_set->fields;
@@ -70,28 +96,38 @@ class AdvInlineSetService
         return $mediaNames;
     }
 
-    //---------------------------------------------
-    // Get All Inline Fields with their rows
-    //---------------------------------------------
-    public function getAllInlineDataRows($slug, $id)
+    /**
+     * Get All Inline Fields with their rows
+     * @param string $slug
+     * @param int $id
+     * @return array
+     */
+    public function getAllInlineDataRows(string $slug, int $id)
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
         $model = app($dataType->model_name);
         $model = $model->findOrFail($id);
         $rows = $dataType->rows()->get();
+
         $resultInlineRows = [];
         foreach ($rows as $row) {
             if ($row->type === 'adv_inline_set') {
+                if (isset($row->details->inline_set->source)) {
+                    $this->checkSourceFields($row->details->inline_set);
+                }
                 $resultInlineRows[$row->field] = $this->getInlineDataRows($model, $row->field);
             }
         }
         return $resultInlineRows;
     }
 
-    //---------------------------------------------
-    // Get fields rows for ONE Inline Field
-    //---------------------------------------------
-    public function getInlineDataRows($data, $fieldName)
+    /**
+     * Get fields rows for ONE Inline Field
+     * @param Model $data
+     * @param string $fieldName
+     * @return array|mixed
+     */
+    public function getInlineDataRows(Model $data, string $fieldName)
     {
         $masterModel = get_class($data);
         $dataType = Voyager::model('DataType')->where('model_name', '=', $masterModel)->first();
@@ -119,19 +155,23 @@ class AdvInlineSetService
      * Remove ALL Related Source Data
      * @param $model
      */
-    public function removeRelatedSourceData($model)
+    public function removeRelatedSourceData(Model $data)
     {
-        $masterModel = get_class($model);
+        $masterModel = get_class($data);
         $dataType = Voyager::model('DataType')->where('model_name', '=', $masterModel)->first();
 
         foreach ($dataType->rows as $row) {
             if ($row->type === 'adv_inline_set' && isset($row->details->inline_set->source)) {
                 $source = app($row->details->inline_set->source);
-                $source->where('model', $masterModel)->where('model_id', $model->id)->delete();
+                $source->where('model', $masterModel)->where('model_id', $data->id)->delete();
             }
         }
     }
 
+    /**
+     * @param $file
+     * @return mixed|string
+     */
     private function getFileName($file)
     {
         $fullName = $file->getClientOriginalName();
@@ -139,6 +179,30 @@ class AdvInlineSetService
         $extension = pathinfo($fullName, PATHINFO_EXTENSION);
 
         return config('voyager-extension.slug_filenames')? Str::slug($filename) . '.' . $extension : $fullName;
+    }
+
+    /**
+     * Check if all the source fields are present
+     * @param object $inlineSet
+     * @return string
+     */
+    private function checkSourceFields(object $inlineSet)
+    {
+        if (!isset($inlineSet->fields)) {
+            throw new \InvalidArgumentException('Inline Set: has no fields list in the details');
+        }
+
+        if ($inlineSet->source) {
+            $inlineModel = app($inlineSet->source);
+            $table = $inlineModel->getTable();
+            $columns = Schema::getColumnListing($table);
+
+            foreach ($inlineSet->fields as $field_name => $field) {
+                if (!in_array($field_name, $columns)) {
+                    throw new \InvalidArgumentException('Inline Set: has no corresponding source field "' . $field_name . '" on the table "' . $table .'"');
+                }
+            }
+        }
     }
 
 }

@@ -468,16 +468,16 @@ Storage model should have next fields:
 Also, all custom inline fields you need with specific types.
 
 Allowed fields:  
-*number* - stored as number    
-*text* - stored as varchar  
-*textarea* - stored as text  
-*richtext* - stored as text, supported option: min_height   
-*code* - stored as text, supported options: *mode*, *theme*, *minlines* and *maxlines*    
-*media* - stored as text (handles for media-library), can hold multiple media files with sorting. Supported options: *remove_delay* - pause in ms before media file will be removed (after clicking remove button).     
-*date* - sored as date  
-*checkbox* - stored as varchar, supported options: see the example above  
-*radio* - stored as varchar, supported options: see the example above  
-*select* - stored as varchar, supported options: see the example above     
+*number* - db storage type: number    
+*text* - db storage type: varchar  
+*textarea* - db storage type: text  
+*richtext* - db storage type: text, supported option: min_height   
+*code* - db storage type: text, supported options: *mode*, *theme*, *minlines* and *maxlines*    
+*media* - db storage type: text (handles for media-library), can hold multiple media files with sorting. Supported options: *remove_delay* - pause in ms before media file will be removed (after clicking remove button).     
+*date* - db storage type: date  
+*checkbox* - db storage type: tinyint, supported options: see the example above  
+*radio* - db storage type: text, supported options: see the example above  
+*select* - db storage type: text, supported options: see the example above     
 
 Each field also can have additional common options:  
 *class* - a wrapper class, to organize the layout inside the set.
