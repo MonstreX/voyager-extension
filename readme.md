@@ -481,7 +481,31 @@ Allowed fields:
 
 Each field also can have additional common options:  
 *class* - a wrapper class, to organize the layout inside the set.
-*attrs* - a list of any you need html attributes for the field. 
+*attrs* - a list of any you need html attributes for the field.
+
+>Retrieving stored data from the field:  
+
+Prepare your model and add *InlineSetTrait* trait:
+```php
+...
+use MonstreX\VoyagerExtension\Traits\InlineSetTrait;
+...
+class Page extends Model
+{
+    use InlineSetTrait;
+    ...
+}
+
+```
+Then just use trait method:  
+
+```php
+$data = $post->getInlineSet('news_sections');
+```
+
+Where *news_sections* is the field name keeps inline set.
+
+Also, the trait is necessary to remove related sources data in corresponding table during model delete.    
 
 
 >### Field: VE Page Layout
