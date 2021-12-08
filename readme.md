@@ -19,7 +19,7 @@ New custom fields:
 - VE Fields Group. JSON kind group of fields inside the one model field.
 - VE Sortable JSON Multi Fields. JSON kind group of multi-fields (multi-rows) stored in the model field.
 - VE Related Models. Set of a related models list.
-- VE Inline Set. The complex combined field. Each field can store multiple rows (or only one) each of them may hold multiple type custom fields.
+- VE Inline Fields Set. The complex combined field. Each field can store multiple rows (or only one) each of them may hold multiple type custom fields.
 - VE Page Layout. Allows organizing layout of blocks, forms, widgets and content on a Page. Depends on Voyager Site package.
 
 ## Package installation
@@ -360,12 +360,12 @@ Stored JSON format:
 ]
 ```
 
->### Field: VE Inline Set
+>### Field: VE Inline Fields Set
 
 The complex combined field. Represent groups of built in internal custom fields. 10 Internal field types supported.
 Fields data can be stored as in your current model field and also as a specified table data.  
 
-![Inline Set](/docs/images/adv-inline-set.png)
+![Inline Fields Set](/docs/images/adv-inline-set.png)
 
 Row details data for the field:
 ```json
@@ -459,7 +459,7 @@ Where:
 *columns:* Number of columns for fields set separation (many sets in one row). The values are: 1 - 6.   
 *source:* Model name (class) for the data storage. If not present used local model field.  
 Storage model should have next fields:  
-*row_id* - keeps local inline set row id.
+*row_id* - keeps local inline fields set row id.
 *model* - master model name.  
 *model_id* - master model id.  
 *model_field* - master model related field.  
@@ -503,7 +503,7 @@ Then just use trait method:
 $data = $post->getInlineSet('news_sections');
 ```
 
-Where *news_sections* is the field name keeps inline set.
+Where *news_sections* is the field name keeps inline fields set.
 
 Also, the trait is necessary to remove related sources data in corresponding table during model delete.    
 
