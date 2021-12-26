@@ -18,8 +18,6 @@ function initSortableAdvMediaFiles(filesId) {
                 params.multi = false;
                 params.files_ids_order = files_new_order;
 
-                console.log('sort:', vext_routes.ext_media_sort, params);
-
                 $.post(vext_routes.ext_media_sort, params, function (response) {
                     if ( response
                         && response.data

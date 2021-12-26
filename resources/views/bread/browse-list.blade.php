@@ -507,7 +507,6 @@
 
                 let i = 0;
                 $('.filter-select').each(function(index, elem) {
-                    console.log($(elem).val());
                     if ($(elem).val()) {
                         filter_params = filter_params + (i > 0? '&' : '') + `field[${i}]=${$(elem).data('column')}&value[${i}]=${$(elem).val()}`;
                         i++;

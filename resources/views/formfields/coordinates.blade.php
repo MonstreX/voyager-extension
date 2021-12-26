@@ -202,17 +202,8 @@
             }
         });
 
-
-        console.log('before', gMapVm);
-
-        //if (typeof gMapVm === 'undefined') {
-            var gMapVm = new Vue({ el: '#coordinates-formfield' });
-            console.log('set');
-        //}
-
-        //var gMapVmExt = new Vue({ el: '#coordinates-formfield' });
-
-        console.log('after', gMapVm);
+        var gMapVm = new Vue({ el: '#coordinates-formfield' });
+        console.log('set');
 
     </script>
 @endpush
