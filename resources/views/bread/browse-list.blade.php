@@ -499,7 +499,6 @@
     <script>
         $(document).ready(function () {
 
-
             // Change Filter Selection
             $('.filter-select').on('change', function () {
 

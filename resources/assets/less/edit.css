@@ -863,3 +863,9 @@
     padding-left: 7px;
     color: #76838f;
 }
+
+.language-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0b75d9;
+}

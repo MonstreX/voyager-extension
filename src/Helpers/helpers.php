@@ -10,20 +10,36 @@ use Illuminate\Support\Arr;
  * @return: text in current or given locale
  */
 if (!function_exists('str_trans')) {
-    function str_trans(string $string, $lang = null)
+    function str_trans(?string $string, $lang = null)
     {
         if (!$lang) {
             $lang = \App::getLocale();
         }
-        foreach (explode('{{', $string) as $line) {
-            if (substr($line, 0, 4) === $lang . '}}') {
+
+        $open_bracket = '{{';
+        $close_bracket = '}}';
+
+        if (strpos($string, '[[') !== false) {
+            $open_bracket = '[[';
+            $close_bracket = ']]';
+        }
+
+        $loc_strings = explode($open_bracket, $string);
+
+        foreach (explode($open_bracket, $string) as $line) {
+            if (substr($line, 0, 4) === $lang . $close_bracket) {
                 return substr($line, 4, strlen($line) - 4);
             }
         }
-        return $string;
+
+        // Lang stings present, but No app locale key has been found
+        if (!empty($loc_strings)) {
+            return '';
+        }
+
+        return !empty($string)? $string : '';
     }
 }
-
 
 if (!function_exists('json_response_with_success')) {
     function json_response_with_success($status, $message, $data = null)

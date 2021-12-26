@@ -3,7 +3,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 
 ## Features
 
-- Integration of v8 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
+- Integration of v9 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
 - Basic action buttons in add-edit mode (Save) can be Sticky and Autohide now.  
 - Custom Browse columns order. Can be defined in two ways.
 - Tabs Layout for an add-edit bread mode.
@@ -695,6 +695,8 @@ However, you can use built-in localization helper and retrieve translated substr
 
 ```php
 $field_data = '{{en}}English title {{ru}}Russian title';
+// or 
+$field_data = '[[en]]English title [[ru]]Russian title';
 ...
 $field_title_en = str_trans($field_data);
 $field_title_ru = str_trans($field_data,'ru');

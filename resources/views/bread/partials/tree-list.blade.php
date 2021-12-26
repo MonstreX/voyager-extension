@@ -37,7 +37,8 @@
                                         {{ $data->{$row->field} }}
                                     @endif
                                 @else
-                                    {{ mb_strlen( $item[$row->field] ) > 200 ? mb_substr($item[$row->field], 0, 200) . ' ...' : $item[$row->field] }}
+                                    @include('voyager::multilingual.input-hidden-bread-browse')
+                                    <span>{{ mb_strlen( $item[$row->field] ) > 200 ? mb_substr($item[$row->field], 0, 200) . ' ...' : $item[$row->field] }}</span>
                                 @endif
                             </span>
                             @if(isset($row->details->url)) </a> @endif
