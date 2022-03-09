@@ -54,20 +54,21 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
             );
         }
 
-        $this->app->bind(
-            'TCG\Voyager\Http\Controllers\VoyagerController',
-            'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionRootController'
-        );
+        $voyagerNamespace = config('voyager.controllers.namespace');
+        $VENamespace = 'MonstreX\VoyagerExtension\Controllers';
 
-        $this->app->bind(
-            'TCG\Voyager\Http\Controllers\VoyagerBaseController',
-            'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBaseController'
-        );
+        $VEControllers = [
+            ['VoyagerController', 'VoyagerExtensionRootController'],
+            ['VoyagerBaseController', 'VoyagerExtensionBaseController'],
+            ['VoyagerBreadController', 'VoyagerExtensionBreadController']
+        ];
 
-        $this->app->bind(
-            'TCG\Voyager\Http\Controllers\VoyagerBreadController',
-            'MonstreX\VoyagerExtension\Controllers\VoyagerExtensionBreadController'
-        );
+        foreach ($VEControllers as $controller) {
+            $this->app->bind(
+                $voyagerNamespace . '\\' . $controller[0],
+                $VENamespace . '\\' . $controller[1]
+            );
+        }
 
     }
 
@@ -193,6 +194,7 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
                 view('voyager-extension::bread.edit-add')->with($view->gatherData())->render();
             });
         }
+
     }
 
     /**
