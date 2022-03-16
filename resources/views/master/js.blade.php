@@ -9,9 +9,10 @@ function tinymce_setup_callback(editor)
         'ace': '{{ voyager_extension_asset('js/ace/plugin.js') }}'
     }
 
-    editor.settings.plugins = 'link, image, -ace, textcolor, lists';
-    editor.settings.toolbar = 'removeformat | styleselect bold italic underline | forecolor backcolor | alignleft aligncenter alignright | bullist numlist outdent indent | link image table | ace';
+    editor.settings.plugins = 'link, image, code, textcolor, lists';
+    editor.settings.toolbar = 'removeformat | styleselect bold italic underline | forecolor backcolor | alignleft aligncenter alignright | bullist numlist outdent indent | link image table | code ';
 
+    editor.settings.apply_source_formatting = true;
     editor.settings.cleanup = false;
     editor.settings.verify_html = false;
     editor.settings.min_height = 200;

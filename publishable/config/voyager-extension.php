@@ -4,6 +4,14 @@ return [
 
     /*
     |
+    | Use original browse.blade.php or use extended one
+    |
+    */
+
+    'legacy_browse_bread' => false,
+
+    /*
+    |
     | Use original edit-add.blade.php or use extended one
     |
     */

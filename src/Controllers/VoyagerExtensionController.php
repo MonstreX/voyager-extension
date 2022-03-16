@@ -24,7 +24,6 @@ class VoyagerExtensionController extends BaseController
         return response()->json(Cache::get('translations'));
     }
 
-
     /*
      * Get Data Type Row Instance and Field Data
      */
@@ -262,7 +261,14 @@ class VoyagerExtensionController extends BaseController
     public function assets(Request $request)
     {
         try {
-            $path = dirname(__DIR__, 3) . '/voyager-extension/publishable/assets/' . Util::normalizeRelativePath(urldecode($request->path));
+            if (class_exists(\League\Flysystem\Util::class)) {
+                // Flysystem 1.x
+                $path = dirname(__DIR__, 3).'/voyager-extension/publishable/assets/'.\League\Flysystem\Util::normalizeRelativePath(urldecode($request->path));
+            } elseif (class_exists(\League\Flysystem\WhitespacePathNormalizer::class)) {
+                // Flysystem >= 2.x
+                $normalizer = new \League\Flysystem\WhitespacePathNormalizer();
+                $path = dirname(__DIR__, 3).'/voyager-extension/publishable/assets/'. $normalizer->normalizePath(urldecode($request->path));
+            }
         } catch (\LogicException $e) {
             abort(404);
         }

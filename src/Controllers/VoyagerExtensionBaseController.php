@@ -207,7 +207,7 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         // Define list of columns that can be sorted server side
         $sortableColumns = $this->getSortableColumns($dataType->browseRows);
 
-        $view = 'voyager::bread.browse';
+        $view = config('voyager-extension.legacy_browse_bread')? 'voyager::bread.browse' : 'voyager-extension::bread.browse';
 
         if (view()->exists("voyager::$slug.browse")) {
             $view = "voyager::$slug.browse";

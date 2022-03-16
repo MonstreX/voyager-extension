@@ -171,9 +171,11 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         });
 
         // Override Legacy Views
-        View::composer('voyager::bread.browse', function ($view) {
-            view('voyager-extension::bread.browse')->with($view->gatherData())->render();
-        });
+        if (!config('voyager-extension.legacy_browse_bread')) {
+            View::composer('voyager::bread.browse', function ($view) {
+                view('voyager-extension::bread.browse')->with($view->gatherData())->render();
+            });
+        }
 
         View::composer('voyager::bread.read', function ($view) {
             view('voyager-extension::bread.read')->with($view->gatherData())->render();

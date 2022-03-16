@@ -40,7 +40,7 @@ $('document').ready(function () {
         const minLines = field.data('minlines')?? 4
         const maxLines = field.data('maxlines')?? 100
 
-        console.log(field.data('mode'), field.data('theme'))
+        //console.log(field.data('mode'), field.data('theme'))
 
         ace.config.set('basePath', '/admin/voyager-assets/?path=js/ace/libs')
         codeEditor.session.setMode("ace/mode/" + mode)

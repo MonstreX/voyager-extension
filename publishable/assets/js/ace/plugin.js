@@ -6,6 +6,8 @@
 tinymce.PluginManager.add("ace", function(a) {
 
     function t() {
+        console.log('Press CODE');
+
         var t = $(window).innerWidth() - 30,
             i = $(window).innerHeight() - 120;
         t > 1800 && (t = 1800), i > 1200 && (i = 1200);
@@ -25,11 +27,22 @@ tinymce.PluginManager.add("ace", function(a) {
 			width: t,
 			height: i,
 			inline: 1,
+            body: {
+                type: 'panel',
+                items: [
+                    {
+                        type: 'htmlpanel',
+                        html: '<div id="mce-ace-editor-body"></div>'
+                    }
+                ]
+            },
 			buttons:[
 				{
+                    type: 'custom',
 					text: "Ok",
 					classes: "primary",
 					onclick : function() {
+                        console.log('Press OK');
 						if(typeof mce_editor !== "undefined") {
 							var html = mce_editor.getValue();
 
@@ -42,27 +55,19 @@ tinymce.PluginManager.add("ace", function(a) {
 					}
 				},
 				{
-					text: "Format Code",
-					onclick: function() {
-						if(typeof mce_editor !== "undefined" && typeof html_beautify !== "undefined") {
-							var html = mce_editor.getValue();
-
-							mce_editor.getSession().setValue(html_beautify(html, {
-								"indent_level": 0,
-								"indent_with_tabs": true,
-								"preserve_newlines": false,
-							}));
-						}
-					}
-				},
-				{
+                    type: 'custom',
 					text: "Cancel",
 					onclick: "close"
 				}
 			]
         });
 
+        console.log($('#mce-ace-editor-body').length);
+
 		if($('#mce-ace-editor-body').length) {
+
+
+
             ace.config.set('basePath', `/${rootAdminRoute}/voyager-assets/?path=js/ace/libs`);
 
             //voyager-assets/?path=js/skins/voyager/fonts/tinymce.eot
@@ -108,14 +113,27 @@ tinymce.PluginManager.add("ace", function(a) {
 		soddoffmce();
     }
 
-    a.addCommand("mceace_codeEditor", t), a.addButton("ace", {
+    a.addCommand("mceace_codeEditor", t), a.ui.registry.addButton("ace", {
         icon: "code",
         tooltip: "Code Editor",
-        onclick: t
-    }), a.addMenuItem("ace", {
+        onAction: t
+    }), a.ui.registry.addMenuItem("ace", {
         icon: "code",
         text: "Code Editor",
         context: "tools",
-        onclick: t
+        onAction: t
     })
+
+
+    // a.addCommand("mceace_codeEditor", t), a.ui.registry.addButton("ace", {
+    //     icon: "code",
+    //     tooltip: "Code Editor",
+    //     onclick: t
+    // }), a.ui.registry.addMenuItem("ace", {
+    //     icon: "code",
+    //     text: "Code Editor",
+    //     context: "tools",
+    //     onclick: t
+    // })
+
 });

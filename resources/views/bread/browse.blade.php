@@ -1,3 +1,5 @@
+@extends('voyager::master')
+
 @php
     $treeMode = false;
     foreach($dataType->browseRows as $row) {

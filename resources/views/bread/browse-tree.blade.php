@@ -1,5 +1,3 @@
-@extends('voyager::master')
-
 @section('page_title', $dataType->display_name_plural . ' ' . __('voyager::bread.tree_list'))
 
 @section('page_header')
