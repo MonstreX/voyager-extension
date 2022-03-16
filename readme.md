@@ -3,7 +3,7 @@ The package extends the original [Voyager Admin Panel](https://github.com/the-co
 
 ## Features
 
-- Integration of v9 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
+- Integration of v10 [laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary/) by Spatie
 - Basic action buttons in add-edit mode (Save) can be Sticky and Autohide now.  
 - Custom Browse columns order. Can be defined in two ways.
 - Tabs Layout for an add-edit bread mode.
@@ -25,6 +25,8 @@ New custom fields:
 ## Package installation
 
 > #### Requirement
+> Laravel: v8+ or v9+  
+> Voyager: v1.6+  
 > You should fully install the package [Voyager](https://github.com/the-control-group/voyager) before.
 
 Via Composer
@@ -62,6 +64,13 @@ Configure
 #### Config file
 
 ```php
+/*
+|
+| Use original browse.blade.php or use extended one
+|
+*/
+'legacy_browse_bread' => false,
+
 /*
 | Use original edit-add.blade.php or use extended one
 */
