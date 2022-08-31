@@ -60,6 +60,6 @@ class VoyagerExtensionRootController extends VoyagerController
 
         // echo out script that TinyMCE can handle and update the image in the editor
         //return "parent.helpers.setImageValue('".Voyager::image($fullFilename)."'); </script>";
-        return "<script>parent.helpers.setImageValue('/storage/".$fullFilename."'); </script>";
+        return Voyager::image($fullFilename);
     }
 }
