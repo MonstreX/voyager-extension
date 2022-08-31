@@ -285,4 +285,8 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         }
     }
 
+    protected function loadRoutesFrom($path)
+    {
+        require $path;
+    }
 }

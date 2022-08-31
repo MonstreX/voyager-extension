@@ -1,17 +1,21 @@
 {
-    "name": "monstrex/voyager-extension",
-    "description": "Voyager Admin Panel Extension",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Yuriy Ovdeyev",
-            "email": "fido6080net@gmail.com",
-            "homepage": "http://ss-host.ru"
-        }
-    ],
-    "minimum-stability": "dev",
-    "homepage": "https://github.com/monstrex/voyager-extension",
-    "keywords": ["Laravel", "Voyager", "admin"],
+     "name": "monstrex/voyager-extension",
+     "description": "Voyager Admin Panel Extension",
+     "license": "MIT",
+     "authors": [
+       {
+         "name": "Yuriy Ovdeyev",
+         "email": "fido6080net@gmail.com",
+         "homepage": "http://ss-host.ru"
+       }
+     ],
+     "minimum-stability": "dev",
+     "homepage": "https://github.com/monstrex/voyager-extension",
+     "keywords": [
+       "Laravel",
+       "Voyager",
+       "admin"
+     ],
     "require": {
         "tcg/voyager": "^1.6.0",
         "spatie/laravel-medialibrary": "^10.0.0",
