@@ -297,10 +297,10 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
         // Check through all our new field types
         foreach ($rows as $row) {
 
-
             // Bind Single Image to $data record
             if ($row->type == 'adv_image' && $request->hasFile($row->field)) {
 
+                $data->clearMediaCollection($row->field);
                 $data->addMediaFromRequest($row->field)
                     ->withCustomProperties(['title' => null, 'alt' => null])
                     ->setFileName($this->getFileName($request->file($row->field)))
