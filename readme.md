@@ -309,18 +309,30 @@ BREAD Json Options (Post model, category_id field):
 
 ```json
 {
+    "browse_filter": true,
     "relationship": {
-        "field": "category",
+        "model": "\\App\\Models\\Category",
         "key": "id",
-        "label": "title"
+        "label": "title",
+        "field": "category",
+        "ref_field": "category_id",
+        "filter_label": "Product category"
     }
 }
 ```
+Where:  
+**browse_filter** - if you use filter for this field in the browse mode  
+**model** - Source model class  
+**key** - Key field to reference  
+**label** - Display name field   
+**ref_field** - The current model field referenced to the relative model  
+**filter_label** - Display label for the filter mentioned above (if present).  
+
 In a Post model add:
 ```php
-public function categoryId()
+public function category()
 {
-   return $this->belongsTo(Category::class);
+    return $this->belongsTo(Category::class);
 }
 ```
 
