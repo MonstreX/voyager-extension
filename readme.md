@@ -194,7 +194,7 @@ Elements of media collection can hold additional content fields using **BREAD Js
     "extra_fields": {
         "content": {
             "type": "textarea",
-            "title": "Description",
+            "title": "Description"
         },
         "code": {
             "type": "codemirror",
