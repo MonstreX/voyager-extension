@@ -5,17 +5,7 @@ window.rootAdminRoute = "admin"
 
 function tinymce_setup_callback(editor)
 {
-    editor.settings.external_plugins = {
-        'ace': '{{ voyager_extension_asset('js/ace/plugin.js') }}'
-    }
-
-    editor.settings.plugins = 'link, image, code, textcolor, lists';
-    editor.settings.toolbar = 'removeformat | styleselect bold italic underline | forecolor backcolor | alignleft aligncenter alignright | bullist numlist outdent indent | link image table | code ';
-
-    editor.settings.apply_source_formatting = true;
-    editor.settings.cleanup = false;
-    editor.settings.verify_html = false;
-    editor.settings.min_height = 200;
+    // Initializing options doesn't work anymore with version TinyMCE 6.?+
 }
 
 var ace_editor_element = document.getElementsByClassName("ace_editor");

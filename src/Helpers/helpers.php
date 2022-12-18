@@ -34,7 +34,7 @@ if (!function_exists('str_trans')) {
 
         // Lang stings present, but No app locale key has been found
         if (!empty($loc_strings)) {
-            return '';
+            return $loc_strings[0];
         }
 
         return !empty($string)? $string : '';
