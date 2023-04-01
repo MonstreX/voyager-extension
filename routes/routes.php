@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => config('voyager-extension.assets_path_prefix')], function () {
     Route::group(['as' => 'voyager.'], function () {
 
         $extensionController = '\MonstreX\VoyagerExtension\Controllers\VoyagerExtensionController';

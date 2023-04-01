@@ -161,6 +161,13 @@ class VoyagerExtensionServiceProvider extends ServiceProvider
         // Bind Views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager-extension');
 
+        // Load Common JS for all views
+        View::composer('voyager::master', function () {
+            app(Dispatcher::class)->listen('composing: voyager::dashboard.navbar', function () {
+                view('voyager-extension::master.common')->render();
+            });
+        });
+
         // Listen to when the BREAD edit-add is loading and set the view listener
         // to inject a script to handle Voyager Extension functional
         Voyager::onLoadingView('voyager::bread.edit-add', function () {

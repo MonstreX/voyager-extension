@@ -42,7 +42,7 @@ $('document').ready(function () {
 
         //console.log(field.data('mode'), field.data('theme'))
 
-        ace.config.set('basePath', '/admin/voyager-assets/?path=js/ace/libs')
+        ace.config.set('basePath', `/${window.rootAdminRoute}/voyager-assets/?path=js/ace/libs`)
         codeEditor.session.setMode("ace/mode/" + mode)
         codeEditor.setTheme("ace/theme/" + theme)
         codeEditor.setOption("maxLines", maxLines)
@@ -305,6 +305,5 @@ $('document').ready(function () {
 
         setInlineIDsItems(elInlineList)
     })
-
 
 })

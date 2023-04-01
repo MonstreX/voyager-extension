@@ -72,4 +72,12 @@ return [
 
     'slug_filenames' => true,
 
+    /*
+    |
+    | Assets path prefix
+    |
+    */
+
+    'assets_path_prefix' => 'admin',
+
 ];

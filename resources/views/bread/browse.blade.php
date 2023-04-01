@@ -14,3 +14,4 @@
 @else
     @include('voyager-extension::bread.browse-list')
 @endif
+
