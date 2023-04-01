@@ -15,11 +15,14 @@ $('document').ready(function () {
 
         const additionalConfig = {
             selector: 'textarea.inlineSetRichTextBox[name="' + elRich.attr('name') +'"]',
+            min_height: min_height
         }
 
         tinymce.init(window.voyagerTinyMCE.getConfig(additionalConfig))
-        const editor = tinymce.get(id)
-        editor.settings.min_height = min_height
+
+        // Have been removed nex 2 lines due to new Tinymce 6 version. Doesn't work anymore
+        // const editor = tinymce.get(id)
+        //editor.settings.min_height = min_height
     }
 
     // ------------------------------
@@ -40,9 +43,8 @@ $('document').ready(function () {
         const minLines = field.data('minlines')?? 4
         const maxLines = field.data('maxlines')?? 100
 
-        //console.log(field.data('mode'), field.data('theme'))
-
-        ace.config.set('basePath', `/${window.rootAdminRoute}/voyager-assets/?path=js/ace/libs`)
+        // Disabled next line due to error files loading
+        //ace.config.set('basePath', `/${window.rootAdminRoute}/voyager-assets/?path=js/ace/libs`)
         codeEditor.session.setMode("ace/mode/" + mode)
         codeEditor.setTheme("ace/theme/" + theme)
         codeEditor.setOption("maxLines", maxLines)
