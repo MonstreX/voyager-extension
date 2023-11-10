@@ -23,6 +23,7 @@ use MonstreX\VoyagerExtension\ContentTypes\AdvInlineSetContentType;
 
 use MonstreX\VoyagerExtension\ContentTypes\Services\AdvInlineSetService;
 
+use Spatie\Image\Image;
 
 class VoyagerExtensionBaseController extends VoyagerBaseController
 {
@@ -333,8 +334,17 @@ class VoyagerExtensionBaseController extends VoyagerBaseController
                         }
                     }
 
+
+					// Add before orjinal images size compress
+					$resimAdi = time() . '.' . $file->getClientOriginalExtension();
+					Image::load($file)
+					->width(1920)
+					->height(1080)
+					->save(public_path('storage/tmp/' . $resimAdi));
+                    
+
                     // Add Image
-                    $data->addMedia($file)
+                    $data->addMedia(public_path('storage/tmp/' . $resimAdi))
                         ->withCustomProperties($fields)
                         ->setFileName($this->getFileName($file))
                         ->toMediaCollection($row->field);
