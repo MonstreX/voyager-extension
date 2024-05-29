@@ -24,7 +24,7 @@
                 </div>
                 <div class="panel-body tree-items-list" style="padding:30px;">
                     <div class="dd tree-items-list">
-                        @include('voyager-extension::bread.partials.tree-list', ['items' => flat_to_tree($dataTypeContent->toArray())])
+                        @include('voyager-extension::bread.partials.tree-list', ['items' => flat_to_tree(isset($dataTypeContent->toArray()['data'])?$dataTypeContent->toArray()['data']:$dataTypeContent->toArray())])
                     </div>
                 </div>
             </div>
